@@ -36,7 +36,7 @@ class CommentGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM InventoryItem WHERE id = $id;";
+            $query = "SELECT * FROM Comment WHERE ID = $id;";
 
             if ($result = $con->query($query))
             {
