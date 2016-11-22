@@ -2,12 +2,12 @@
 
 /**
  * Author: Alec Waddelow
- *
+ * Table Data Gateway to Comment table
  */
 class CommentGateway
 {
     /**
-     * @return connection to the database
+     * @return  connection to the database
      */
     public function getConnection()
     {
@@ -29,7 +29,7 @@ class CommentGateway
      * Queries Comment table by id
      *
      * @param $id
-     * @return bool
+     * @return bool $object containing result set data, else returns false
      */
     public function rowDataQueryByID($id)
     {
@@ -40,9 +40,8 @@ class CommentGateway
 
             if ($result = $con->query($query))
             {
-
-                $row = $result->fetch_object();
-                return $row;
+                $object = $result->fetch_object();
+                return $object;
             }
             else
             {
@@ -51,6 +50,78 @@ class CommentGateway
         }
     }
 
+    /**
+     * Returns entire table in one object
+     *
+     * @return bool $object of entire table result set
+     */
+    public function tableDataQuery()
+    {
+        $con = $this->getConnection();
+        $query = "SELECT * FROM Connection;";
 
+        if ($result = $con->query($query))
+        {
+            $object = $result->fetch_object();
+            return $object;
+        } else
+        {
+            return false;
+        }
+    }
 
+    /**
+     * Insert a single row
+     *
+     * @param $object containing all five fields to be set in a single row in Comment table
+     * @return bool true or false of success of insert
+     */
+    public function insertRow($object)
+    {
+        $ID = $object->ID;
+        $ItemID = $object->ItemID;
+        $UserID = $object->UserID;
+        $Comment = $object->Comment;
+        $Rating = $object->Rating;
+
+        $con = $this->getConnection();
+        $query = "INSERT INTO Comment (ID, ItemID, UserID, Comment, Rating) VALUES ($ID, $ItemID, $UserID, $Comment, $Rating);";
+
+        if($result = $con->query($query))
+        {
+            $success = true;
+        }
+        else
+        {
+            $success = false;
+        }
+        return $success;
+    }
+
+    /**
+     * Updates a single row
+     *
+     * @param $object
+     * @return bool
+     */
+    public function updateRow($object)
+    {
+        $con = $this->getConnection();
+        $ID = $object->ID;
+        $ItemID = $object->ItemID;
+        $UserID = $object->UserID;
+        $Comment = $object->Comment;
+        $Rating = $object->Rating;
+
+        $query = "UPDATE Comment SET ItemID = $ItemID, UserID = $UserID, Comment = $Comment, Rating = $Rating WHERE ID = $ID;";
+        if($result = $con->query($query))
+        {
+            $success = true;
+        }
+        else
+        {
+            $success = false;
+        }
+        return $success;
+    }
 }
