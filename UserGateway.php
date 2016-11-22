@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Item Gateway Class
- * User: Alec Waddelow
+ * Created by PhpStorm.
+ * Author: Alec Waddelow
  * Date: 11/22/2016
- * Time: 14:27
+ * Time: 14:46
  */
-class ItemGateway
+class UserGateway
 {
     /**
      * @return  connection to the database
@@ -28,7 +28,7 @@ class ItemGateway
     }
 
     /**
-     * Queries Cart table by id
+     * Queries User table by id
      *
      * @param $id
      * @return bool $object containing result set data, else returns false
@@ -38,7 +38,7 @@ class ItemGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM Item WHERE ID = $id;";
+            $query = "SELECT * FROM User WHERE ID = $id;";
 
             if ($result = $con->query($query))
             {
@@ -60,13 +60,14 @@ class ItemGateway
     public function tableDataQuery()
     {
         $con = $this->getConnection();
-        $query = "SELECT * FROM Item;";
+        $query = "SELECT * FROM User;";
 
         if ($result = $con->query($query))
         {
             $object = $result->fetch_object();
             return $object;
-        } else
+        }
+        else
         {
             return false;
         }
@@ -80,14 +81,13 @@ class ItemGateway
      */
     public function insertRow($object)
     {
-        $con = $this->getConnection();
-        $Description = $object->Description;
-        $UPC = $object->UPC;
-        $Price = $object->Price;
-        $Manufacturer = $object->Manufacturer;
-        $Quantity = $object->Quantity;
+        $FirstName = $object->FirstName;
+        $LastName = $object->LastName;
+        $UserName = $object->UserName;
+        $Password = $object->Password;
 
-        $query = "INSERT INTO Item (Description, UPC, Price, Manufacturer, Quantity) VALUES ($Description, $UPC, $Price, $Manufacturer, $Quantity);";
+        $con = $this->getConnection();
+        $query = "INSERT INTO User (FirstName, LastName, UserName, Password) VALUES ($FirstName, $LastName, $UserName, $Password);";
 
         if($result = $con->query($query))
         {
@@ -108,14 +108,14 @@ class ItemGateway
      */
     public function updateRow($object)
     {
-        $con = $this->getConnection();
-        $Description = $object->Description;
-        $UPC = $object->UPC;
-        $Price = $object->Price;
-        $Manufacturer = $object->Manufacturer;
-        $Quantity = $object->Quantity;
+        $ID = $object->ID;
+        $FirstName = $object->FirstName;
+        $LastName = $object->LastName;
+        $UserName = $object->UserName;
+        $Password = $object->Password;
 
-        $query = "UPDATE Item SET Description = $Description, UPC = $UPC, Price = $Price, Manufacturer = $Manufacturer, Quantity = $Quantity;";
+        $con = $this->getConnection();
+        $query = "UPDATE User SET FirstName = $FirstName, LastName = $LastName, UserName = $UserName, Password = $Password WHERE ID = $ID;";
 
         if($result = $con->query($query))
         {
@@ -127,6 +127,4 @@ class ItemGateway
         }
         return $success;
     }
-
-
 }
