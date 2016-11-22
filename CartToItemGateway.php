@@ -1,10 +1,12 @@
 <?php
 
 /**
+ * CartToItem Gateway Class
  * Author: Alec Waddelow
- * Table Data Gateway to Comment table
+ * Date: 11/22/2016
+ * Time: 14:12
  */
-class CommentGateway
+class CartToItemGateway
 {
     /**
      * @return  connection to the database
@@ -36,7 +38,7 @@ class CommentGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM Comment WHERE ID = $id;";
+            $query = "SELECT * FROM CartToItem WHERE ID = $id;";
 
             if ($result = $con->query($query))
             {
@@ -58,7 +60,7 @@ class CommentGateway
     public function tableDataQuery()
     {
         $con = $this->getConnection();
-        $query = "SELECT * FROM Comment;";
+        $query = "SELECT * FROM CartToItem;";
 
         if ($result = $con->query($query))
         {
@@ -73,19 +75,17 @@ class CommentGateway
     /**
      * Insert a single row
      *
-     * @param $object containing all five fields to be set in a single row in Comment table
+     * @param $object containing all three fields to be set in a single row in CartToItem table
      * @return bool true or false of success of insert
      */
     public function insertRow($object)
     {
         $ID = $object->ID;
         $ItemID = $object->ItemID;
-        $UserID = $object->UserID;
-        $Comment = $object->Comment;
-        $Rating = $object->Rating;
+        $CartID = $object->CartID;
 
         $con = $this->getConnection();
-        $query = "INSERT INTO Comment (ID, ItemID, UserID, Comment, Rating) VALUES ($ID, $ItemID, $UserID, $Comment, $Rating);";
+        $query = "INSERT INTO CartToItem (ID, CartID, ItemID) VALUES ($ID, $CartID, $ItemID);";
 
         if($result = $con->query($query))
         {
@@ -108,12 +108,10 @@ class CommentGateway
     {
         $con = $this->getConnection();
         $ID = $object->ID;
+        $CartID = $object->CartID;
         $ItemID = $object->ItemID;
-        $UserID = $object->UserID;
-        $Comment = $object->Comment;
-        $Rating = $object->Rating;
 
-        $query = "UPDATE Comment SET ItemID = $ItemID, UserID = $UserID, Comment = $Comment, Rating = $Rating WHERE ID = $ID;";
+        $query = "UPDATE Comment SET ItemID = $ItemID, CartId = $CartID WHERE ID = $ID;";
         if($result = $con->query($query))
         {
             $success = true;
