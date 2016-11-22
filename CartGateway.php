@@ -1,12 +1,12 @@
 <?php
 
 /**
- * CartToItem Gateway Class
+ * Cart Gateway
  * Author: Alec Waddelow
  * Date: 11/22/2016
- * Time: 14:12
+ * Time: 14:20
  */
-class CartToItemGateway
+class CartGateway
 {
     /**
      * @return  connection to the database
@@ -28,7 +28,7 @@ class CartToItemGateway
     }
 
     /**
-     * Queries CartToItem table by id
+     * Queries Cart table by id
      *
      * @param $id
      * @return bool $object containing result set data, else returns false
@@ -38,7 +38,7 @@ class CartToItemGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM CartToItem WHERE ID = $id;";
+            $query = "SELECT * FROM Cart WHERE ID = $id;";
 
             if ($result = $con->query($query))
             {
@@ -60,7 +60,7 @@ class CartToItemGateway
     public function tableDataQuery()
     {
         $con = $this->getConnection();
-        $query = "SELECT * FROM CartToItem;";
+        $query = "SELECT * FROM Cart;";
 
         if ($result = $con->query($query))
         {
@@ -80,11 +80,9 @@ class CartToItemGateway
      */
     public function insertRow($object)
     {
-        $ItemID = $object->ItemID;
-        $CartID = $object->CartID;
-
+        $UserID = $object->UserID;
         $con = $this->getConnection();
-        $query = "INSERT INTO CartToItem (CartID, ItemID) VALUES ($CartID, $ItemID);";
+        $query = "INSERT INTO Cart (UserID) VALUES ($UserID);";
 
         if($result = $con->query($query))
         {
@@ -107,10 +105,9 @@ class CartToItemGateway
     {
         $con = $this->getConnection();
         $ID = $object->ID;
-        $CartID = $object->CartID;
-        $ItemID = $object->ItemID;
+        $UserID = $object->UserID;
 
-        $query = "UPDATE Comment SET ItemID = $ItemID, CartId = $CartID WHERE ID = $ID;";
+        $query = "UPDATE Comment SET UserID = $UserID WHERE ID = $ID;";
         if($result = $con->query($query))
         {
             $success = true;

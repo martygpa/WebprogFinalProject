@@ -78,14 +78,13 @@ class CommentGateway
      */
     public function insertRow($object)
     {
-        $ID = $object->ID;
         $ItemID = $object->ItemID;
         $UserID = $object->UserID;
         $Comment = $object->Comment;
         $Rating = $object->Rating;
 
         $con = $this->getConnection();
-        $query = "INSERT INTO Comment (ID, ItemID, UserID, Comment, Rating) VALUES ($ID, $ItemID, $UserID, $Comment, $Rating);";
+        $query = "INSERT INTO Comment (ItemID, UserID, Comment, Rating) VALUES ($ItemID, $UserID, $Comment, $Rating);";
 
         if($result = $con->query($query))
         {
