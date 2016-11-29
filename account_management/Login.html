@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--Programmer: Alec Waddelow
+    Class: CSC434
+    Assignment: Final Project - E-Commerce
+    Professor: Dr. Girard
+    -->
+<html>
+<head>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        li {
+            float: left;
+        }
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        li a:hover:not(.active) {
+            background-color: #111;
+        }
+        .active {
+            background-color: #4CAF50;
+        }
+
+        table {
+            display: block;
+            color: black;
+            text-align: center;
+
+        }
+
+    </style>
+</head>
+<body>
+
+<ul>
+    <li> <a href="webprog.cs.ship.edu/webprog25/home.html">Home</a></li>
+    <li> <a class="active" href="webprog.cs.ship.edu/webprog25/account_management/login.html">Login</a></li>
+    <li> <a href="webprog.cs.ship.edu/webprog25/account_management/myAccount.html">My Account</a> </li>
+    <li> <a href="webprog.cs.ship.edu/webprog25/account_management/registerAccount.html">Create New Account</a></li>
+    <li> <a href="webprog.cs.ship.edu/webprog25/shopping/shoppingCart.html">Shopping Cart</a></li>
+    <li> <a href="webprog.cs.ship.edu/webprog25/shopping/wishList.html">Wish List</a></li>
+    <li> <a href="webprog.cs.ship.edu/webprog25/shopping/orderHistory.html">Order History</a></li>
+    <li> <a href="webprog.cs.ship.edu/webprog25/shopping/checkOut.html">Check Out</a></li>
+    <li> <a href="webprog.cs.ship.edu/webprog25/item/search.html">Search</a></li>
+</ul>
+
+<p1>Welcome Back! Please Log in below</p1>
+
+<table>
+    <form action="loginHandler.php" method="post" >
+        <tr>
+            <td>Enter UserName </td>
+            <td><input type="text" name="userName"> </td>
+        </tr>
+
+        <tr>
+            <td>Enter Password</td>
+            <td> <input type="text" name="password"> </td>
+        </tr>
+
+        <tr>
+            <td><input type="submit" value="Submit" name="loginSubmit"> </td>
+        </tr>
+
+    </form>
+</table>
+
+
+</body>
+</html>

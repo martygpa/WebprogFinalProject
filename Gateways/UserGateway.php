@@ -9,7 +9,7 @@
 class UserGateway
 {
     /**
-     * @return  connection to the database
+     * @return  mysqli connection to the database
      */
     public function getConnection()
     {
@@ -31,14 +31,14 @@ class UserGateway
      * Queries User table by id
      *
      * @param $id
-     * @return bool $object containing result set data, else returns false
+     * @return  $object containing result set data, else returns false
      */
     public function rowDataQueryByID($id)
     {
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM User WHERE ID = $id;";
+            $query = " SELECT * FROM User WHERE ID = $id;";
 
             if ($result = $con->query($query))
             {
@@ -50,12 +50,16 @@ class UserGateway
                 return false;
             }
         }
+        else
+        {
+            return false;
+        }
     }
 
     /**
      * Returns entire table in one object
      *
-     * @return bool $object of entire table result set
+     * @return $object of entire table result set
      */
     public function tableDataQuery()
     {
@@ -126,5 +130,37 @@ class UserGateway
             $success = false;
         }
         return $success;
+    }
+
+    /**
+     * Queries Table to see if user exists already
+     *
+     * @param $object
+     * @return bool true if user exists, false if they don't exist in DB
+     */
+    public function queryForLogin($object)
+    {
+        $userName = $object->userName;
+        $password = $object->password;
+
+        $conn = $this->getConnection();
+        $query = "SELECT * FROM User WHERE UserName = $userName, Password = $password;";
+
+        if($result = $conn->query($query))
+        {
+            $returnObject = $result->fetch_object();
+            if($returnObject->ID == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 }
