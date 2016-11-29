@@ -38,7 +38,7 @@ class ItemGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM Item WHERE ID = $id;";
+            $query = "SELECT * FROM Item WHERE ID = '$id';";
 
             if ($result = $con->query($query))
             {
@@ -87,7 +87,7 @@ class ItemGateway
         $Manufacturer = $object->Manufacturer;
         $Quantity = $object->Quantity;
 
-        $query = "INSERT INTO Item (Description, UPC, Price, Manufacturer, Quantity) VALUES ($Description, $UPC, $Price, $Manufacturer, $Quantity);";
+        $query = "INSERT INTO Item (Description, UPC, Price, Manufacturer, Quantity) VALUES ('$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity');";
 
         if($result = $con->query($query))
         {
@@ -115,7 +115,7 @@ class ItemGateway
         $Manufacturer = $object->Manufacturer;
         $Quantity = $object->Quantity;
 
-        $query = "UPDATE Item SET Description = $Description, UPC = $UPC, Price = $Price, Manufacturer = $Manufacturer, Quantity = $Quantity;";
+        $query = "UPDATE Item SET Description = '$Description', UPC = '$UPC', Price = '$Price', Manufacturer = '$Manufacturer', Quantity = '$Quantity';";
 
         if($result = $con->query($query))
         {

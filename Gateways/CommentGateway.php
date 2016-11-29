@@ -36,7 +36,7 @@ class CommentGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM Comment WHERE ID = $id;";
+            $query = "SELECT * FROM Comment WHERE ID = '$id';";
 
             if ($result = $con->query($query))
             {
@@ -84,7 +84,7 @@ class CommentGateway
         $Rating = $object->Rating;
 
         $con = $this->getConnection();
-        $query = "INSERT INTO Comment (ItemID, UserID, Comment, Rating) VALUES ($ItemID, $UserID, $Comment, $Rating);";
+        $query = "INSERT INTO Comment (ItemID, UserID, Comment, Rating) VALUES ('$ItemID', '$UserID', '$Comment', '$Rating');";
 
         if($result = $con->query($query))
         {
@@ -112,7 +112,7 @@ class CommentGateway
         $Comment = $object->Comment;
         $Rating = $object->Rating;
 
-        $query = "UPDATE Comment SET ItemID = $ItemID, UserID = $UserID, Comment = $Comment, Rating = $Rating WHERE ID = $ID;";
+        $query = "UPDATE Comment SET ItemID = '$ItemID', UserID = '$UserID', Comment = '$Comment', Rating = '$Rating' WHERE ID = '$ID';";
         if($result = $con->query($query))
         {
             $success = true;

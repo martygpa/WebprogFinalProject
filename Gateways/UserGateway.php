@@ -38,7 +38,7 @@ class UserGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = " SELECT * FROM User WHERE ID = $id;";
+            $query = " SELECT * FROM User WHERE ID = '$id';";
 
             if ($result = $con->query($query))
             {
@@ -91,7 +91,8 @@ class UserGateway
         $Password = $object->Password;
 
         $con = $this->getConnection();
-        $query = "INSERT INTO User (FirstName, LastName, UserName, Password) VALUES ($FirstName, $LastName, $UserName, $Password);";
+
+        $query = "INSERT INTO User (FirstName, LastName, UserName, Password) VALUES ('$FirstName', '$LastName', '$UserName', '$Password');";
 
         if($result = $con->query($query))
         {
@@ -119,7 +120,7 @@ class UserGateway
         $Password = $object->Password;
 
         $con = $this->getConnection();
-        $query = "UPDATE User SET FirstName = $FirstName, LastName = $LastName, UserName = $UserName, Password = $Password WHERE ID = $ID;";
+        $query = "UPDATE User SET FirstName = '$FirstName', LastName = '$LastName', UserName = '$UserName', Password = '$Password' WHERE ID = '$ID';";
 
         if($result = $con->query($query))
         {
@@ -144,7 +145,7 @@ class UserGateway
         $password = $object->password;
 
         $conn = $this->getConnection();
-        $query = "SELECT * FROM User WHERE UserName = $userName, Password = $password;";
+        $query = "SELECT * FROM User WHERE UserName = '$userName', Password = '$password';";
 
         if($result = $conn->query($query))
         {

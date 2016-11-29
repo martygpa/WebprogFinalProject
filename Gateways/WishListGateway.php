@@ -38,7 +38,7 @@ class WishListGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM WishList WHERE ID = $id;";
+            $query = "SELECT * FROM WishList WHERE ID = '$id';";
 
             if ($result = $con->query($query))
             {
@@ -83,7 +83,7 @@ class WishListGateway
     {
         $UserID = $object->UserID;
         $con = $this->getConnection();
-        $query = "INSERT INTO WishList (UserID) VALUES ($UserID);";
+        $query = "INSERT INTO WishList (UserID) VALUES ('$UserID');";
 
         if($result = $con->query($query))
         {
@@ -108,7 +108,7 @@ class WishListGateway
         $ID = $object->ID;
         $UserID = $object->UserID;
 
-        $query = "UPDATE WishList SET UserID = $UserID WHERE ID = $ID;";
+        $query = "UPDATE WishList SET UserID = '$UserID' WHERE ID = '$ID';";
         if($result = $con->query($query))
         {
             $success = true;

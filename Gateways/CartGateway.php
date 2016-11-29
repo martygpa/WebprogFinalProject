@@ -38,7 +38,7 @@ class CartGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM Cart WHERE ID = $id;";
+            $query = "SELECT * FROM Cart WHERE ID = '$id';";
 
             if ($result = $con->query($query))
             {
@@ -82,7 +82,7 @@ class CartGateway
     {
         $UserID = $object->UserID;
         $con = $this->getConnection();
-        $query = "INSERT INTO Cart (UserID) VALUES ($UserID);";
+        $query = "INSERT INTO Cart (UserID) VALUES ('$UserID');";
 
         if($result = $con->query($query))
         {
@@ -107,7 +107,7 @@ class CartGateway
         $ID = $object->ID;
         $UserID = $object->UserID;
 
-        $query = "UPDATE Comment SET UserID = $UserID WHERE ID = $ID;";
+        $query = "UPDATE Comment SET UserID = $UserID WHERE ID = '$ID';";
         if($result = $con->query($query))
         {
             $success = true;
