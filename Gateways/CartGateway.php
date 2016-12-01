@@ -64,7 +64,7 @@ class CartGateway
 
         if ($result = $con->query($query))
         {
-            $object = $result->fetch_object();
+            $object = $result->fetch_objetct();
             return $object;
         } else
         {
@@ -76,46 +76,30 @@ class CartGateway
      * Insert a single row
      *
      * @param $object containing all three fields to be set in a single row in CartToItem table
-     * @return bool true or false of success of insert
      */
     public function insertRow($object)
     {
-        $UserID = $object->UserID;
         $con = $this->getConnection();
-        $query = "INSERT INTO Cart (UserID) VALUES ('$UserID');";
+        $statement = mysqli_prepare($con, "INSERT INTO Cart (UserID) VALUES (?)");
 
-        if($result = $con->query($query))
-        {
-            $success = true;
-        }
-        else
-        {
-            $success = false;
-        }
-        return $success;
+        mysqli_stmt_bind_param($statement, 's', $UserID);
+        $UserID = $object->UserID;
+        mysqli_stmt_execute($statement);
+
     }
 
     /**
      * Updates a single row
      *
      * @param $object
-     * @return bool
      */
     public function updateRow($object)
     {
         $con = $this->getConnection();
+        $statement = mysqli_prepare($con, "UPDATE Comment SET UserID=? WHERE ID =?");
+        mysqli_stmt_bind_param($statement, 'ii', $UserID, $ID);
         $ID = $object->ID;
         $UserID = $object->UserID;
-
-        $query = "UPDATE Comment SET UserID = $UserID WHERE ID = '$ID';";
-        if($result = $con->query($query))
-        {
-            $success = true;
-        }
-        else
-        {
-            $success = false;
-        }
-        return $success;
+        mysqli_stmt_execute($statement);
     }
 }
