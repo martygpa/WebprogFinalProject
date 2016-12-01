@@ -81,56 +81,37 @@ class UserGateway
      * Insert a single row
      *
      * @param $object containing all three fields to be set in a single row in CartToItem table
-     * @return bool true or false of success of insert
      */
     public function insertRow($object)
     {
+        $con = $this->getConnection();
+        $statement = mysqli_prepare($con, "INSERT INTO User (FirstName, LastName, UserName, Password) VALUES (?, ?, ?, ?)");
+
+        mysqli_stmt_bind_param($statement, 'ssss', $FirstName, $LastName, $UserName, $LastName);
         $FirstName = $object->FirstName;
         $LastName = $object->LastName;
         $UserName = $object->UserName;
         $Password = $object->Password;
-
-        $con = $this->getConnection();
-
-        $query = "INSERT INTO User (FirstName, LastName, UserName, Password) VALUES ('$FirstName', '$LastName', '$UserName', '$Password');";
-
-        if($result = $con->query($query))
-        {
-            $success = true;
-        }
-        else
-        {
-            $success = false;
-        }
-        return $success;
+        mysqli_stmt_execute($statement);
     }
 
     /**
      * Update a single row
      *
      * @param $object containing all three fields to be set in a single row in CartToItem table
-     * @return bool true or false of success of insert
      */
     public function updateRow($object)
     {
+        $con = $this->getConnection();
+        $statement = mysqli_prepare($con, "UPDATE User SET FirstName =?, LastName =?, UserName =?, Password =? WHERE ID =?");
+        mysqli_stmt_bind_param($statement, 'ssssi', $FirstName, $LastName, $UserName, $LastName, $ID);
+
         $ID = $object->ID;
         $FirstName = $object->FirstName;
         $LastName = $object->LastName;
         $UserName = $object->UserName;
         $Password = $object->Password;
-
-        $con = $this->getConnection();
-        $query = "UPDATE User SET FirstName = '$FirstName', LastName = '$LastName', UserName = '$UserName', Password = '$Password' WHERE ID = '$ID';";
-
-        if($result = $con->query($query))
-        {
-            $success = true;
-        }
-        else
-        {
-            $success = false;
-        }
-        return $success;
+        mysqli_stmt_execute($statement);
     }
 
     /**
@@ -139,18 +120,15 @@ class UserGateway
      * @param $object
      * @return bool true if user exists, false if they don't exist in DB
      */
-    public function queryForLogin($object)
+    public function queryForLogin($userName, $password)
     {
-        $userName = $object->userName;
-        $password = $object->password;
-
         $conn = $this->getConnection();
         $query = "SELECT * FROM User WHERE UserName = '$userName', Password = '$password';";
 
         if($result = $conn->query($query))
         {
-            $returnObject = $result->fetch_object();
-            if($returnObject->ID == null)
+            $returnObject = $result->fetch_assoc();
+            if($returnObject['ID'] != null)
             {
                 return true;
             }
