@@ -1,10 +1,11 @@
-/**
+
+<?php
+ /*
  * WishList Class to handle the WishList page
  * Author: Ronald Sease
  */
-<?php
-  require_once("WishListGateway.php");
-  require_once("WishListToItemGateway.php");
+  require_once("../Gateways/WishListGateway.php");
+  require_once("../Gateways/WishListToItemGateway.php");
   $userID = 1;
   $gateway = new WishListGateway();
   if(is_null($gateway))
