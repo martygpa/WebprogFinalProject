@@ -2,7 +2,7 @@
 
 /**
  * WishListToItem Table Gateway Class
- * Author: Alec Waddelow
+ * Author: Alec Waddelow & Ronald Sease
  * Date: 11/22/2016
  * Time: 15:22
  */
@@ -38,12 +38,15 @@ class WishListToItemGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM WishListToItem WHERE ID = '$id';";
-
+            $query = "SELECT * FROM WishListToItem WHERE WishListID = '$id';";
+            $entries = array();
             if ($result = $con->query($query))
             {
-                $object = $result->fetch_object();
-                return $object;
+                while($row = $result->fetch_object()->ItemID)
+                {
+                  array_push($entries, $row);
+                }
+                return $entries;
             }
             else
             {

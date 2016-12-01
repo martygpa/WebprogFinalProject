@@ -2,7 +2,7 @@
 
 /**
  * WishList Table Gateway Class
- * Author: Alec Waddelow
+ * Author: Alec Waddelow & Ronald Sease
  * Date: 11/22/2016
  * Time: 15:20
  */
@@ -39,7 +39,6 @@ class WishListGateway
         {
             $con = $this->getConnection();
             $query = "SELECT * FROM WishList WHERE ID = '$id';";
-
             if ($result = $con->query($query))
             {
                 $object = $result->fetch_object();
