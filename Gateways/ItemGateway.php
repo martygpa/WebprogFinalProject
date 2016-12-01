@@ -64,8 +64,11 @@ class ItemGateway
 
         if ($result = $con->query($query))
         {
-            $object = $result->fetch_object();
-            return $object;
+	  while($object = mysqli_fetch_object($result))
+          {
+            $array[] = $object;
+          }
+          return $array;
         } else
         {
             return false;
@@ -127,6 +130,4 @@ class ItemGateway
         }
         return $success;
     }
-
-
 }
