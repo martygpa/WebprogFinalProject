@@ -109,10 +109,24 @@ function addItemPicture(url)
 }
 
 function addItemToCart(ItemID, UserID)
-{}
+{
+  $.post( "test.php", { ItemID: "John", WishListID: "2pm" } );
+}
 
 function addItemToWishlist(ItemID, UserID)
-{}
+{
+  WishListID = getWishlistID(UserID);
+  $.post( "test.php", { ItemID: "John", WishListID: "2pm" } );
+}
+
+function getWishlistID(UserID)
+{
+  $.getJSON('./CRUD/GETWishList.php?UserID='+UserID, function(data)
+  {
+    return data[0].ID;
+  }
+}
+
 function getItem(ID)
 {
   $.getJSON('./CRUD/GETItem.php?ID='+ID, function(data)

@@ -2,7 +2,7 @@
 
 /**
  * WishListToItem Table Gateway Class
- * Author: Alec Waddelow & Ronald Sease
+ * Author: Alec Waddelow & Ronald Sease & Darnell Martin
  * Date: 11/22/2016
  * Time: 15:22
  */

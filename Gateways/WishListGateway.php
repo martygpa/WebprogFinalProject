@@ -2,7 +2,7 @@
 
 /**
  * WishList Table Gateway Class
- * Author: Alec Waddelow & Ronald Sease
+ * Author: Alec Waddelow & Ronald Sease & Darnell Martin
  * Date: 11/22/2016
  * Time: 15:20
  */
@@ -49,6 +49,24 @@ class WishListGateway
                 return false;
             }
         }
+    }
+
+    public function rowDataQueryByUserID($id)
+    {
+            $con = $this->getConnection();
+            $query = "SELECT * FROM WishList WHERE UserID = ".$id.";";
+            if ($result = $con->query($query))
+            {
+              while($object = mysqli_fetch_object($result))
+              {
+                $array[] = $object;
+              }
+              return $array;
+            }
+            else
+            {
+                return false;
+          }
     }
 
     /**
