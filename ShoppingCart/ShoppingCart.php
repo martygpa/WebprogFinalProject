@@ -8,28 +8,31 @@
   require_once("../Gateways/CartToItemGateway.php");
   require_once("../Gateways/ItemGateway.php");
   require_once("../Models/ItemObject.php");
+
   $userID = 1;
   $gateway = new CartGateway();
+  echo "hello";
   if(!is_null($gateway))
   {
     $result = $gateway->rowDataQueryByUserID($userID);
     $cartID = (int)$result->ID;
     $relatedGateway = new CartToItemGateway();
     $itemIDs = $relatedGateway->rowDataQueryByID($cartID);
+    print_r($itemIDs);
     $items = array();
     $itemGateway = new ItemGateway();
     for($i = 0; $i < count($itemIDs); $i++)
     {
-      $result = $itemGateway->rowDataQueryByID($itemIDs[$i]);
-      //print_r($result);
-      $temp = $result;
+       $result = $itemGateway->getByRowIDIntoArray($itemIDs[$i]);
+       print_r($result);
+
+      //$temp = $result;
       //echo $temp;
-      $itemInCart = new ItemObject($result->ID, $result->Name, $result->Description, $result->UPC, $result->Price, $result->Manufacturer, $result->Quantity, $result->ImageLocation);
       //print_r($itemInCart);
-      array_push($items, $itemInCart);
+      array_push($items, $result);
     }
     echo "<br><br><br>";
-    //print_r($items);
+  //  print_r($items);
 
   }
 ?>
@@ -55,6 +58,8 @@ table {display: block;color: black;text-align: center;}
 .item p{float: left;text-align: center; margin-left: 2%;}
 .itemimg{width:100%; height: 80%;border-bottom: 1px solid black;}
 .cart{float: right; width:10%;height:10%;margin-top: 3%; margin-right: 2.5%;}
+.removeButton{float: right; width:20%;height:10%;margin-top: 3%; margin-right: 2.5%; }
+
 .cart:hover{cursor: pointer;}
 #livesearch{overflow: auto;}
 #livesearch a{text-decoration: none; color: black;text-align: center; float: left; margin-left: 33%;}
@@ -80,50 +85,65 @@ table {display: block;color: black;text-align: center;}
   </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type ="text/javascript">
   $(document).ready(function(){
+
+    var self =this;
     console.log("hello");
   var itemsInCart = <?php echo json_encode( $items)?>;
   console.log(itemsInCart);
-  $.each(itemsInCart,function(object){
+  $.each(itemsInCart,function(index, object){
     //Create containing div
+    console.log(object);
     var div=document.createElement("div");
-    div.setAttribute("id",object.ID);
+    div.setAttribute("id",object.id);
     div.setAttribute("class","item");
     //create image in div
     var img=document.createElement("img");
-    debugger;
     img.setAttribute("src",object.ImageLocation);
-    // img.setAttribute("class","itemimg");
-    // //add cost
-    // var p=document.createElement("p");
-    // p.append("$"+object.Price+"\t"+object.Name);
-    // //append stuff
-    // div.append(img);
-    // div.append(p);
-    // div.append(createCartImage(object.ID));
-    // div.append(createWishlistImage(object.ID));
-    // $("#items").append(div);
-    // console.log(object);
+    img.setAttribute("class","itemimg");
+    //add cost
+    var p=document.createElement("p");
+    p.append("$"+object.Price+"\t"+object.Name);
+    //append stuff
+    div.append(img);
+    div.append(p);
+    div.append(createRemoveButton(object.id));
+    div.append(createWishlistImage(object.id));
+    $("#items").append(div);
   });
 });
 
-function createCartImage(ID)
+function createRemoveButton(id)
 {
-  var img=document.createElement("img");
-  img.setAttribute("src","./images/cart.png");
-  img.setAttribute("class","cart");
-  img.setAttribute("onclick","addItemToCart("+ID+")")
+  var img=document.createElement("button");
+  img.setAttribute("class","glyphicon glyphicon-remove cart");
+  img.setAttribute("onclick","removeItemFromCart("+id+")");
   return img;
 }
 
-function createWishlistImage(ID)
+function createWishlistImage(id)
 {
   var img=document.createElement("img");
   img.setAttribute("src","./images/wishlist.png");
   img.setAttribute("class","cart");
-  img.setAttribute("onclick","addItemToWishlist("+ID+")")
+  img.setAttribute("onclick","addItemToWishlist("+id+")");
   return img;
+}
+
+function removeItemFromCart(id)
+{
+  var cartID = <?php echo $cartID?>;
+  console.log(cartID);
+  $.ajax({
+          type: "POST",
+          url:'./POSTDeleteCartItem.php',
+          data: ({CartID: cartID, ItemID: id}),
+          success:function(response){ alert(response); }
+      });
+
 }
 </script>
 </html>
