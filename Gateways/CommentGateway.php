@@ -50,6 +50,24 @@ class CommentGateway
         }
     }
 
+    public function rowDataQueryByItemID($id)
+    {
+      $con = $this->getConnection();
+      $query = "SELECT * FROM webprog25.Comment WHERE ItemID = ".$id.";";
+      if ($result = $con->query($query))
+      {
+        while($object = mysqli_fetch_object($result))
+        {
+          $array[] = $object;
+        }
+        return $array;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
     /**
      * Returns entire table in one object
      *

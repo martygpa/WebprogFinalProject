@@ -117,7 +117,7 @@ function showResult(str)
     $.each(data,function(index,object){
       var br=document.createElement("br");
       var link = document.createElement("a");
-      link.href = "./Item.php?id="+object.ID;
+      link.href = "./Item.php?ID="+object.ID;
       link.innerHTML = object.Name;
       document.getElementById("livesearch").append(link);
       document.getElementById("livesearch").append(br);

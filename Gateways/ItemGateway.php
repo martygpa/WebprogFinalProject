@@ -35,21 +35,20 @@ class ItemGateway
      */
     public function rowDataQueryByID($id)
     {
-        if(is_int($id))
-        {
             $con = $this->getConnection();
-            $query = "SELECT * FROM Item WHERE ID = '$id';";
-
+            $query = "SELECT * FROM webprog25.Item WHERE ID = ".$id.";";
             if ($result = $con->query($query))
             {
-                $object = $result->fetch_object();
-                return $object;
+              while($object = mysqli_fetch_object($result))
+              {
+                $array[] = $object;
+              }
+              return $array;
             }
             else
             {
                 return false;
-            }
-        }
+          }
     }
 
     /**
@@ -64,7 +63,7 @@ class ItemGateway
 
         if ($result = $con->query($query))
         {
-	  while($object = mysqli_fetch_object($result))
+	        while($object = mysqli_fetch_object($result))
           {
             $array[] = $object;
           }
