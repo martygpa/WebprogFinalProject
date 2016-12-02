@@ -8,14 +8,10 @@
   require_once("../Gateways/WishListToItemGateway.php");
   $userID = 1;
   $gateway = new WishListGateway();
-  if(is_null($gateway))
-  {
-    echo "null";
-  }
   if(!is_null($gateway))
   {
-    $result = $gateway->rowDataQueryByID($userID);
-    $wishListID = (int)$result->UserID;
+    $result = $gateway->rowDataQueryByUserID($userID);
+    $wishListID = (int)$result->ID;
     echo $wishListID;
     $relatedGateway = new WishListToItemGateway();
     $itemIDs = $relatedGateway->rowDataQueryByID($wishListID);

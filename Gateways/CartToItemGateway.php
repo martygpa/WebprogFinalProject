@@ -35,21 +35,24 @@ class CartToItemGateway
      */
     public function rowDataQueryByID($id)
     {
-        if(is_int($id))
-        {
-            $con = $this->getConnection();
-            $query = "SELECT * FROM CartToItem WHERE ID = '$id';";
-
-            if ($result = $con->query($query))
-            {
-                $object = $result->fetch_object();
-                return $object;
-            }
-            else
-            {
-                return false;
-            }
-        }
+      if(is_int($id))
+      {
+          $con = $this->getConnection();
+          $query = "SELECT * FROM CartToItem WHERE CartID = '$id';";
+          $entries = array();
+          if ($result = $con->query($query))
+          {
+              while($row = $result->fetch_object()->ItemID)
+              {
+                array_push($entries, $row);
+              }
+              return $entries;
+          }
+          else
+          {
+              return false;
+          }
+      }
     }
 
     /**
