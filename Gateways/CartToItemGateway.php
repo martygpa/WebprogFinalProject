@@ -35,21 +35,24 @@ class CartToItemGateway
      */
     public function rowDataQueryByID($id)
     {
-        if(is_int($id))
-        {
-            $con = $this->getConnection();
-            $query = "SELECT * FROM CartToItem WHERE ID = '$id';";
-
-            if ($result = $con->query($query))
-            {
-                $object = $result->fetch_object();
-                return $object;
-            }
-            else
-            {
-                return false;
-            }
-        }
+      if(is_int($id))
+      {
+          $con = $this->getConnection();
+          $query = "SELECT * FROM CartToItem WHERE CartID = '$id';";
+          $entries = array();
+          if ($result = $con->query($query))
+          {
+              while($row = $result->fetch_object()->ItemID)
+              {
+                array_push($entries, $row);
+              }
+              return $entries;
+          }
+          else
+          {
+              return false;
+          }
+      }
     }
 
     /**
@@ -111,6 +114,30 @@ class CartToItemGateway
         $ItemID = $object->ItemID;
 
         $query = "UPDATE Comment SET ItemID = '$ItemID', CartId = '$CartID' WHERE ID = '$ID';";
+        if($result = $con->query($query))
+        {
+            $success = true;
+        }
+        else
+        {
+            $success = false;
+        }
+        return $success;
+    }
+
+    /**
+     * Deletes a single row based on cart id and item id
+     *
+     * @param $object
+     * @return bool
+     */
+    public function deleteRow($CartID, $ItemID)
+    {
+      echo $CartID."   ".$ItemID;
+
+        $con = $this->getConnection();
+        echo $CartID."   ".$ItemID;
+        $query = "DELETE FROM CartToItem WHERE ItemID = '$ItemID' AND CartID = '$CartID';";
         if($result = $con->query($query))
         {
             $success = true;

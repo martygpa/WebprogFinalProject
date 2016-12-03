@@ -53,6 +53,30 @@ class CartGateway
     }
 
     /**
+     * Queries WishList table by user id
+     *
+     * @param $id
+     * @return bool $object containing result set data, else returns false
+     */
+    public function rowDataQueryByUserID($id)
+    {
+        if(is_int($id))
+        {
+            $con = $this->getConnection();
+            $query = "SELECT * FROM Cart WHERE UserID = '$id';";
+            if ($result = $con->query($query))
+            {
+                $object = $result->fetch_object();
+                return $object;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    /**
      * Returns entire table in one object
      *
      * @return bool $object of entire table result set

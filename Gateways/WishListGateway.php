@@ -2,7 +2,7 @@
 
 /**
  * WishList Table Gateway Class
- * Author: Alec Waddelow & Ronald Sease
+ * Author: Alec Waddelow & Ronald Sease & Darnell Martin
  * Date: 11/22/2016
  * Time: 15:20
  */
@@ -50,6 +50,49 @@ class WishListGateway
             }
         }
     }
+
+    public function rowDataQueryByUserID($id)
+    {
+            $con = $this->getConnection();
+            $query = "SELECT * FROM WishList WHERE UserID = ".$id.";";
+            if ($result = $con->query($query))
+            {
+              while($object = mysqli_fetch_object($result))
+              {
+                $array[] = $object;
+              }
+              return $array;
+            }
+            else
+            {
+                return false;
+          }
+    }
+
+    /**
+     * Queries WishList table by user id
+     *
+     * @param $id
+     * @return bool $object containing result set data, else returns false
+     */
+    public function rowDataQueryByUserID($id)
+    {
+        if(is_int($id))
+        {
+            $con = $this->getConnection();
+            $query = "SELECT * FROM WishList WHERE UserID = '$id';";
+            if ($result = $con->query($query))
+            {
+                $object = $result->fetch_object();
+                return $object;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
 
     /**
      * Returns entire table in one object
