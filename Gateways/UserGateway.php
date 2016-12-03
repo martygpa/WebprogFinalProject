@@ -87,7 +87,7 @@ class UserGateway
         $con = $this->getConnection();
         $statement = mysqli_prepare($con, "INSERT INTO User (FirstName, LastName, UserName, Password) VALUES (?, ?, ?, ?)");
 
-        mysqli_stmt_bind_param($statement, 'ssss', $FirstName, $LastName, $UserName, $LastName);
+        mysqli_stmt_bind_param($statement, 'ssssi', $FirstName, $LastName, $UserName, $LastName);
         $FirstName = $object->FirstName;
         $LastName = $object->LastName;
         $UserName = $object->UserName;
@@ -103,7 +103,7 @@ class UserGateway
     public function updateRow($object)
     {
         $con = $this->getConnection();
-        $statement = mysqli_prepare($con, "UPDATE User SET FirstName =?, LastName =?, UserName =?, Password =? WHERE ID =?");
+        $statement = mysqli_prepare($con, "UPDATE User SET FirstName =?, LastName =?, UserName =?, Password =? WHERE ID=?");
         mysqli_stmt_bind_param($statement, 'ssssi', $FirstName, $LastName, $UserName, $LastName, $ID);
 
         $ID = $object->ID;
