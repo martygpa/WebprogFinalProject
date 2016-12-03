@@ -117,13 +117,13 @@ class UserGateway
     /**
      * Queries Table to see if user exists already
      *
-     * @param $object
+     * @param $userName $password
      * @return bool true if user exists, false if they don't exist in DB
      */
     public function queryForLogin($userName, $password)
     {
         $conn = $this->getConnection();
-        $query = "SELECT * FROM User WHERE UserName = '$userName', Password = '$password';";
+        $query = "SELECT * FROM User WHERE UserName ='$userName' AND Password ='$password';";
 
         if($result = $conn->query($query))
         {

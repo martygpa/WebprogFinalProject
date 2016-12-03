@@ -30,20 +30,18 @@
         .active {
             background-color: #4CAF50;
         }
-
         table {
             display: block;
             color: black;
             text-align: center;
-
         }
-
     </style>
 </head>
 <body>
 
+
 <ul>
-    <li> <a href="webprog.cs.ship.edu/webprog25/index.html">Home</a></li>
+    <li> <a href="webprog.cs.ship.edu/webprog25/Home.html">Home</a></li>
     <li> <a class="active" href="webprog.cs.ship.edu/webprog25/account_management/login.html">Login</a></li>
     <li> <a href="webprog.cs.ship.edu/webprog25/account_management/myAccount.html">My Account</a> </li>
     <li> <a href="webprog.cs.ship.edu/webprog25/account_management/registerAccount.html">Create New Account</a></li>
@@ -54,18 +52,19 @@
     <li> <a href="webprog.cs.ship.edu/webprog25/item/search.html">Search</a></li>
 </ul>
 
+<div class="loginContainer" >
 <p1>Welcome Back! Please Log in below</p1>
 
 <table>
     <form action="loginHandler.php" method="post" >
         <tr>
             <td>Enter UserName </td>
-            <td><input type="text" name="userName"> </td>
+            <td><input type="text" placeholder="User Name" name="userName" required> </td>
         </tr>
 
         <tr>
             <td>Enter Password</td>
-            <td> <input type="text" name="password"> </td>
+            <td> <input type="text" placeholder="Password" name="password" required> </td>
         </tr>
 
         <tr>
@@ -74,6 +73,8 @@
 
     </form>
 </table>
+
+</div>
 
 </body>
 </html>
