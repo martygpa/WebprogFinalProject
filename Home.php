@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <html>
 <style>
 body{width:99%;height:98%;}
@@ -36,6 +39,7 @@ table {display: block;color: black;text-align: center;}
     <li> <a href="/shopping/checkOut.html">Check Out</a></li>
 </ul>
   <div id="sidebar">
+    <div id="UserInfo"></div>
     Search: <input type="text" onkeyup="showResult(this.value)"></input>
     <div id="livesearch"></div>
   </div>
@@ -46,10 +50,12 @@ table {display: block;color: black;text-align: center;}
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
+var UserID = <?php echo($_SESSION["ID"]);?>;
 onLoad();
 function onLoad()
 {
   getItems();
+  getUser();
 }
 
 function getItems()
@@ -125,6 +131,24 @@ function showResult(str)
     });
     console.log(data);
   });
+}
+
+function getUser()
+{
+  if(UserID>0)
+  {
+    $.getJSON("./CRUD/GETUser.php?ID="+UserID,true, function(data)
+    {
+      console.log(data);
+      var info = document.getElementById("UserInfo");
+      info.innerHTML = "Welcome back "+ data[0].FirstName;
+    });
+  }
+  else
+  {
+    var info = document.getElementById("UserInfo");
+    info.innerHTML = "Hello, Welcome to the Ecommerce Site";
+  }
 }
 </script>
 </html>
