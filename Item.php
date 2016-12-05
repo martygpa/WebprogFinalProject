@@ -48,7 +48,7 @@ li a:hover:not(.active) {background-color: #111;}
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
-var UserID = <?php echo($_SESSION["ID"]);?>;
+var UserID = <?php if(!empty($_SESSION["ID"])){echo($_SESSION["ID"]);}else{echo 0;}?>;
 var WishListID = 0;
 var CartID = 0;
 onLoad();
@@ -121,14 +121,28 @@ function addItemPicture(url)
 
 function addItemToCart(ItemID)
 {
-  $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, CartID: CartID } );
-  alert("Item has been added to the cart");
+  if(UserID > 0)
+  {
+    $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, CartID: CartID } );
+    alert("Item has been added to the cart");
+  }
+  else
+  {
+    alert("Please sign in to add the to your wishlist");
+  }
 }
 
 function addItemToWishlist(ItemID)
 {
-  $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, WishListID: WishListID } );
-  alert("Item has been added to the wishlist");
+  if(UserID > 0)
+  {
+    $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, WishListID: WishListID } );
+    alert("Item has been added to the wishlist");
+  }
+  else
+  {
+    alert("Please sign in to add the item to your wishlist");
+  }
 }
 
 function getWishlistID()
@@ -222,9 +236,17 @@ function createCommentImage(ID)
   return img;
 }
 
+
 function addCommentToItem(ID)
 {
-  var w = window.open('./Comment.php?ID='+ID, "", "width=600, height=400, scrollbars=yes");
+  if(UserID == 0)
+  {
+    alert("Please sign in to rate and comment on items.");
+  }
+  else
+  {
+    var w = window.open('./Comment.php?ID='+ID, "", "width=600, height=400, scrollbars=yes");
+  }
 }
 /*
  *This function is used for the live search to dyanmically

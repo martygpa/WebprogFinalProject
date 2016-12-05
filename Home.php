@@ -50,12 +50,14 @@ table {display: block;color: black;text-align: center;}
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
-var UserID = <?php echo($_SESSION["ID"]);?>;
+var UserID = <?php if(!empty($_SESSION["ID"])){echo($_SESSION["ID"]);}else{echo 0;}?>;
 onLoad();
 function onLoad()
 {
   getItems();
   getUser();
+  getWishlistID();
+  getCartID();
 }
 
 function getItems()
@@ -81,7 +83,6 @@ function getItems()
       div.append(createCartImage(object.ID));
       div.append(createWishlistImage(object.ID));
       $("#items").append(div);
-      console.log(object);
     });
   });
 }
@@ -129,7 +130,62 @@ function showResult(str)
       document.getElementById("livesearch").append(br);
       document.getElementById("livesearch").style.border="1px solid #A5ACB2";
     });
-    console.log(data);
+  });
+}
+
+function addItemToCart(ItemID)
+{
+  if(UserID > 0)
+  {
+    $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, CartID: CartID } );
+    alert("Item has been added to the cart");
+  }
+  else
+  {
+    alert("Please sign in to add the to your wishlist");
+  }
+}
+
+function addItemToWishlist(ItemID)
+{
+  if(UserID > 0)
+  {
+    $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, WishListID: WishListID } );
+    alert("Item has been added to the wishlist");
+  }
+  else
+  {
+    alert("Please sign in to add the item to your wishlist");
+  }
+}
+
+function getWishlistID()
+{
+  $.getJSON('./CRUD/GETWishList.php?UserID='+UserID, function(data)
+  {
+    if(data == false)
+    {
+        alert("Database Error");
+    }
+    else
+    {
+        WishListID = data[0].ID;
+    }
+  });
+}
+
+function getCartID()
+{
+  $.getJSON('./CRUD/GETCart.php?UserID='+UserID, function(data)
+  {
+    if(data == false)
+    {
+        alert("Database Error");
+    }
+    else
+    {
+        CartID = data[0].ID;
+    }
   });
 }
 
@@ -139,7 +195,6 @@ function getUser()
   {
     $.getJSON("./CRUD/GETUser.php?ID="+UserID,true, function(data)
     {
-      console.log(data);
       var info = document.getElementById("UserInfo");
       info.innerHTML = "Welcome back "+ data[0].FirstName;
     });
