@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Cart Gateway
  * Author: Alec Waddelow

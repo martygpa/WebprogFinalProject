@@ -15,7 +15,7 @@ li a:hover:not(.active) {background-color: #111;}
 #itemimage{width: 40%; height:100%; background-color: white;float: left;}
 #itemdetail{width: 60%;height:100%; background-color: white;float: left;}
 #itemattributes{width: 100%;height:80%; background-color: white;float: left; text-align: center;}
-.cart{float: left;width:5%;height:7.5%;}
+.cart{float: left;width:5%;height:7.5%;margin: 1.5%;}
 .cart:hover{cursor: pointer;}
 #livesearch{overflow: auto;}
 #livesearch a{text-decoration: none; color: black;text-align: center; float: left; margin-left: 33%;}
@@ -162,6 +162,7 @@ function getItem(ID)
       element = document.getElementById("itemdetail");
       element.append(createCartImage(data[0].ID));
       element.append(createWishlistImage(data[0].ID));
+      element.append(createCommentImage(data[0].ID));
       getItemRating(ID);
     }
     });
@@ -192,6 +193,21 @@ function createWishlistImage(ID)
   img.setAttribute("onclick","addItemToWishlist("+ID+")")
   return img;
 }
+
+function createCommentImage(ID)
+{
+  var img=document.createElement("img");
+  img.setAttribute("src","./images/comment.png");
+  img.setAttribute("class","cart");
+  img.setAttribute("onclick","addCommentToItem("+ID+")")
+  return img;
+}
+
+function addCommentToItem(ID)
+{
+  //popup("<div>Hello</div>");
+  var w = window.open('./Comment.php?ID='+ID, "", "width=600, height=400, scrollbars=yes");
+}
 /*
  *This function is used for the live search to dyanmically
  * generate the results
@@ -221,4 +237,3 @@ function showResult(str)
 }
 </script>
 </html>
-<?php echo getcwd();?>

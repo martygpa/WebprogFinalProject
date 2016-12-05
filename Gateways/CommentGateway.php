@@ -102,8 +102,7 @@ class CommentGateway
         $Rating = $object->Rating;
 
         $con = $this->getConnection();
-        $query = "INSERT INTO Comment (ItemID, UserID, Comment, Rating) VALUES ('$ItemID', '$UserID', '$Comment', '$Rating');";
-
+        $query = "INSERT INTO Comment (ItemID, UserID, Comment, Rating) VALUES (".$ItemID."," .$UserID.", '".$Comment."', '".$Rating."');";
         if($result = $con->query($query))
         {
             $success = true;
