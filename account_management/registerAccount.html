@@ -64,26 +64,34 @@
     <li> <a href="webprog.cs.ship.edu/webprog25/item/search.html">Search</a></li>
 </ul>
 
-<div class="loginContainer" style="width:800px; margin:0 auto;" >
-<h1>Please Log in below</h1>
+
+<h1>Please fill out the form below to create an account</h1>
 
 <table>
-    <form action="loginHandler.php" method="post" >
+    <form action="registerUser.php" method="post" >
         <tr>
-            <td>Enter User Name </td>
-            <td><input type="text" placeholder="User Name" name="userName" required> </td>
+            <td>Enter First Name </td>
+            <td><input type="text" placeholder="First Name" name="firstName" required> </td>
         </tr>
+        <tr>
+            <td>Enter Last Name</td>
+            <td> <input type="text" placeholder="Last Name" name="lastName" required> </td>
+        </tr>
+        <tr>
+            <td>Enter User Name</td>
+            <td> <input type="text" placeholder="Last Name" name="userName" required> </td>
+        <tr>
         <tr>
             <td>Enter Password</td>
             <td> <input type="text" placeholder="Password" name="password" required> </td>
-        </tr>
         <tr>
-            <td><input type="submit" value="Submit" name="loginSubmit"> </td>
+        <tr>
+            <td><input type="submit" value="Submit" name="registerSubmit"> </td>
         </tr>
+
     </form>
 </table>
 
-</div>
 
 </body>
 </html>
