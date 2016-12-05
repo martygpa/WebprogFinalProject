@@ -96,7 +96,8 @@ class UserGateway
           {
             $success = true;
           }
-          else {
+          else
+          {
             $success = false;
           }
 
