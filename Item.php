@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <html>
 <style>
 ul {list-style-type: none; margin: 0;padding: 0;overflow: hidden;background-color: #333;}
@@ -44,6 +47,7 @@ li a:hover:not(.active) {background-color: #111;}
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
+var UserID = <?php echo($_SESSION["ID"]);?>;
 onLoad();
 function onLoad()
 {
@@ -110,39 +114,57 @@ function addItemPicture(url)
 
 function addItemToCart(ItemID, UserID)
 {
-  $.post( "test.php", { ItemID: "John", WishListID: "2pm" } );
+  getCartID();
+  //$.post( "test.php", { ItemID: "John", WishListID: "2pm" } );
 }
 
-function addItemToWishlist(ItemID, UserID)
+function addItemToWishlist(ItemID)
 {
-  WishListID = getWishlistID(UserID);
-  $.post( "test.php", { ItemID: "John", WishListID: "2pm" } );
+  WishListID = getWishlistID();
+  //$.post( "test.php", { ItemID: "John", WishListID: "2pm" } );
 }
 
-function getWishlistID(UserID)
+function getWishlistID()
 {
   $.getJSON('./CRUD/GETWishList.php?UserID='+UserID, function(data)
   {
-    return data[0].ID;
-  }
+    console.log(data);
+    //return data[0].ID;
+  });
+}
+
+function getCartID()
+{
+  $.getJSON('./CRUD/GETCart.php?UserID='+UserID, function(data)
+  {
+    console.log(data);
+    //return data[0].ID;
+  });
 }
 
 function getItem(ID)
 {
   $.getJSON('./CRUD/GETItem.php?ID='+ID, function(data)
   {
-    addItemAttribute("Name:",data[0].Name);
-    addItemAttribute("Price:","$"+data[0].Price);
-    addItemAttribute("UPC:",data[0].UPC);
-    addItemAttribute("Quantity:",data[0].Quantity);
-    addItemAttribute("Manufacturer:",data[0].Manufacturer);
-    addItemAttribute("Description:",data[0].Description);
-    addItemPicture(data[0].ImageLocation);
-    element = document.getElementById("itemdetail");
-    element.append(createCartImage(data[0].ID));
-    element.append(createWishlistImage(data[0].ID));
-    getItemRating(ID)
-  });
+    if(data == false)
+    {
+      alert("Database Error");
+    }
+    else
+    {
+      addItemAttribute("Name:",data[0].Name);
+      addItemAttribute("Price:","$"+data[0].Price);
+      addItemAttribute("UPC:",data[0].UPC);
+      addItemAttribute("Quantity:",data[0].Quantity);
+      addItemAttribute("Manufacturer:",data[0].Manufacturer);
+      addItemAttribute("Description:",data[0].Description);
+      addItemPicture(data[0].ImageLocation);
+      element = document.getElementById("itemdetail");
+      element.append(createCartImage(data[0].ID));
+      element.append(createWishlistImage(data[0].ID));
+      getItemRating(ID);
+    }
+    });
 }
 
 function getItemRating(ID)
@@ -199,3 +221,4 @@ function showResult(str)
 }
 </script>
 </html>
+<?php echo getcwd();?>

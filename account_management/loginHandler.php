@@ -17,9 +17,9 @@ if(isset($_POST['loginSubmit']) && isset($_POST['userName']) && isset($_POST['pa
     $password = htmlspecialchars($_POST['password']);
 
     $returnSuccess = $conn->queryForLogin($userName, $password);
-    if($returnSuccess == true)
+    if($returnSuccess>0)
     {
-        $_SESSION['ID'] = $returnID;
+        $_SESSION['ID'] = $returnSuccess;
         ini_set('session.gc_maxlifetime', 60 * 30);
         header("Location: http://webprog.cs.ship.edu/webprog25/Home.html");
         exit;

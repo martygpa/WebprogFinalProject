@@ -146,7 +146,7 @@ class UserGateway
             $returnObject = $result->fetch_assoc();
             if($returnObject['ID'] != null)
             {
-                return true;
+                return $returnObject['ID'];
             }
             else
             {

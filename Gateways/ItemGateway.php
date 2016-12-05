@@ -38,7 +38,8 @@ class ItemGateway
     {
             $con = $this->getConnection();
             $query = "SELECT * FROM webprog25.Item WHERE ID = ".$id.";";
-            if ($result = $con->query($query))
+            $result = $con->query($query);
+            if($result>0)
             {
               while($object = mysqli_fetch_object($result))
               {

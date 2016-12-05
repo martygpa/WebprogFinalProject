@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WishList Table Gateway Class
  * Author: Alec Waddelow & Ronald Sease & Darnell Martin
@@ -66,7 +65,7 @@ class WishListGateway
             else
             {
                 return false;
-          }
+            }
     }
 
     /**

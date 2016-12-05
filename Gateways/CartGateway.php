@@ -51,6 +51,20 @@ class CartGateway
             }
         }
     }
+    public function rowDataQueryByUserID($id)
+    {
+      $con = $this->getConnection();
+      $query = "SELECT * FROM Cart WHERE UserID = '".$id."';";
+      if ($result = $con->query($query))
+      {
+          $object = $result->fetch_object();
+          return $object;
+      }
+      else
+      {
+          return false;
+      }
+    }
 
     /**
      * Queries WishList table by user id
