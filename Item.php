@@ -41,7 +41,7 @@ li a:hover:not(.active) {background-color: #111;}
       <img src="/" id="itemimage"></img>
       <div id="itemdetail">
         <table id="itemattributes"></table>
-        <div id="itemrating"></div>
+        <div id="itemrating">Rating: N/A</div>
     </div>
   </div>
 </div>
@@ -52,10 +52,12 @@ var UserID = <?php echo($_SESSION["ID"]);?>;
 var WishListID = 0;
 var CartID = 0;
 onLoad();
+
+/*
+ *onLoad function that dynamically fills the page with content
+ */
 function onLoad()
 {
-  element = document.getElementById("itemrating");
-  element.innerHTML = "Rating: N/A";
   getItem(<?php echo($_GET["ID"]);?>);
   getUser();
   getWishlistID();
