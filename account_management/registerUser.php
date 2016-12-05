@@ -21,6 +21,7 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
     $newUser = new UserObject($firstName, $lastName, $userName, $password);
 
     $gateway->insertRow($newUser);
+
     header("Location: http://webprog.cs.ship.edu/webprog25/Home.html")
     exit;
 }

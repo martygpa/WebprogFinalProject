@@ -20,7 +20,7 @@ class UserGateway
 
         $connection = new mysqli($hostName, $userName, $password, $database);
 
-        if ($connection->connect_error)
+        if($connection->connect_error)
         {
             echo "Failed to connect to the Database";
         }
@@ -42,7 +42,10 @@ class UserGateway
 
             if ($result = $con->query($query))
             {
-                $object = $result->fetch_object();
+                while($object = mysqli_fetch_object($result))
+                {
+                  $array[] = $object;
+                }
                 return $object;
             }
             else
@@ -68,8 +71,11 @@ class UserGateway
 
         if ($result = $con->query($query))
         {
-            $object = $result->fetch_object();
-            return $object;
+            while($object = mysqli_fetch_object($result))
+            {
+              $array[] = $object;
+            }
+            return $array;
         }
         else
         {
@@ -82,17 +88,27 @@ class UserGateway
      *
      * @param $object containing all three fields to be set in a single row in CartToItem table
      */
-    public function insertRow($object)
+    public function insertRow($UserObject)
     {
         $con = $this->getConnection();
-        $statement = mysqli_prepare($con, "INSERT INTO User (FirstName, LastName, UserName, Password) VALUES (?, ?, ?, ?)");
 
-        mysqli_stmt_bind_param($statement, 'ssssi', $FirstName, $LastName, $UserName, $LastName);
-        $FirstName = $object->FirstName;
-        $LastName = $object->LastName;
-        $UserName = $object->UserName;
-        $Password = $object->Password;
-        mysqli_stmt_execute($statement);
+        if($statement = $con->prepare("INSERT INTO User (FirstName, LastName, UserName, Password) VALUES (?, ?, ?, ?)"))
+        {
+          $FirstName = $UserObject->firstName;
+          $LastName = $UserObject->lastName;
+          $UserName = $UserObject->userName;
+          $Password = $UserObject->password;
+          $statement->bind_param('ssss', $FirstName, $LastName, $UserName, $LastName);
+          if($statement->execute())
+          {
+            $success = true;
+          }
+          else {
+            $success = false;
+          }
+
+        }
+        return $success;
     }
 
     /**
