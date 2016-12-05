@@ -32,6 +32,7 @@ li a:hover:not(.active) {background-color: #111;}
     <li> <a href="/shopping/checkOut.html">Check Out</a></li>
   </ul>
   <div id="sidebar">
+    <div id="UserInfo"></div>
     Search: <input type="text" onkeyup="showResult(this.value)"></input>
     <div id="livesearch"></div>
   </div>
@@ -48,13 +49,17 @@ li a:hover:not(.active) {background-color: #111;}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script>
 var UserID = <?php echo($_SESSION["ID"]);?>;
+var WishListID = 0;
+var CartID = 0;
 onLoad();
 function onLoad()
 {
   element = document.getElementById("itemrating");
   element.innerHTML = "Rating: N/A";
-
   getItem(<?php echo($_GET["ID"]);?>);
+  getUser();
+  getWishlistID();
+  getCartID();
 }
 
 /*
@@ -112,24 +117,30 @@ function addItemPicture(url)
   element.src = url;
 }
 
-function addItemToCart(ItemID, UserID)
+function addItemToCart(ItemID)
 {
-  getCartID();
-  //$.post( "test.php", { ItemID: "John", WishListID: "2pm" } );
+  $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, CartID: CartID } );
+  alert("Item has been added to the cart");
 }
 
 function addItemToWishlist(ItemID)
 {
-  WishListID = getWishlistID();
-  //$.post( "test.php", { ItemID: "John", WishListID: "2pm" } );
+  $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, WishListID: WishListID } );
+  alert("Item has been added to the wishlist");
 }
 
 function getWishlistID()
 {
   $.getJSON('./CRUD/GETWishList.php?UserID='+UserID, function(data)
   {
-    console.log(data);
-    //return data[0].ID;
+    if(data == false)
+    {
+        alert("Database Error");
+    }
+    else
+    {
+        WishListID = data[0].ID;
+    }
   });
 }
 
@@ -137,8 +148,14 @@ function getCartID()
 {
   $.getJSON('./CRUD/GETCart.php?UserID='+UserID, function(data)
   {
-    console.log(data);
-    //return data[0].ID;
+    if(data == false)
+    {
+        alert("Database Error");
+    }
+    else
+    {
+        CartID = data[0].ID;
+    }
   });
 }
 
@@ -205,7 +222,6 @@ function createCommentImage(ID)
 
 function addCommentToItem(ID)
 {
-  //popup("<div>Hello</div>");
   var w = window.open('./Comment.php?ID='+ID, "", "width=600, height=400, scrollbars=yes");
 }
 /*
@@ -234,6 +250,22 @@ function showResult(str)
       document.getElementById("livesearch").style.border="1px solid #A5ACB2";
     });
   });
+}
+function getUser()
+{
+  if(UserID>0)
+  {
+    $.getJSON("./CRUD/GETUser.php?ID="+UserID,true, function(data)
+    {
+      var info = document.getElementById("UserInfo");
+      info.innerHTML = "Welcome back "+ data[0].FirstName;
+    });
+  }
+  else
+  {
+    var info = document.getElementById("UserInfo");
+    info.innerHTML = "Hello, Welcome to the Ecommerce Site";
+  }
 }
 </script>
 </html>

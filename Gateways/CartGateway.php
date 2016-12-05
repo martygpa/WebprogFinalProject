@@ -50,20 +50,6 @@ class CartGateway
             }
         }
     }
-    public function rowDataQueryByUserID($id)
-    {
-      $con = $this->getConnection();
-      $query = "SELECT * FROM Cart WHERE UserID = '".$id."';";
-      if ($result = $con->query($query))
-      {
-          $object = $result->fetch_object();
-          return $object;
-      }
-      else
-      {
-          return false;
-      }
-    }
 
     /**
      * Queries WishList table by user id
@@ -73,20 +59,20 @@ class CartGateway
      */
     public function rowDataQueryByUserID($id)
     {
-        if(is_int($id))
+      $con = $this->getConnection();
+      $query = "SELECT * FROM webprog25.Cart WHERE UserID = ".$id.";";
+      if($result = $con->query($query))
+      {
+        while($object = mysqli_fetch_object($result))
         {
-            $con = $this->getConnection();
-            $query = "SELECT * FROM Cart WHERE UserID = '$id';";
-            if ($result = $con->query($query))
-            {
-                $object = $result->fetch_object();
-                return $object;
-            }
-            else
-            {
-                return false;
-            }
+          $array[] = $object;
         }
+        return $array;
+      }
+      else
+      {
+          return false;
+      }
     }
 
     /**

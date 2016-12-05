@@ -50,10 +50,16 @@ class WishListGateway
         }
     }
 
+    /**
+     * Queries WishList table by user id
+     *
+     * @param $id
+     * @return bool $object containing result set data, else returns false
+     */
     public function rowDataQueryByUserID($id)
     {
             $con = $this->getConnection();
-            $query = "SELECT * FROM WishList WHERE UserID = ".$id.";";
+            $query = "SELECT * FROM webprog25.WishList WHERE UserID = ".$id.";";
             if ($result = $con->query($query))
             {
               while($object = mysqli_fetch_object($result))
@@ -67,31 +73,6 @@ class WishListGateway
                 return false;
             }
     }
-
-    /**
-     * Queries WishList table by user id
-     *
-     * @param $id
-     * @return bool $object containing result set data, else returns false
-     */
-    public function rowDataQueryByUserID($id)
-    {
-        if(is_int($id))
-        {
-            $con = $this->getConnection();
-            $query = "SELECT * FROM WishList WHERE UserID = '$id';";
-            if ($result = $con->query($query))
-            {
-                $object = $result->fetch_object();
-                return $object;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-
 
     /**
      * Returns entire table in one object
