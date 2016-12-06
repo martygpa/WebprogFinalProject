@@ -117,7 +117,7 @@ function createRemoveButton(id)
 function createWishlistImage(id)
 {
   var img=document.createElement("img");
-  img.setAttribute("src","./images/wishlist.png");
+  img.setAttribute("src","../images/wishlist.png");
   img.setAttribute("class","cart");
   img.setAttribute("onclick","addItemToWishList("+id+")");
   return img;
