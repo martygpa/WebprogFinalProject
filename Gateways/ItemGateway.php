@@ -132,28 +132,6 @@ class ItemGateway
         return $success;
     }
 
-    /*
-    * Gets each row as an object
-    */
-    // public function getByRowIDIntoArray($id)
-    // {
-    //   $con = $this->getConnection();
-    //   $query = "SELECT * FROM webprog25.Item WHERE ID = ".$id.";";
-    //   $entries = array();
-    //   if ($result = $con->query($query))
-    //   {
-    //     while($row = $result->fetch_object())
-    //     {
-    //       $itemInCart = new ItemObject($row->ID, $row->Name, $row->Description, $row->UPC, $row->Price, $row->Manufacturer, $row->Quantity, $row->ImageLocation);
-    //
-    //       array_push($entries, $itemInCart);
-    //     }
-    //
-    //   }
-    //   echo $entires
-    //   return "apples";
-    // }
-
     public function getByRowIDIntoArray($id)
     {
         $con = $this->getConnection();

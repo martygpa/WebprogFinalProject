@@ -65,7 +65,7 @@ class CartGateway
       {
         while($object = mysqli_fetch_object($result))
         {
-          $array[] = $object;
+          $array = $object;
         }
         return $array;
       }

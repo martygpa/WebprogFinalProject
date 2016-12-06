@@ -7,32 +7,25 @@
   require_once("../Gateways/CartGateway.php");
   require_once("../Gateways/CartToItemGateway.php");
   require_once("../Gateways/ItemGateway.php");
-  require_once("../Models/ItemObject.php");
+
 
   $userID = 1;
+  //echo $_SESSION['ID']
   $gateway = new CartGateway();
-  echo "hello";
   if(!is_null($gateway))
   {
     $result = $gateway->rowDataQueryByUserID($userID);
     $cartID = (int)$result->ID;
     $relatedGateway = new CartToItemGateway();
     $itemIDs = $relatedGateway->rowDataQueryByID($cartID);
-    print_r($itemIDs);
     $items = array();
     $itemGateway = new ItemGateway();
     for($i = 0; $i < count($itemIDs); $i++)
     {
        $result = $itemGateway->getByRowIDIntoArray($itemIDs[$i]);
-       print_r($result);
-
-      //$temp = $result;
-      //echo $temp;
-      //print_r($itemInCart);
       array_push($items, $result);
     }
     echo "<br><br><br>";
-  //  print_r($items);
 
   }
 ?>
@@ -67,7 +60,7 @@ table {display: block;color: black;text-align: center;}
 <body>
   <ul>
     <li> <a class="active" href="/Home.html">Home</a></li>
-    <li> <a href="/account_management/login.html">Login</a></li>
+    <li> <a href="../account_management/Login.html">Login</a></li>
     <li> <a href="/account_management/myAccount.html">My Account</a> </li>
     <li> <a href="/account_management/registerAccount.html">Create New Account</a></li>
     <li> <a href="/shopping/shoppingCart.html">Shopping Cart</a></li>
@@ -91,12 +84,9 @@ table {display: block;color: black;text-align: center;}
   $(document).ready(function(){
 
     var self =this;
-    console.log("hello");
   var itemsInCart = <?php echo json_encode( $items)?>;
-  console.log(itemsInCart);
   $.each(itemsInCart,function(index, object){
     //Create containing div
-    console.log(object);
     var div=document.createElement("div");
     div.setAttribute("id",object.id);
     div.setAttribute("class","item");
@@ -129,21 +119,34 @@ function createWishlistImage(id)
   var img=document.createElement("img");
   img.setAttribute("src","./images/wishlist.png");
   img.setAttribute("class","cart");
-  img.setAttribute("onclick","addItemToWishlist("+id+")");
+  img.setAttribute("onclick","addItemToWishList("+id+")");
   return img;
 }
 
 function removeItemFromCart(id)
 {
   var cartID = <?php echo $cartID?>;
-  console.log(cartID);
   $.ajax({
           type: "POST",
           url:'./POSTDeleteCartItem.php',
           data: ({CartID: cartID, ItemID: id}),
-          success:function(response){ alert(response); }
+          success:function(response){ alert("Removed from cart"); }
       });
+  var divToHide = '#' + id;
+  $(divToHide).hide();
+}
 
+function addItemToWishList(id)
+{
+  var UserID = <?php echo $userID?>;
+  $.ajax({
+    type: "POST",
+    url: "./POSTAddItemToWishList.php",
+    data: ({UserID: UserID, ItemID: id}),
+    success: function(response){
+      alert("added to wishlist");
+    }
+  })
 }
 </script>
 </html>
