@@ -1,37 +1,33 @@
 <?php
     echo "before require";
-    require("../Gateways/UserGateway.php");
+    require_once("../Gateways/UserGateway.php");
 
-  /*  if (!isset($_SESSION['ID']))
+    if (isset($_SESSION['ID']))
     {
-        header("Location: http://webprog.cs.ship.edu/webprog25/account_management/Login.html");
-    }*/
-
-    echo "before if";
-/*
-    if (1)
-        echo "after if";
-/*
-        getConnection();
-        $id = 2;//$_SESSION['ID'];
+        $gateway = new UserGateway();
+        $id = $_SESSION['ID'];
         //Grab current user from db
-        $user = rowDataQueryByID($id);
+        $user = $gateway->rowDataQueryByID($id);
+        echo $user[0]->ID;
 
 
         //Compare current PW to DB
         $old = $_POST["old"];
+        echo $old;
         $old = saltAndHash($old);
-        if (strcmp($old, $user[4]))
+        echo "<br>".$old;
+        echo "<br>".$user[0]->Password;
+        if (!strcmp($old, $user[0]->Password))
         {
             //Update PW
             $new = $_POST["new"];
             $new = saltAndHash($new);
-            $user[4] = $new;
-            updateRow($user);
-            echo "success";
+            $user[0]->Password = $new;
+            $gateway->updateRow($user[0]);
         }
-        else echo "strcmp fail";
-*/
+    } else
+    {
+        header("Location: http://webprog.cs.ship.edu/webprog25/account_management/Login.html");
     }
 
     /*
