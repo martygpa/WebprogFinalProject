@@ -91,7 +91,7 @@ class UserGateway
           $LastName = $UserObject->lastName;
           $UserName = $UserObject->userName;
           $Password = $UserObject->password;
-          $statement->bind_param('ssss', $FirstName, $LastName, $UserName, $LastName);
+          $statement->bind_param('ssss', $FirstName, $LastName, $UserName, $Password);
           if($statement->execute())
           {
             $success = true;
