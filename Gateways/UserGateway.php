@@ -116,7 +116,7 @@ class UserGateway
     {
         $con = $this->getConnection();
         $statement = mysqli_prepare($con, "UPDATE User SET FirstName =?, LastName =?, UserName =?, Password =?, isAdmin=? WHERE ID=?");
-        mysqli_stmt_bind_param($statement, 'ssssii', $FirstName, $LastName, $UserName, $LastName, $isAdmin, $ID);
+        mysqli_stmt_bind_param($statement, 'ssssii', $FirstName, $LastName, $UserName, $Password, $isAdmin, $ID);
 
         $ID = $object->ID;
         $FirstName = $object->FirstName;
