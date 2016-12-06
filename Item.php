@@ -10,15 +10,57 @@ li a:hover:not(.active) {background-color: #111;}
 .active {background-color: #4CAF50;}
 #sidebar{height: 95%;width: 15%;background-color: #d9d9d9;float: left;}
 #mainview{width: 85%; height: 95%; background-color: #e6e6e6;float: left;}
-#itemview{width: 75%; height:50%; padding: 1.5%;border-style: solid;margin: 1.5%;border-radius: 5px;}
-#itemtitle{width: 100%; text-align: center; font-size: 200%;}
-#itemimage{width: 40%; height:100%; background-color: white;float: left;}
-#itemdetail{width: 60%;height:100%; background-color: white;float: left;}
-#itemattributes{width: 100%;height:80%; background-color: white;float: left; text-align: center;}
+#itemview
+{
+  width: 75%;
+  height:50%;
+  padding-top: 1.5%;
+  padding-right: 1.5%;
+  padding-left: 1.5%;
+  border-left: solid;
+  border-right: solid;
+  border-top: solid;
+  margin-top: 1.5%;
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  border-radius: 5px;
+}
+#commentview
+{
+  width: 75%;
+  height:35%;
+  padding-bottom: 1.5%;
+  padding-right: 1.5%;
+  padding-left: 1.5%;
+  border-left: solid;
+  border-right: solid;
+  border-bottom: solid;
+  margin-bottom: 1.5%;
+  margin-left: 1.5%;
+  margin-right: 1.5%;
+  border-radius: 5px;
+  overflow-y: auto;
+}
+#itemimage{width: 40%; height:100%; float: left;}
+#itemdetail{width: 60%;height:100%; float: left;}
+#itemattributes{width: 100%;height:80%; float: left; text-align: center;}
 .cart{float: left;width:5%;height:7.5%;margin: 1.5%;}
 .cart:hover{cursor: pointer;}
 #livesearch{overflow: auto;}
 #livesearch a{text-decoration: none; color: black;text-align: center; float: left; margin-left: 33%;}
+#commenttable
+{
+  width: 50%;
+  margin-left: 50%;
+  height:100%;
+
+}
+#blanket
+{
+  width: 50%;
+  height:100%;
+  float: left;
+}
 </style>
 <body>
   <ul>
@@ -44,6 +86,10 @@ li a:hover:not(.active) {background-color: #111;}
         <div id="itemrating">Rating: N/A</div>
     </div>
   </div>
+  <div id="commentview">
+    <div id="blanket"></div>
+    <table id="commenttable"></table>
+  </div>
 </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -62,35 +108,9 @@ function onLoad()
   getUser();
   getWishlistID();
   getCartID();
+  getComments(<?php echo($_GET["ID"]);?>);
 }
 
-/*
- *This function is used to add the rating stars to the item
- * rating section
- */
-function addRatingStars(numberOfStars)
-{
-  var i = parseInt(numberOfStars, 10);
-  element = document.getElementById("itemrating");
-  element.innerHTML = "<b>Rating: </b>";
-  while(i>0)
-  {
-    oImg=document.createElement("img");
-    oImg.setAttribute('src', './images/ratings/fullstar.png');
-    oImg.setAttribute('height', '5%');
-    oImg.setAttribute('width', '3%');
-    element.appendChild(oImg);
-    i = i-1;
-  }
-  if(numberOfStars % 1 >= .5)
-  {
-    oImg=document.createElement("img");
-    oImg.setAttribute('src', './images/ratings/halfstar.png');
-    oImg.setAttribute('height', '5%');
-    oImg.setAttribute('width', '3%');
-    element.appendChild(oImg);
-  }
-}
 /*
  *This function is used to append the item attributes
  *in the item attributes table on the page
@@ -205,7 +225,7 @@ function getItemRating(ID)
 {
   $.getJSON('./CRUD/GETComment.php?ItemIDAvg='+ID, function(data)
   {
-    addRatingStars(data.Rating);
+    addRatingStars(data.Rating,"itemrating");
   });
 }
 
@@ -290,6 +310,85 @@ function getUser()
     var info = document.getElementById("UserInfo");
     info.innerHTML = "Hello, Welcome to the Ecommerce Site";
   }
+}
+
+function getComments(ItemID)
+{
+  $.getJSON("./CRUD/GETComment.php?JoinID="+ItemID,true, function(data)
+  {
+    var parent = document.getElementById("commenttable");
+    $.each(data,function(index,object)
+    {
+      //UserName
+      var tr = document.createElement('tr');
+      var th = document.createElement('th');
+      th.innerHTML = object.UserName;
+      tr.appendChild(th);
+      parent.appendChild(tr);
+      //Comment
+      var tr = document.createElement('tr');
+      var td = document.createElement('td');
+      td.innerHTML = "<b>"+"Comment:" +"</b>";
+      tr.appendChild(td)
+      var td = document.createElement('td');
+      td.innerHTML = object.Comment;
+      tr.appendChild(td);
+      parent.appendChild(tr);
+      //Rating
+      var tr = document.createElement('tr');
+      var td = document.createElement('td');
+      td.innerHTML = "<b>"+"Rating:" +"</b>";
+      tr.appendChild(td)
+      var td = document.createElement('td');
+      td.innerHTML = "<div id='Stars"+object.ID+"'</div>";
+      tr.appendChild(td);
+      parent.appendChild(tr);
+      //
+      var tr = document.createElement('tr');
+      var td = document.createElement('td');
+      td.innerHTML = "<br>";
+      tr.appendChild(td);
+      parent.appendChild(tr);
+      addRatingStars(object.Rating,"Stars"+object.ID);
+    });
+  });
+}
+/*
+ *This function is used to add the rating stars to the item
+ * rating section
+ */
+function addRatingStars(numberOfStars,elementID)
+{
+  var i = parseInt(numberOfStars, 10);
+  element = document.getElementById(elementID);
+  if(element == undefined)
+  {
+    return;
+  }
+  var height = '15%';
+  if(elementID == "itemrating")
+  {
+    element.innerHTML = "<b>Rating: </b>";
+    height = '5%';
+  }
+  while(i>0)
+  {
+    oImg=document.createElement("img");
+    oImg.setAttribute('src', './images/ratings/fullstar.png');
+    oImg.setAttribute('height', height);
+    oImg.setAttribute('width', '3%');
+    element.appendChild(oImg);
+    i = i-1;
+  }
+  if(numberOfStars % 1 >= .5)
+  {
+    oImg=document.createElement("img");
+    oImg.setAttribute('src', './images/ratings/halfstar.png');
+    oImg.setAttribute('height', height);
+    oImg.setAttribute('width', '3%');
+    element.appendChild(oImg);
+  }
+  return element;
 }
 </script>
 </html>

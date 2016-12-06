@@ -24,25 +24,15 @@ if(!empty($_GET["ItemIDAvg"]))
 	$avgRating->Rating = $avgRating->Rating/$count;
 	echo(json_encode($avgRating));
 }
-elseif(!empty($_GET["q"]))
+else if(!empty($_GET["ItemID"]))
 {
-	$q=$_GET["q"];
-	$array = $gateway->tableDataQuery();
-	if (strlen($q)>0)
-	{
-	  for($i=0;$i<sizeof($array); $i++)
-	  {
-	    if (stristr($array[$i]->Name,$q))
-	    {
-	      $response[] = $array[$i];
-	    }
-	  }
-	}
-	else
-	{
-	  $response->Name = "no suggestion";
-	}
-	echo json_encode($response);
+	$data = $gateway->rowDataQueryByItemID($_GET["ItemID"]);
+	echo(json_encode($data));
+}
+else if(!empty($_GET["JoinID"]))
+{
+	$data = $gateway->rowDataQueryByJoinID($_GET["JoinID"]);
+	echo(json_encode($data));
 }
 else
 {

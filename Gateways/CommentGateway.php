@@ -68,6 +68,28 @@ class CommentGateway
       }
     }
 
+    public function rowDataQueryByJoinID($id)
+    {
+      $con = $this->getConnection();
+      $query = "SELECT A.UserName AS UserName,".
+                " B.Comment AS Comment, B.Rating AS Rating,".
+                " B.ID AS ID FROM webprog25.User AS A , ".
+                "webprog25.Comment AS B WHERE A.ID = B.UserID".
+                " AND B.ItemID = ".$id;
+      if ($result = $con->query($query))
+      {
+        while($object = mysqli_fetch_object($result))
+        {
+          $array[] = $object;
+        }
+        return $array;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
     /**
      * Returns entire table in one object
      *

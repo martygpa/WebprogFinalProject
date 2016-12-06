@@ -22,6 +22,7 @@ table {display: block;color: black;text-align: center;}
 .item{float: left; text-align: center; width:25%; height:30%;border-style: solid;margin: 1.5%;border-radius: 5px;}
 .item p{float: left;text-align: center; margin-left: 2%;}
 .itemimg{width:100%; height: 80%;border-bottom: 1px solid black;}
+.itemimg:hover{cursor: pointer;}
 .cart{float: right; width:10%;height:10%;margin-top: 3%; margin-right: 2.5%;}
 .cart:hover{cursor: pointer;}
 #livesearch{overflow: auto;}
@@ -64,13 +65,14 @@ function getItems()
 {
   $.getJSON('./CRUD/GETItem.php', function(data)
   {
-
     $.each(data,function(index, object){
       //Create containing div
       var div=document.createElement("div");
       div.setAttribute("id",object.ID);
       div.setAttribute("class","item");
       //create image in div
+      var link = document.createElement("a");
+      link.setAttribute("href","./Item.php?ID="+object.ID);
       var img=document.createElement("img");
       img.setAttribute("src",object.ImageLocation);
       img.setAttribute("class","itemimg");
@@ -78,7 +80,8 @@ function getItems()
       var p=document.createElement("p");
       p.append("$"+object.Price+"\t"+object.Name);
       //append stuff
-      div.append(img);
+      link.append(img);
+      div.append(link);
       div.append(p);
       div.append(createCartImage(object.ID));
       div.append(createWishlistImage(object.ID));
