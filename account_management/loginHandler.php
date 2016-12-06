@@ -22,7 +22,7 @@ if(isset($_POST['loginSubmit']) && isset($_POST['userName']) && isset($_POST['pa
     {
         $_SESSION['ID'] = $returnSuccess;
         ini_set('session.gc_maxlifetime', 60 * 30);
-        header("Location: http://webprog.cs.ship.edu/webprog25/Home.html");
+        header("Location: http://webprog.cs.ship.edu/webprog25/Home.php");
         exit;
     }
     else
