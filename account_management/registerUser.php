@@ -20,7 +20,7 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
     $password = mysqli_real_escape_string($connection, $_POST['password']);
     $securePassword = saltAndHash($password);
 
-    $newUser = new UserObject($firstName, $lastName, $userName, $securePassword);
+    $newUser = new UserObject($firstName, $lastName, $userName, $securePassword, 0);
     $gateway->insertRow($newUser);
     $returnSuccess = $gateway->queryForLogin($userName, $securePassword);
 

@@ -90,8 +90,9 @@ class ItemGateway
         $Price = $object->Price;
         $Manufacturer = $object->Manufacturer;
         $Quantity = $object->Quantity;
+        $ImageLocation = $object->ImageLocation;
 
-        $query = "INSERT INTO Item (Description, UPC, Price, Manufacturer, Quantity) VALUES ('$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity');";
+        $query = "INSERT INTO Item (Description, UPC, Price, Manufacturer, Quantity, ImageLocation) VALUES ('$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity', '$ImageLocation');";
 
         if($result = $con->query($query))
         {
@@ -113,13 +114,15 @@ class ItemGateway
     public function updateRow($object)
     {
         $con = $this->getConnection();
+        $ID = $object->ID;
         $Description = $object->Description;
         $UPC = $object->UPC;
         $Price = $object->Price;
         $Manufacturer = $object->Manufacturer;
         $Quantity = $object->Quantity;
+        $ImageLocation = $object->ImageLocation;
 
-        $query = "UPDATE Item SET Description = '$Description', UPC = '$UPC', Price = '$Price', Manufacturer = '$Manufacturer', Quantity = '$Quantity';";
+        $query = "UPDATE Item SET Description = '$Description', UPC = '$UPC', Price = '$Price', Manufacturer = '$Manufacturer', Quantity = '$Quantity', ImageLocation = '$ImageLocation' WHERE ID='$ID';";
 
         if($result = $con->query($query))
         {
