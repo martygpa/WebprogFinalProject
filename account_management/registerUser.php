@@ -17,11 +17,12 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
     $lastName =  htmlspecialchars($_POST['lastName']);
     $userName = htmlspecialchars($_POST['userName']);
     $password = htmlspecialchars($_POST['password']);
+    $securePassword = hash($password);
 
-    $newUser = new UserObject($firstName, $lastName, $userName, $password);
-
+    $newUser = new UserObject($firstName, $lastName, $userName, $securePassword);
     $gateway->insertRow($newUser);
-    $returnSuccess = $gateway->queryForLogin($userName, $password);
+    $returnSuccess = $gateway->queryForLogin($userName, $securePassword);
+
     if($returnSuccess>0)
     {
       $_SESSION['ID'] = $returnSuccess;
@@ -37,8 +38,17 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
   }
   else
   {
-
     header("Location: http://webprog.cs.ship.edu/webprog25/account_management/registerAccount.html");
     exit;
+  }
+
+  /*
+  * Salts and hashes password for storage in the database
+  *
+  */
+  function hash($password)
+  {
+    $newPassword = password_hash($password, PASSWORD_BCRYPT);
+    return $newPassword;
   }
 ?>
