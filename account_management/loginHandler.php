@@ -15,8 +15,9 @@ if(isset($_POST['loginSubmit']) && isset($_POST['userName']) && isset($_POST['pa
 {
     $userName = htmlspecialchars($_POST['userName']);
     $password = htmlspecialchars($_POST['password']);
+    $token = saltAndHash($password);
 
-    $returnSuccess = $conn->queryForLogin($userName, $password);
+    $returnSuccess = $conn->queryForLogin($userName, $token);
     if($returnSuccess>0)
     {
         $_SESSION['ID'] = $returnSuccess;
@@ -36,4 +37,15 @@ else
   exit;
 }
 
+/*
+* Salts and hashes password for storage in the database
+*/
+function saltAndHash($password)
+{
+  $salt1 = "3r541/f";
+  $salt2 = "io.,;/[/[,;]]";
+
+  $newPassword = hash('sha384', "$salt1$password$salt2");
+  return $newPassword;
+}
 ?>

@@ -17,7 +17,7 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
     $lastName =  htmlspecialchars($_POST['lastName']);
     $userName = htmlspecialchars($_POST['userName']);
     $password = htmlspecialchars($_POST['password']);
-    $securePassword = hash($password);
+    $securePassword = saltAndHash($password);
 
     $newUser = new UserObject($firstName, $lastName, $userName, $securePassword);
     $gateway->insertRow($newUser);
@@ -44,11 +44,13 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
 
   /*
   * Salts and hashes password for storage in the database
-  *
   */
-  function hash($password)
+  function saltAndHash($password)
   {
-    $newPassword = password_hash($password, PASSWORD_BCRYPT);
+    $salt1 = "3r541/f";
+    $salt2 = "io.,;/[/[,;]]";
+
+    $newPassword = hash('sha384', "$salt1$password$salt2");
     return $newPassword;
   }
 ?>
