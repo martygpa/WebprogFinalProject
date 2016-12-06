@@ -57,7 +57,7 @@ function displayItems()
         echo '<td>'.$items[$i]->Manufacturer.'</td>';
         echo '<td>'.$items[$i]->Quantity.'</td>';
         echo '<td>'.$items[$i]->ImageLocation.'</td>';
-        echo '<td><form action="deleteItem.php" method="post"><input type="hidden" name="itemID" value="'.$items[$i]->ID.'">"<input type="submit" value="Delete"></form></td>';
+        echo '<td><form action="deleteItem.php" method="post"><input type="hidden" name="itemID" value="'.$items[$i]->ID.'"><input type="submit" value="Delete"></form></td>';
         echo '<td><form action="editItem.php" method="post"><input type="hidden" name="itemID" value="' .$items[$i]->ID.'"><input type="submit" value="Edit"></form></td>';
         $i++;
     }
