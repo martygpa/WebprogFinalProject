@@ -10,13 +10,14 @@ require_once('../Gateways/UserGateway.php');
 require_once('../Models/UserObject.php');
 
 $gateway = new UserGateway();
+$connection = $gateway->getConnection();
 
 if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['userName']) && isset($_POST['password']))
 {
-    $firstName = htmlspecialchars($_POST['firstName']);
-    $lastName =  htmlspecialchars($_POST['lastName']);
-    $userName = htmlspecialchars($_POST['userName']);
-    $password = htmlspecialchars($_POST['password']);
+    $firstName = mysqli_real_escape_string($connection, $_POST['firstName']);
+    $lastName =  mysqli_real_escape_string($connection, $_POST['lastName']);
+    $userName = mysqli_real_escape_string($connection, $_POST['userName']);
+    $password = mysqli_real_escape_string($connection, $_POST['password']);
     $securePassword = saltAndHash($password);
 
     $newUser = new UserObject($firstName, $lastName, $userName, $securePassword);
