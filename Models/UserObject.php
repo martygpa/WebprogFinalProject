@@ -15,13 +15,16 @@ class UserObject
   public $lastName;
   public $userName;
   public $password;
+  public $isAdmin;
 
-  function UserObject($firstName, $lastName, $userName, $password)
+
+  function UserObject($firstName, $lastName, $userName, $password, $isAdmin)
   {
     $this->firstName = $firstName;
     $this->lastName = $lastName;
     $this->userName = $userName;
     $this->password = $password;
+    $this->isAdmin = $isAdmin;
   }
 }
 ?>

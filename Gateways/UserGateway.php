@@ -85,13 +85,15 @@ class UserGateway
     {
         $con = $this->getConnection();
 
-        if($statement = $con->prepare("INSERT INTO User (FirstName, LastName, UserName, Password) VALUES (?, ?, ?, ?)"))
+        if($statement = $con->prepare("INSERT INTO User (FirstName, LastName, UserName, Password, isAdmin) VALUES (?, ?, ?, ?, ?)"))
         {
           $FirstName = $UserObject->firstName;
           $LastName = $UserObject->lastName;
           $UserName = $UserObject->userName;
           $Password = $UserObject->password;
-          $statement->bind_param('ssss', $FirstName, $LastName, $UserName, $Password);
+          $isAdmin = $UserObject->isAdmin;
+
+          $statement->bind_param('ssssi', $FirstName, $LastName, $UserName, $Password, $isAdmin);
           if($statement->execute())
           {
             $success = true;
@@ -113,14 +115,15 @@ class UserGateway
     public function updateRow($object)
     {
         $con = $this->getConnection();
-        $statement = mysqli_prepare($con, "UPDATE User SET FirstName =?, LastName =?, UserName =?, Password =? WHERE ID=?");
-        mysqli_stmt_bind_param($statement, 'ssssi', $FirstName, $LastName, $UserName, $LastName, $ID);
+        $statement = mysqli_prepare($con, "UPDATE User SET FirstName =?, LastName =?, UserName =?, Password =?, isAdmin=? WHERE ID=?");
+        mysqli_stmt_bind_param($statement, 'ssssii', $FirstName, $LastName, $UserName, $Password, $isAdmin, $ID);
 
         $ID = $object->ID;
         $FirstName = $object->FirstName;
         $LastName = $object->LastName;
         $UserName = $object->UserName;
         $Password = $object->Password;
+        $isAdmin = $object->isAdmin;
         mysqli_stmt_execute($statement);
     }
 
