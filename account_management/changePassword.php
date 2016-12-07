@@ -13,20 +13,37 @@
         $id = $_SESSION['ID'];
         $user = $gateway->rowDataQueryByID($id);
 
-        //Compare current PW to DB
-        $old = $_POST["old"];
-        $old = saltAndHash($old);
-        if (!strcmp($old, $user[0]->Password))
+        if (isset($_POST["submit"]))
         {
-            //Update PW
-            $new = $_POST["new"];
-            $new = saltAndHash($new);
-            $user[0]->Password = $new;
-            $gateway->updateRow($user[0]);
-            successMsg();
+            unset($_POST["submit"]);
+            //Compare current PW to DB
+            $old = $_POST["old"];
+            $old = saltAndHash($old);
+            if (!strcmp($old, $user[0]->Password)) {
+                //Update PW
+                $new = $_POST["new"];
+                $new = saltAndHash($new);
+                $user[0]->Password = $new;
+                $gateway->updateRow($user[0]);
+                successMsg();
+            } else
+            {
+                failureMsg();
+            }
         } else
         {
-            failureMsg();
+            echo    '<form action="changePassword.php" method="post" onsubmit="changePassword.php">
+                    Old Password:
+                    <br>
+                    <input type="password" name="old" id="old" value="" required="required">
+                    <br>
+                    New Password:
+                    <br>
+                    <input type="password" name="new" id="new" value ="" required="required">
+                    <br>
+                    <br>
+                    <input type="submit" value="Submit" name="submit">
+                    </form>';
         }
     } else
     {
@@ -54,6 +71,6 @@
     //Message for failed password change
     function failureMsg()
     {
-        echo 'Password was incorrect! <a href="http://webprog.cs.ship.edu/webprog25/account_management/changePassword.html">Try Again</a>';
+        echo 'Password was incorrect! <a href="http://webprog.cs.ship.edu/webprog25/account_management/changePassword.php">Try Again</a>';
     }
 ?>
