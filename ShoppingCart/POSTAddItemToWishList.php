@@ -7,11 +7,9 @@
  require_once("../Gateways/WishListToItemGateway.php");
   $userID = $_POST['UserID'];
   $itemID = $_POST['ItemID'];
-  echo $userID;
-  echo $itemID;
   $wishListGateway = new WishListGateway();
   $wishListResult = $wishListGateway->rowDataQueryByUserID($userID);
-  $wishListID = $wishListResult[0]->ID;
+  $wishListID = $wishListResult;
   $wishToItemGateway = new WishListToItemGateway();
   $entry = new stdClass();
   $entry->WishListID = $wishListID;

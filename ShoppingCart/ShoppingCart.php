@@ -14,8 +14,7 @@
   $gateway = new CartGateway();
   if(!is_null($gateway))
   {
-    $result = $gateway->rowDataQueryByUserID($userID);
-    $cartID = (int)$result->ID;
+    $cartID = $gateway->rowDataQueryByUserID($userID);
     $relatedGateway = new CartToItemGateway();
     $itemIDs = $relatedGateway->rowDataQueryByID($cartID);
     $items = array();
@@ -59,11 +58,11 @@ table {display: block;color: black;text-align: center;}
 </style>
 <body>
   <ul>
-    <li> <a class="active" href="/Home.html">Home</a></li>
+    <li> <a href="/Home.html">Home</a></li>
     <li> <a href="../account_management/Login.html">Login</a></li>
     <li> <a href="/account_management/myAccount.html">My Account</a> </li>
     <li> <a href="/account_management/registerAccount.html">Create New Account</a></li>
-    <li> <a href="/shopping/shoppingCart.html">Shopping Cart</a></li>
+    <li> <a class="active" href="/shopping/shoppingCart.html">Shopping Cart</a></li>
     <li> <a href="/shopping/wishList.html">Wish List</a></li>
     <li> <a href="/shopping/orderHistory.html">Order History</a></li>
     <li> <a href="/shopping/checkOut.html">Check Out</a></li>
@@ -92,7 +91,7 @@ table {display: block;color: black;text-align: center;}
     div.setAttribute("class","item");
     //create image in div
     var img=document.createElement("img");
-    img.setAttribute("src",object.ImageLocation);
+    img.setAttribute("src",'.'+object.ImageLocation);
     img.setAttribute("class","itemimg");
     //add cost
     var p=document.createElement("p");
@@ -117,7 +116,7 @@ function createRemoveButton(id)
 function createWishlistImage(id)
 {
   var img=document.createElement("img");
-  img.setAttribute("src","./images/wishlist.png");
+  img.setAttribute("src","../images/wishlist.png");
   img.setAttribute("class","cart");
   img.setAttribute("onclick","addItemToWishList("+id+")");
   return img;

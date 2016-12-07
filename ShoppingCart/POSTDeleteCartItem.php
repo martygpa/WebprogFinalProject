@@ -8,5 +8,4 @@
   $itemID = $_POST['ItemID'];
    $cartToItem = new CartToItemGateway();
   $cartToItem->deleteRow($cartID, $itemID);
-  echo "tada";
  ?>
