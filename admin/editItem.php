@@ -13,13 +13,13 @@ require_once("../Gateways/UserGateway.php");
 session_start();
 
 //Check if user is Logged In
-//if (isset($_SESSION['ID']))
-//{
-//    //check if user is admin
-//    $userGateway = new UserGateway();
-//    $user = $userGateway->rowDataQueryByID($_SESSION['ID']);
-//    if ($user->isAdmin)
-//    {
+if (isset($_SESSION['ID']))
+{
+    //check if user is admin
+    $userGateway = new UserGateway();
+    $user = $userGateway->rowDataQueryByID($_SESSION['ID']);
+    if ($user->isAdmin)
+    {
         //Check if information was updated
         if (isset($_POST['update']))
         {
@@ -28,14 +28,14 @@ session_start();
         //Shows current item information in editable forms
         displayItemForm();
 
-//    } else
-//    {
-//        echo "Insufficient Privilege";
-//    }
-//} else
-//{
-//    echo '<p>Not Logged In</p><a href="http://webprog.cs.ship.edu/webprog25/account_management/Login.html">Login?</a>';
-//}
+    } else
+    {
+        echo "Insufficient Privilege";
+    }
+} else
+{
+    echo '<p>Not Logged In</p><a href="http://webprog.cs.ship.edu/webprog25/account_management/Login.html">Login?</a>';
+}
 
 //Shows current item information in editable forms
 function displayItemForm()
