@@ -91,7 +91,7 @@ table {display: block;color: black;text-align: center;}
     div.setAttribute("class","item");
     //create image in div
     var img=document.createElement("img");
-    img.setAttribute("src",object.ImageLocation);
+    img.setAttribute("src",'.'+object.ImageLocation);
     img.setAttribute("class","itemimg");
     //add cost
     var p=document.createElement("p");
