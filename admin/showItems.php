@@ -1,3 +1,4 @@
+<form action="addItem.php"><input type="submit" value="Add Item"></form>
 <?php
 /**
  * Created by PhpStorm.
@@ -22,8 +23,8 @@ if (isset($_SESSION['ID']))
 {
     //check if user is admin
     $userGateway = new UserGateway();
-    $user = $userGateway->rowDataQueryByID($_SESSION['ID']);
-    if ($user->isAdmin)
+    $user = $userGateway->rowDataQueryByID($_SESSION['ID'])[0];
+    if ($user->IsAdmin)
     {
         displayItems();
     } else
@@ -62,8 +63,6 @@ function displayItems()
         $i++;
     }
     echo "</table>";
-    echo "<input type=\"submit\" value=\"Delete Selected Entries\">";
-    echo "</form>";
 
 }
 ?>
