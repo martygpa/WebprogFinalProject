@@ -153,6 +153,12 @@ class ItemGateway
           return $itemInCart;
     }
 
+    public function deleteRow($id)
+    {
+        $con = $this->getConnection();
+        return $con->query("DELETE FROM Item WHERE ID = '$id';");
+    }
+
 
 
 }
