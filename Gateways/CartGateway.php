@@ -63,7 +63,7 @@ class CartGateway
       $query = "SELECT * FROM webprog25.Cart WHERE UserID = ".$id.";";
       if($result = $con->query($query))
       {
-        while($object = mysqli_fetch_object($result))
+        while($object = mysqli_fetch_object($result)->ID)
         {
           $array = $object;
         }

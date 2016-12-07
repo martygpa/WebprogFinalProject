@@ -14,8 +14,7 @@
   $gateway = new CartGateway();
   if(!is_null($gateway))
   {
-    $result = $gateway->rowDataQueryByUserID($userID);
-    $cartID = (int)$result->ID;
+    $cartID = $gateway->rowDataQueryByUserID($userID);
     $relatedGateway = new CartToItemGateway();
     $itemIDs = $relatedGateway->rowDataQueryByID($cartID);
     $items = array();
@@ -59,11 +58,11 @@ table {display: block;color: black;text-align: center;}
 </style>
 <body>
   <ul>
-    <li> <a class="active" href="/Home.html">Home</a></li>
+    <li> <a href="/Home.html">Home</a></li>
     <li> <a href="../account_management/Login.html">Login</a></li>
     <li> <a href="/account_management/myAccount.html">My Account</a> </li>
     <li> <a href="/account_management/registerAccount.html">Create New Account</a></li>
-    <li> <a href="/shopping/shoppingCart.html">Shopping Cart</a></li>
+    <li> <a class="active" href="/shopping/shoppingCart.html">Shopping Cart</a></li>
     <li> <a href="/shopping/wishList.html">Wish List</a></li>
     <li> <a href="/shopping/orderHistory.html">Order History</a></li>
     <li> <a href="/shopping/checkOut.html">Check Out</a></li>

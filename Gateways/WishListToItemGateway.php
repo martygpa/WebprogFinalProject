@@ -35,24 +35,21 @@ class WishListToItemGateway
      */
     public function rowDataQueryByID($id)
     {
-        if(is_int($id))
-        {
-            $con = $this->getConnection();
-            $query = "SELECT * FROM WishListToItem WHERE WishListID = '$id';";
-            $entries = array();
-            if ($result = $con->query($query))
-            {
-                while($row = $result->fetch_object()->ItemID)
-                {
-                  array_push($entries, $row);
-                }
-                return $entries;
-            }
-            else
-            {
-                return false;
-            }
-        }
+          $con = $this->getConnection();
+          $query = "SELECT * FROM WishListToItem WHERE WishListID = $id;";
+          $entries = array();
+          if ($result = $con->query($query))
+          {
+              while($row = $result->fetch_object()->ItemID)
+              {
+                array_push($entries, $row);
+              }
+              return $entries;
+          }
+          else
+          {
+            return false;
+          }
     }
 
     /**
@@ -114,6 +111,28 @@ class WishListToItemGateway
         $WishListID = $object->WishListID;
 
         $query = "UPDATE WishListToItem SET ItemID = '$ItemID', WishListID = '$WishListID' WHERE ID = '$ID';";
+        if($result = $con->query($query))
+        {
+            $success = true;
+        }
+        else
+        {
+            $success = false;
+        }
+        return $success;
+    }
+
+    /**
+     * Deletes a single row based on cart id and item id
+     *
+     * @param $object
+     * @return bool
+     */
+    public function deleteRow($WishListID, $ItemID)
+    {
+
+        $con = $this->getConnection();
+        $query = "DELETE FROM WishListToItem WHERE ItemID = '$ItemID' AND WishListID = '$WishListID';";
         if($result = $con->query($query))
         {
             $success = true;

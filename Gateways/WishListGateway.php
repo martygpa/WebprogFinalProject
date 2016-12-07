@@ -58,20 +58,20 @@ class WishListGateway
      */
     public function rowDataQueryByUserID($id)
     {
-            $con = $this->getConnection();
-            $query = "SELECT * FROM webprog25.WishList WHERE UserID = ".$id.";";
-            if ($result = $con->query($query))
-            {
-              while($object = mysqli_fetch_object($result))
-              {
-                $array[] = $object;
-              }
-              return $array;
-            }
-            else
-            {
-                return false;
-            }
+      $con = $this->getConnection();
+      $query = "SELECT * FROM webprog25.Cart WHERE UserID = ".$id.";";
+      if($result = $con->query($query))
+      {
+        while($object = mysqli_fetch_object($result)->ID)
+        {
+          $array = $object;
+        }
+        return $array;
+      }
+      else
+      {
+          return false;
+      }
     }
 
     /**

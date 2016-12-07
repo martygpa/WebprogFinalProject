@@ -35,8 +35,6 @@ class CartToItemGateway
      */
     public function rowDataQueryByID($id)
     {
-      if(is_int($id))
-      {
           $con = $this->getConnection();
           $query = "SELECT * FROM CartToItem WHERE CartID = '$id';";
           $entries = array();
@@ -52,7 +50,7 @@ class CartToItemGateway
           {
               return false;
           }
-      }
+
     }
 
     /**
