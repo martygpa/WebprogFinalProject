@@ -1,4 +1,3 @@
-<form action="addItem.php"><input type="submit" value="Add Item"></form>
 <?php
 /**
  * Created by PhpStorm.
@@ -43,6 +42,7 @@ function displayItems()
     $items = $itemGateway->tableDataQuery();
     if (!$items) die("Query Error");
 
+    echo '<form action="addItem.php"><input type="submit" value="Add Item"></form>';
     echo "Items:<br>";
     echo "<table border=\"1\" cellpadding=\"10\"><tr><th>ID</th><th>Name</th><th>Description</th><th>UPC</th><th>Price</th><th>Manufacturer</th><th>Quantity</th><th>ImageLocation</th><th>Delete</th><th>Edit</th></tr>\n";
     $i = 0;

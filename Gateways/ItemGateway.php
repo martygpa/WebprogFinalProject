@@ -154,6 +154,10 @@ class ItemGateway
           return $itemInCart;
     }
 
+    /*
+     * Delete an item from the table
+     * Author: Ian
+     */
     public function deleteRow($id)
     {
         $con = $this->getConnection();
