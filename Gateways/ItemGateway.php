@@ -116,6 +116,7 @@ class ItemGateway
     {
         $con = $this->getConnection();
         $ID = $object->ID;
+        $Name = $object->Name;
         $Description = $object->Description;
         $UPC = $object->UPC;
         $Price = $object->Price;
@@ -123,7 +124,7 @@ class ItemGateway
         $Quantity = $object->Quantity;
         $ImageLocation = $object->ImageLocation;
 
-        $query = "UPDATE Item SET Description = '$Description', UPC = '$UPC', Price = '$Price', Manufacturer = '$Manufacturer', Quantity = '$Quantity', ImageLocation = '$ImageLocation' WHERE ID='$ID';";
+        $query = "UPDATE Item SET Name = '$Name', Description = '$Description', UPC = '$UPC', Price = '$Price', Manufacturer = '$Manufacturer', Quantity = '$Quantity', ImageLocation = '$ImageLocation' WHERE ID='$ID';";
 
         if($result = $con->query($query))
         {
