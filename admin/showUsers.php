@@ -5,7 +5,6 @@
  * CSC 434
  *
  */
-
 require_once("../Gateways/UserGateway.php");
 
 //Resume Session
@@ -19,7 +18,7 @@ if (isset($_SESSION['ID']))
     $user = $userGateway->rowDataQueryByID($_SESSION['ID'])[0];
     if ($user->IsAdmin)
     {
-        displayItems();
+        displayUsers();
     } else
     {
         echo "Insufficient Privilege";
@@ -36,7 +35,7 @@ function displayUsers()
     $users = $userGateway->tableDataQuery();
     if (!$users) die("Query Error");
 
-    echo "Items:<br>";
+    echo "Users:<br>";
     echo "<table border=\"1\" cellpadding=\"10\"><tr><th>ID</th><th>FirstName</th><th>LastName</th><th>Username</th><th>Admin</th><th>Delete</th><th>Edit</th></tr>\n";
     $i = 0;
     while ($users[$i] != NULL)
@@ -48,8 +47,8 @@ function displayUsers()
         echo '<td>'.$users[$i]->LastName.'</td>';
         echo '<td>'.$users[$i]->UserName.'</td>';
         echo '<td>'.$users[$i]->IsAdmin.'</td>';
-        echo '<td><form action="deleteUser.php" method="post"><input type="hidden" name="itemID" value="'.$users[$i]->ID.'"><input type="submit" value="Delete"></form></td>';
-        echo '<td><form action="editUser.php" method="post"><input type="hidden" name="itemID" value="' .$users[$i]->ID.'"><input type="submit" value="Edit"></form></td>';
+        echo '<td><form action="deleteUser.php" method="post"><input type="hidden" name="userID" value="'.$users[$i]->ID.'"><input type="submit" value="Delete"></form></td>';
+        echo '<td><form action="editUser.php" method="post"><input type="hidden" name="userID" value="' .$users[$i]->ID.'"><input type="submit" value="Edit"></form></td>';
         $i++;
     }
     echo "</table>";

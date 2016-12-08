@@ -114,17 +114,17 @@ class UserGateway
      */
     public function updateRow($object)
     {
-        $con = $this->getConnection();
-        $statement = mysqli_prepare($con, "UPDATE User SET FirstName =?, LastName =?, UserName =?, Password =?, isAdmin=? WHERE ID=?");
-        mysqli_stmt_bind_param($statement, 'ssssii', $FirstName, $LastName, $UserName, $Password, $isAdmin, $ID);
-
         $ID = $object->ID;
         $FirstName = $object->FirstName;
         $LastName = $object->LastName;
         $UserName = $object->UserName;
         $Password = $object->Password;
-        $isAdmin = $object->isAdmin;
-        mysqli_stmt_execute($statement);
+        $IsAdmin = $object->IsAdmin;
+
+        $con = $this->getConnection();
+        $statement = mysqli_prepare($con, "UPDATE User SET FirstName =?, LastName =?, UserName =?, Password =?, isAdmin=? WHERE ID=?");
+        mysqli_stmt_bind_param($statement, 'ssssii', $FirstName, $LastName, $UserName, $Password, $IsAdmin, $ID);
+        return mysqli_stmt_execute($statement);
     }
 
     /**
@@ -163,6 +163,6 @@ class UserGateway
     public function deleteRow($id)
     {
         $con = $this->getConnection();
-        return $con->query("DELETE FROM Item WHERE ID = '$id';");
+        return $con->query("DELETE FROM User WHERE ID = '$id';");
     }
 }

@@ -37,7 +37,7 @@ if (isset($_SESSION['ID']))
 function deleteUser()
 {
     $userGateway = new UserGateway();
-    $id = $_POST['itemID'];
+    $id = $_POST['userID'];
 
     if (!$userGateway->deleteRow($id))
     {

@@ -45,7 +45,7 @@ function displayUserForm()
 
     if ($editUser != null)
     {
-        echo '<form action="editItem.php" method="post">';
+        echo '<form action="editUser.php" method="post">';
         echo 'User ID:' . $editUser->ID . '<br>';
         echo '<input name="userID" type="hidden" value="' . $editUser->ID . '">';
         echo 'First Name: <input name="FirstName" type="text" value="' . $editUser->FirstName . '"><br> ';
@@ -79,7 +79,7 @@ function updateUser()
 
     if (!$updateUserGateway->updateRow($updateUser))
     {
-        echo "<p>Error updating item!</p>";
+        echo "<p>Error updating user!</p>";
     } else
     {
         header("Location: http://webprog.cs.ship.edu/webprog25/admin/showUsers.php");
