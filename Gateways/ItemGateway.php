@@ -85,6 +85,7 @@ class ItemGateway
     public function insertRow($object)
     {
         $con = $this->getConnection();
+        $Name = $object->Name;
         $Description = $object->Description;
         $UPC = $object->UPC;
         $Price = $object->Price;
@@ -92,7 +93,7 @@ class ItemGateway
         $Quantity = $object->Quantity;
         $ImageLocation = $object->ImageLocation;
 
-        $query = "INSERT INTO Item (Description, UPC, Price, Manufacturer, Quantity, ImageLocation) VALUES ('$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity', '$ImageLocation');";
+        $query = "INSERT INTO Item (Name, Description, UPC, Price, Manufacturer, Quantity, ImageLocation) VALUES ('$Name', '$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity', '$ImageLocation');";
 
         if($result = $con->query($query))
         {
@@ -151,6 +152,16 @@ class ItemGateway
 
           }
           return $itemInCart;
+    }
+
+    /*
+     * Delete an item from the table
+     * Author: Ian
+     */
+    public function deleteRow($id)
+    {
+        $con = $this->getConnection();
+        return $con->query("DELETE FROM Item WHERE ID = '$id';");
     }
 
 
