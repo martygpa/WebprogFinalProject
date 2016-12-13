@@ -130,7 +130,6 @@ class WishListToItemGateway
      */
     public function deleteRow($WishListID, $ItemID)
     {
-
         $con = $this->getConnection();
         $query = "DELETE FROM WishListToItem WHERE ItemID = '$ItemID' AND WishListID = '$WishListID';";
         if($result = $con->query($query))

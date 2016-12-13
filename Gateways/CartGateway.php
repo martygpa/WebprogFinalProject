@@ -1,7 +1,7 @@
 <?php
 /**
  * Cart Gateway
- * Author: Alec Waddelow
+ * Author: Alec Waddelow & Ronald Sease
  * Date: 11/22/2016
  * Time: 14:20
  */

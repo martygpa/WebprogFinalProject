@@ -131,11 +131,29 @@ class CartToItemGateway
      */
     public function deleteRow($CartID, $ItemID)
     {
-      echo $CartID."   ".$ItemID;
-
         $con = $this->getConnection();
-        echo $CartID."   ".$ItemID;
         $query = "DELETE FROM CartToItem WHERE ItemID = '$ItemID' AND CartID = '$CartID';";
+        if($result = $con->query($query))
+        {
+            $success = true;
+        }
+        else
+        {
+            $success = false;
+        }
+        return $success;
+    }
+
+    /**
+     * Deletes a single row based on cart id
+     *
+     * @param $object
+     * @return bool
+     */
+    public function deleteRowByCartID($CartID)
+    {
+        $con = $this->getConnection();
+        $query = "DELETE FROM CartToItem WHERE CartID = '$CartID';";
         if($result = $con->query($query))
         {
             $success = true;

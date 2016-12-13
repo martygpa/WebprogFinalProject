@@ -104,8 +104,8 @@ table {display: block;color: black;text-align: center;}
             <input type="text" style="width: 50px;" class="form-control" id="zipcode">
             <label for="creditcard">Credit Card Number:</label>
             <input type="text" style="width: 200px;" class="form-control" id="creditcard">
-            <label for="cvv">CVV:</label>
-            <input type="text" style="width: 70px;" class="form-control" id="cvv">
+            <label for="csc">CSC:</label>
+            <input type="text" style="width: 70px;" class="form-control" id="csc">
           </div>
           <div class="form-group">
 
@@ -132,7 +132,6 @@ table {display: block;color: black;text-align: center;}
     var self =this;
   var itemsInCart = <?php echo json_encode( $items)?>;
   var totalCost = 0.0;
-  console.log(itemsInCart);
   $.each(itemsInCart,function(index, object){
     //Create containing div
     var div=document.createElement("div");
@@ -173,6 +172,9 @@ function createWishlistImage(id)
   return img;
 }
 
+/*
+* Removes an item from the cart
+*/
 function removeItemFromCart(id)
 {
   var cartID = <?php echo $cartID?>;
@@ -186,6 +188,9 @@ function removeItemFromCart(id)
   $(divToHide).hide();
 }
 
+/*
+* Adds an item to the wishlist
+*/
 function addItemToWishList(id)
 {
   var UserID = <?php echo $userID?>;
@@ -199,26 +204,82 @@ function addItemToWishList(id)
   })
 }
 
+/*
+* Gets the total cost of the order to display in the checkout modal
+*/
 function getCostIntoModal()
 {
   var cost = $('#cost').val();
-  debugger;
   $('#modalcost').val(cost);
 }
 
+/*
+* Submits an order
+*/
 function submitOrder()
 {
-  alert("order submitted");
+  if($('#firstName').val() == "")
+  {
+    alert("first name not entered");
+    return;
+  }
+  if($('#lastName').val() == "")
+  {
+    alert("last name not entered");
+    return;
+  }
+  if($('#address').val() == "")
+  {
+    alert("address not entered");
+    return;
+  }
+  if($('#state').val() == "")
+  {
+    alert("state not entered");
+    return;
+  }
+  if($('#zipcode').val() == "")
+  {
+    alert("zipcode not entered");
+    return;
+  }
+  if($('#creditcard').val() == "" || $('#creditcard').val().length != 16)
+  {
+    alert("credit card number not valid");
+    return;
+  }
+  if($('#csc').val() == "" || $('#csc').val().length != 3)
+  {
+    alert("csc not valid");
+    return;
+  }
+
   var UserID = <?php echo $userID?>;
   var itemsInCart = <?php echo json_encode( $items)?>;
+  if(itemsInCart.length == 0)
+  {
+    alert("shopping cart is empty");
+    return;
+  }
   $.ajax({
     type: "POST",
     url: "./POSTAddOrderToOrderHistory.php",
     data: ({UserID: UserID, itemsInCart: itemsInCart}),
-    success: function(response){
-      alert(response);
+    success: function(){
+      alert("order submitted");
+      for(var i = 0; i < itemsInCart.length; i++)
+      {
+        var divToHide = '#' + itemsInCart[i].id;
+        $(divToHide).hide();
+      }
     }
   });
+  console.log(itemsInCart);
+  for(var i = 0; i < itemsInCart.length; i++)
+  {
+    var divToHide = '#' + itemsInCart[i].id;
+    $(divToHide).hide();
+  }
 }
 </script>
 </html>

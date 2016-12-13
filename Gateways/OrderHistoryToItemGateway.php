@@ -36,10 +36,8 @@ class OrderHistoryToItemGateway
      */
     public function insertRow($newestHistoryID, $itemID)
     {
-        echo "here";
         $con = $this->getConnection();
         $query = "INSERT INTO OrderHistoryToItem (OrderHistoryID, ItemID) VALUES ('$newestHistoryID', '$itemID');";
-        echo $query;
         if($result = $con->query($query))
         {
             $success = true;
