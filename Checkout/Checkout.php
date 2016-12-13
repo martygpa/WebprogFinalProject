@@ -274,7 +274,6 @@ function submitOrder()
       }
     }
   });
-  console.log(itemsInCart);
   for(var i = 0; i < itemsInCart.length; i++)
   {
     var divToHide = '#' + itemsInCart[i].id;
