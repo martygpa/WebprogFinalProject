@@ -85,13 +85,15 @@ class ItemGateway
     public function insertRow($object)
     {
         $con = $this->getConnection();
+        $Name = $object->Name;
         $Description = $object->Description;
         $UPC = $object->UPC;
         $Price = $object->Price;
         $Manufacturer = $object->Manufacturer;
         $Quantity = $object->Quantity;
+        $ImageLocation = $object->ImageLocation;
 
-        $query = "INSERT INTO Item (Description, UPC, Price, Manufacturer, Quantity) VALUES ('$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity');";
+        $query = "INSERT INTO Item (Name, Description, UPC, Price, Manufacturer, Quantity, ImageLocation) VALUES ('$Name', '$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity', '$ImageLocation');";
 
         if($result = $con->query($query))
         {
@@ -113,13 +115,16 @@ class ItemGateway
     public function updateRow($object)
     {
         $con = $this->getConnection();
+        $ID = $object->ID;
+        $Name = $object->Name;
         $Description = $object->Description;
         $UPC = $object->UPC;
         $Price = $object->Price;
         $Manufacturer = $object->Manufacturer;
         $Quantity = $object->Quantity;
+        $ImageLocation = $object->ImageLocation;
 
-        $query = "UPDATE Item SET Description = '$Description', UPC = '$UPC', Price = '$Price', Manufacturer = '$Manufacturer', Quantity = '$Quantity';";
+        $query = "UPDATE Item SET Name = '$Name', Description = '$Description', UPC = '$UPC', Price = '$Price', Manufacturer = '$Manufacturer', Quantity = '$Quantity', ImageLocation = '$ImageLocation' WHERE ID='$ID';";
 
         if($result = $con->query($query))
         {
@@ -148,6 +153,16 @@ class ItemGateway
 
           }
           return $itemInCart;
+    }
+
+    /*
+     * Delete an item from the table
+     * Author: Ian
+     */
+    public function deleteRow($id)
+    {
+        $con = $this->getConnection();
+        return $con->query("DELETE FROM Item WHERE ID = '$id';");
     }
 
 

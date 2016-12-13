@@ -1,11 +1,9 @@
 <?php
 /**
- * Cart Gateway
- * Author: Alec Waddelow & Ronald Sease
- * Date: 11/22/2016
- * Time: 14:20
+ * Order History Gateway
+ * Author: Ronald Sease
  */
-class CartGateway
+class OrderHistoryGateway
 {
     /**
      * @return  connection to the database
@@ -37,7 +35,7 @@ class CartGateway
         if(is_int($id))
         {
             $con = $this->getConnection();
-            $query = "SELECT * FROM Cart WHERE ID = '$id';";
+            $query = "SELECT * FROM OrderHistory WHERE ID = '$id';";
 
             if ($result = $con->query($query))
             {
@@ -60,12 +58,16 @@ class CartGateway
     public function rowDataQueryByUserID($id)
     {
       $con = $this->getConnection();
-      $query = "SELECT * FROM webprog25.Cart WHERE UserID = ".$id.";";
+      $query = "SELECT * FROM webprog25.OrderHistory WHERE UserID = ".$id.";";
+      $array = array();
       if($result = $con->query($query))
       {
-        while($object = mysqli_fetch_object($result)->ID)
+        while($object = mysqli_fetch_object($result))
         {
-          $array = $object;
+          $entry = new stdClass();
+          $entry->ID = $object->ID;
+          $entry->DateCreated = $object->DateCreated;
+          array_push($array, $entry);
         }
         return $array;
       }
@@ -100,29 +102,11 @@ class CartGateway
      *
      * @param $object containing all three fields to be set in a single row in CartToItem table
      */
-    public function insertRow($object)
+    public function insertRow($UserID)
     {
         $con = $this->getConnection();
-        $statement = mysqli_prepare($con, "INSERT INTO Cart (UserID) VALUES (?)");
 
-        mysqli_stmt_bind_param($statement, 's', $UserID);
-        $UserID = $object->UserID;
-        mysqli_stmt_execute($statement);
-
-    }
-
-    /**
-     * Updates a single row
-     *
-     * @param $object
-     */
-    public function updateRow($object)
-    {
-        $con = $this->getConnection();
-        $statement = mysqli_prepare($con, "UPDATE Comment SET UserID=? WHERE ID =?");
-        mysqli_stmt_bind_param($statement, 'ii', $UserID, $ID);
-        $ID = $object->ID;
-        $UserID = $object->UserID;
+        $statement = mysqli_prepare($con, "INSERT INTO OrderHistory (UserID) VALUES (".$UserID.");");
         mysqli_stmt_execute($statement);
     }
 }
