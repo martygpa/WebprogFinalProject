@@ -12,12 +12,21 @@ require_once('../Models/UserObject.php');
 $gateway = new UserGateway();
 $connection = $gateway->getConnection();
 
-if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['userName']) && isset($_POST['password']))
+if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['userName']) && isset($_POST['password']) && isset($_POST['passwordConfirm']))
 {
     $firstName = mysqli_real_escape_string($connection, $_POST['firstName']);
     $lastName =  mysqli_real_escape_string($connection, $_POST['lastName']);
     $userName = mysqli_real_escape_string($connection, $_POST['userName']);
     $password = mysqli_real_escape_string($connection, $_POST['password']);
+    $passwordConfirm = mysqli_real_escape_string($connection, $_POST['passwordConfirm']);
+
+    if($password != $passwordConfirm)
+    {
+      header("Location: http://webprog.cs.ship.edu/webprog25/account_management/registerAccount.html");
+      exit;
+    }
+
+
     $securePassword = saltAndHash($password);
 
     $newUser = new UserObject($firstName, $lastName, $userName, $securePassword, 0);

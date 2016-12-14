@@ -39,35 +39,52 @@
         .body {
           margin :0;
           padding: 0;
-          test-align: center;
+          text-align: center;
         }
         .loginContainer {
           margin: 0 auto;
           text-align: left;
           width: 800 px;
         }
+        tr {
+          text-align: left;;
+        }
     </style>
 </head>
 <body>
+  <script type ="text/javascript">
+    function confirmPassword()
+    {
+      var pass1 = document.getElementById("password").value;
+      var pass2 = document.getElementById("passwordConfirm").value;
+
+      var success = true;
+      if(pass1 != pass2)
+      {
+        alert("Passwords did not match!");
+        success = false;
+      }
+      return success;
+    }
+  </script>
 
 
 <ul>
-    <li> <a href="webprog.cs.ship.edu/webprog25/Home.html">Home</a></li>
-    <li> <a href="webprog.cs.ship.edu/webprog25/account_management/Login.html">Login</a></li>
-    <li> <a href="webprog.cs.ship.edu/webprog25/account_management/myAccount.html">My Account</a> </li>
-    <li> <a class="active" href="webprog.cs.ship.edu/webprog25/account_management/registerAccount.html">Create New Account</a></li>
-    <li> <a href="webprog.cs.ship.edu/webprog25/shopping/shoppingCart.html">Shopping Cart</a></li>
-    <li> <a href="webprog.cs.ship.edu/webprog25/shopping/wishList.html">Wish List</a></li>
-    <li> <a href="webprog.cs.ship.edu/webprog25/shopping/orderHistory.html">Order History</a></li>
-    <li> <a href="webprog.cs.ship.edu/webprog25/shopping/checkOut.html">Check Out</a></li>
-    <li> <a href="webprog.cs.ship.edu/webprog25/item/search.html">Search</a></li>
+  <li> <a href="../Home.php">Home</a></li>
+  <li> <a href="../account_management/Login.html">Login</a></li>
+  <li> <a href="../account_management/myAccount.php">My Account</a> </li>
+  <li> <a class="active" href="../account_management/registerAccount.html">Create New Account</a></li>
+  <li> <a href="../ShoppingCart/ShoppingCart.php">Shopping Cart</a></li>
+  <li> <a href="../WishList/WishList.php">Wish List</a></li>
+  <li> <a href="../OrderHistory/OrderHistory.php">Order History</a></li>
+  <li> <a href="../Checkout/Checkout.php">Check Out</a></li>
 </ul>
 
 
 <h1>Please fill out the form below to create an account</h1>
 
 <table>
-    <form action="registerUser.php" method="post" >
+    <form action="registerUser.php" onsubmit="confirmPassword();" method="post" >
         <tr>
             <td>Enter First Name </td>
             <td><input type="text" placeholder="First Name" name="firstName" required> </td>
@@ -78,18 +95,23 @@
         </tr>
         <tr>
             <td>Enter User Name</td>
-            <td> <input type="text" placeholder="User Name" name="userName" required> </td>
-        <tr>
+            <td> <input type="text" placeholder="User Name" name="userName" id="userName" required> </td>
+        </tr>
         <tr>
             <td>Enter Password</td>
-            <td> <input type="text" placeholder="Password" name="password" required> </td>
+            <td> <input type="password" placeholder="Password" name="password" id="password" required> </td>
+        </tr>
         <tr>
+            <td>Confirm Password</td>
+            <td> <input type="password" placeholder="Password" name="passwordConfirm" id="passwordConfirm" required> </td>
+        </tr>
         <tr>
             <td><input type="submit" value="Submit" name="registerSubmit"> </td>
         </tr>
 
     </form>
 </table>
+
 
 
 </body>

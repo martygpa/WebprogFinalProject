@@ -3,7 +3,6 @@
  * Login Handler
  * Author: Alec Waddelow
  * Date: 11/28/16
- * Time: 8:22 PM
  */
 session_start();
 
