@@ -1,7 +1,6 @@
 <?php
 
 /**
- * Created by PhpStorm.
  * Author: Alec Waddelow
  * Date: 11/22/2016
  * Time: 14:46
@@ -36,20 +35,14 @@ class UserGateway
     public function rowDataQueryByID($id)
     {
       $con = $this->getConnection();
-      $query = "SELECT * FROM webprog25.User WHERE ID = ".$id.";";
-      $result = $con->query($query);
-      if($result>0)
-      {
-        while($object = mysqli_fetch_object($result))
-        {
-          $array[] = $object;
-        }
-        return $array;
-      }
-      else
-      {
-          return false;
-      }
+
+      $statement = mysqli_prepare($con, "SELECT * FROM webprog25.User WHERE ID = ?");
+      mysqli_stmt_bind_param($statement, 'i', $id);
+      mysqli_stmt_execute($statement);
+
+      $result = $statement->get_result();
+      $row = $result->fetch_assoc();
+      return $row;
     }
 
     /**
@@ -136,9 +129,11 @@ class UserGateway
     public function queryForLogin($userName, $password)
     {
         $conn = $this->getConnection();
-        $query = "SELECT * FROM User WHERE UserName ='$userName' AND Password ='$password';";
+        $statement = mysqli_prepare($conn, "SELECT * FROM User WHERE UserName =? AND Password =?");
+        mysqli_stmt_bind_param($statement, 'ss', $userName, $password);
+        mysqli_stmt_execute($statement);
 
-        if($result = $conn->query($query))
+        if($result = $statement->get_result())
         {
             $returnObject = $result->fetch_assoc();
             if($returnObject['ID'] != null)
@@ -163,6 +158,8 @@ class UserGateway
     public function deleteRow($id)
     {
         $con = $this->getConnection();
-        return $con->query("DELETE FROM User WHERE ID = '$id';");
+        $statement = mysqli_prepare($con, "DELETE FROM User WHERE ID = ?");
+        mysqli_stmt_bind_param($statement, 'i', $id);
+        return mysqli_stmt_execute($statement);
     }
 }
