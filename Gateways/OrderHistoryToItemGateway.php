@@ -48,4 +48,26 @@ class OrderHistoryToItemGateway
         }
         return $success;
     }
+
+    /**
+     * Gets rows where OrderHistoryID is the same as the OrderHistoryID passed in
+     */
+    public function getEntriesOfOrderHistoryID($orderHistoryID)
+    {
+        $con = $this->getConnection();
+        $query = "SELECT ItemID FROM OrderHistoryToItem WHERE OrderHistoryID = $orderHistoryID;";
+        $entries = array();
+        if ($result = $con->query($query))
+        {
+            while($row = $result->fetch_object()->ItemID)
+            {
+              array_push($entries, $row);
+            }
+            return $entries;
+        }
+        else
+        {
+          return false;
+        }
+    }
 }

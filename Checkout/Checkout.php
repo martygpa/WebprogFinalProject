@@ -1,7 +1,7 @@
 
 <?php
  /*
- * ShoppingCart Class to handle the ShoppingCart page
+ * Checkout Class to handle the Checkout page
  * Author: Ronald Sease
  */
   require_once("../Gateways/CartGateway.php");
@@ -58,14 +58,14 @@ table {display: block;color: black;text-align: center;}
 </style>
 <body>
   <ul>
-    <li> <a href="/Home.html">Home</a></li>
+    <li> <a href="../Home.php">Home</a></li>
     <li> <a href="../account_management/Login.html">Login</a></li>
-    <li> <a href="/account_management/myAccount.html">My Account</a> </li>
-    <li> <a href="/account_management/registerAccount.html">Create New Account</a></li>
-    <li> <a href="/shopping/shoppingCart.html">Shopping Cart</a></li>
-    <li> <a href="/shopping/wishList.html">Wish List</a></li>
-    <li> <a href="/shopping/orderHistory.html">Order History</a></li>
-    <li> <a class="active" href="/shopping/checkOut.html">Check Out</a></li>
+    <li> <a href="../account_management/myAccount.php">My Account</a> </li>
+    <li> <a href="../account_management/registerAccount.html">Create New Account</a></li>
+    <li> <a href="../ShoppingCart/ShoppingCart.php">Shopping Cart</a></li>
+    <li> <a href="../WishList/WishList.php">Wish List</a></li>
+    <li> <a href="../OrderHistory/OrderHistory.php">Order History</a></li>
+    <li> <a class="active" href="../Checkout/Checkout.php">Check Out</a></li>
 </ul>
   <div id="sidebar">
     Search: <input type="text" onkeyup="showResult(this.value)"></input>

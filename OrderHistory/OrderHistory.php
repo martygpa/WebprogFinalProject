@@ -1,32 +1,16 @@
 
 <?php
  /*
- * WishList Class to handle the WishList page
+ * OrderHistory Class to handle the OrderHIstory page
  * Author: Ronald Sease
  */
   require_once("../Gateways/WishListGateway.php");
   require_once("../Gateways/WishListToItemGateway.php");
   require_once("../Gateways/ItemGateway.php");
-
-
+  require_once("../Gateways/OrderHistoryGateway.php");
   $userID = 1;
-  //echo $_SESSION['ID']
-  $gateway = new WishListGateway();
-  if(!is_null($gateway))
-  {
-    $wishListID = $gateway->rowDataQueryByUserID($userID);
-    $relatedGateway = new WishListToItemGateway();
-    $itemIDs = $relatedGateway->rowDataQueryByID($wishListID);
-    $items = array();
-    $itemGateway = new ItemGateway();
-    for($i = 0; $i < count($itemIDs); $i++)
-    {
-       $result = $itemGateway->getByRowIDIntoArray($itemIDs[$i]);
-      array_push($items, $result);
-    }
-    echo "<br><br><br>";
-
-  }
+   $gateway = new OrderHistoryGateway();
+   $orderHistoryEntries = $gateway->rowDataQueryByUserID($userID);
 ?>
 <html>
 <style>
@@ -63,8 +47,8 @@ table {display: block;color: black;text-align: center;}
     <li> <a href="../account_management/myAccount.php">My Account</a> </li>
     <li> <a href="../account_management/registerAccount.html">Create New Account</a></li>
     <li> <a href="../ShoppingCart/ShoppingCart.php">Shopping Cart</a></li>
-    <li> <a class="active" href="../WishList/WishList.php">Wish List</a></li>
-    <li> <a href="../OrderHistory/OrderHistory.php">Order History</a></li>
+    <li> <a  href="../WishList/WishList.php">Wish List</a></li>
+    <li> <a class="active" href="../OrderHistory/OrderHistory.php">Order History</a></li>
     <li> <a href="../Checkout/Checkout.php">Check Out</a></li>
 </ul>
   <div id="sidebar">
@@ -72,83 +56,38 @@ table {display: block;color: black;text-align: center;}
     <div id="livesearch"></div>
   </div>
   <div id="mainview">
-    <table id="items">
-    </table>
   </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
 <script type ="text/javascript">
   $(document).ready(function(){
 
-    var self =this;
-  var itemsInWishList = <?php echo json_encode( $items)?>;
-  console.log(itemsInWishList);
-  $.each(itemsInWishList,function(index, object){
+  var self =this;
+  var orderHistoryEntries = <?php echo json_encode($orderHistoryEntries)?>;
+  $.each(orderHistoryEntries,function(index, object){
     //Create containing div
     var div=document.createElement("div");
-    div.setAttribute("id",object.id);
-    div.setAttribute("class","item");
-    //create image in div
-    var img=document.createElement("img");
-    img.setAttribute("src",'.'+object.ImageLocation);
-    img.setAttribute("class","itemimg");
-    //add cost
-    var p=document.createElement("p");
-    p.append("$"+object.Price+"\t"+object.Name);
-    //append stuff
-    div.append(img);
-    div.append(p);
-    div.append(createRemoveButton(object.id));
-    div.append(createWishListImage(object.id));
-    $("#items").append(div);
+    div.setAttribute("class","table table-bordered");
+    var formattedDate = moment(object.DateCreated).format('MMMM Do YYYY h:mm:ss a');
+    var tableHeader = "<h4>" + formattedDate + "</h4><table class='table table-bordered' <thead><tr>"
+    tableHeader += "<th>Item</th><th>Price</th></tr>"
+    $.ajax({
+      type: "POST",
+      async: false,
+      url: "./POSTGetItemsForOrderHistoryEntry.php",
+      data: ({OrderHistoryID: object.ID}),
+      success: function(items){
+        tableHeader+= items;
+      }
+    });
+    tableHeader+= "</thead></table>";
+    $("#mainview").append(tableHeader);
+
   });
  });
 
-function createRemoveButton(id)
-{
-  var img=document.createElement("button");
-  img.setAttribute("class","glyphicon glyphicon-remove cart");
-  img.setAttribute("onclick","removeItemFromWishList("+id+")");
-  return img;
-}
-
-function createWishListImage(id)
-{
-  var img=document.createElement("img");
-  img.setAttribute("src","../images/cart.png");
-  img.setAttribute("class","cart");
-  img.setAttribute("onclick","addItemToCart("+id+")");
-  return img;
-}
-
-function removeItemFromWishList(id)
-{
-  var wishListID = <?php echo $wishListID?>;
-  $.ajax({
-          type: "POST",
-          url:'./POSTDeleteWishListItem.php',
-          data: ({WishListID: wishListID, ItemID: id}),
-          success:function(response){
-            alert("Removed from wishlist");
-           }
-      });
-  var divToHide = '#' + id;
-  $(divToHide).hide();
-}
-
-function addItemToCart(id)
-{
-  var UserID = <?php echo $userID?>;
-  $.ajax({
-    type: "POST",
-    url: "./POSTAddItemToCart.php",
-    data: ({UserID: UserID, ItemID: id}),
-    success: function(response){
-      alert("added to cart");
-    }
-  })
-}
 </script>
 </html>
