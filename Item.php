@@ -64,8 +64,8 @@ li a:hover:not(.active) {background-color: #111;}
 </style>
 <body>
   <ul>
-    <li> <a class="active" href="/home.html">Home</a></li>
-    <li> <a href="/account_management/login.html">Login</a></li>
+    <li> <a class="active" href="/Home.php">Home</a></li>
+    <li> <a href="./account_management/Login.html">Login</a></li>
     <li> <a href="/account_management/myAccount.html">My Account</a> </li>
     <li> <a href="/account_management/registerAccount.html">Create New Account</a></li>
     <li> <a href="/shopping/shoppingCart.html">Shopping Cart</a></li>

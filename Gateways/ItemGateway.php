@@ -29,30 +29,30 @@ class ItemGateway
     }
 
     /**
-     * Queries Cart table by id
+     * Queries Item table by id
      *
      * @param $id
      * @return bool $object containing result set data, else returns false
      */
     public function rowDataQueryByID($id)
     {
-            $con = $this->getConnection();
-            $query = "SELECT * FROM webprog25.Item WHERE ID = ".$id.";";
-            $result = $con->query($query);
-            if($result>0)
-            {
-              while($object = mysqli_fetch_object($result))
-              {
-                $array[] = $object;
-              }
-              return $array;
-            }
-            else
-            {
-                return false;
-            }
-    }
+      $id = $this->sanitize($id);
+      $con = $this->getConnection();
+      $query = "SELECT * FROM webprog25.Item WHERE ID = ".$id.";";
 
+      if($result = $con->query($query))
+      {
+        while($object = mysqli_fetch_object($result))
+        {
+          $array[] = $object;
+        }
+        return $array;
+      }
+      else
+      {
+          return false;
+      }
+    }
     /**
      * Returns entire table in one object
      *
@@ -85,17 +85,25 @@ class ItemGateway
     public function insertRow($object)
     {
         $con = $this->getConnection();
-        $Name = $object->Name;
-        $Description = $object->Description;
-        $UPC = $object->UPC;
-        $Price = $object->Price;
-        $Manufacturer = $object->Manufacturer;
-        $Quantity = $object->Quantity;
-        $ImageLocation = $object->ImageLocation;
+        $Name = $this->sanitize($object->Name);
+        $Description = $this->sanitize($object->Description);
+        $UPC = $this->sanitize($object->UPC);
+        $Price = $this->sanitize($object->Price);
+        $Manufacturer = $this->sanitize($object->Manufacturer);
+        $Quantity = $this->sanitize($object->Quantity);
+        $ImageLocation = $this->sanitize($object->ImageLocation);
 
-        $query = "INSERT INTO Item (Name, Description, UPC, Price, Manufacturer, Quantity, ImageLocation) VALUES ('$Name', '$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity', '$ImageLocation');";
-
-        if($result = $con->query($query))
+        //$query = "INSERT INTO Item (Name, Description, UPC, Price, Manufacturer, Quantity, ImageLocation) VALUES ('$Name', '$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity', '$ImageLocation');";
+        $stmt = $conn->prepare("INSERT INTO Item (Name, Description, UPC, Price, Manufacturer, Quantity, ImageLocation)
+                                VALUES (? , ? , ? , ? , ? , ? ,? );");
+        $stmt->bindParam('s', $Name);
+        $stmt->bindParam('s', $Description);
+        $stmt->bindParam('s', $UPC);
+        $stmt->bindParam('d', $Price);
+        $stmt->bindParam('s', $Manufacturer);
+        $stmt->bindParam('i', $Quantity);
+        $stmt->bindParam('s', $ImageLocation);
+        if($result = $stmt->execute())
         {
             $success = true;
         }
@@ -124,9 +132,25 @@ class ItemGateway
         $Quantity = $object->Quantity;
         $ImageLocation = $object->ImageLocation;
 
-        $query = "UPDATE Item SET Name = '$Name', Description = '$Description', UPC = '$UPC', Price = '$Price', Manufacturer = '$Manufacturer', Quantity = '$Quantity', ImageLocation = '$ImageLocation' WHERE ID='$ID';";
+        $stmt = $conn->prepare("UPDATE Item SET
+                                Name = ?,
+                                Description = ?,
+                                UPC = ?,
+                                 Price = ?,
+                                Manufacturer = ?,
+                                Quantity = ?,
+                                ImageLocation = ?
+                                WHERE ID= ? ;");
+        $stmt->bindParam('s', $Name);
+        $stmt->bindParam('s', $Description);
+        $stmt->bindParam('s', $UPC);
+        $stmt->bindParam('d', $Price);
+        $stmt->bindParam('s', $Manufacturer);
+        $stmt->bindParam('i', $Quantity);
+        $stmt->bindParam('s', $ImageLocation);
+        $stmt->bindParam('i', $ID);
 
-        if($result = $con->query($query))
+        if($result = $stmt->execute())
         {
             $success = true;
         }
@@ -139,20 +163,17 @@ class ItemGateway
 
     public function getByRowIDIntoArray($id)
     {
+        $id = $this->sanitize($id);
         $con = $this->getConnection();
         $query = "SELECT * FROM webprog25.Item WHERE ID = ".$id.";";
-        $entries = array();
-          if ($result = $con->query($query))
+        if ($result = $con->query($query))
+        {
+          while($row = $result->fetch_object())
           {
-            while($row = $result->fetch_object())
-            {
-
-              $itemInCart = new ItemObject($row->ID, $row->Name, $row->Description, $row->UPC, $row->Price, $row->Manufacturer, $row->Quantity, $row->ImageLocation);
-
-            }
-
+            $itemInCart = new ItemObject($row->ID, $row->Name, $row->Description, $row->UPC, $row->Price, $row->Manufacturer, $row->Quantity, $row->ImageLocation);
           }
-          return $itemInCart;
+        }
+       return $itemInCart;
     }
 
     /*
@@ -161,10 +182,14 @@ class ItemGateway
      */
     public function deleteRow($id)
     {
+        $id = $this->sanitize($id);
         $con = $this->getConnection();
-        return $con->query("DELETE FROM Item WHERE ID = '$id';");
+        $query = "DELETE FROM Item WHERE ID = ".$id.";";
+        return $con->query($query);
     }
 
-
-
+    public function sanitize($input)
+    {
+      return preg_replace('/[;{%()}]/', '', $input);
+    }
 }

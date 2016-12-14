@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Author: Alec Waddelow
+ * Author: Darnell Martin
  * Table Data Gateway to Comment table
  */
 class CommentGateway
@@ -35,13 +35,15 @@ class CommentGateway
     {
         if(is_int($id))
         {
+            $id = $this->sanitize($id);
             $con = $this->getConnection();
-            $query = "SELECT * FROM Comment WHERE ID = '$id';";
-
+            $query = "SELECT * FROM webprog25.Comment WHERE ID = ".$id.";";
             if ($result = $con->query($query))
             {
-                $object = $result->fetch_object();
-                return $object;
+              while($object = mysqli_fetch_object($result))
+              {
+                $array[] = $object;
+              }
             }
             else
             {
@@ -52,6 +54,7 @@ class CommentGateway
 
     public function rowDataQueryByItemID($id)
     {
+      $id = $this->sanitize($id);
       $con = $this->getConnection();
       $query = "SELECT * FROM webprog25.Comment WHERE ItemID = ".$id.";";
       if ($result = $con->query($query))
@@ -70,12 +73,9 @@ class CommentGateway
 
     public function rowDataQueryByJoinID($id)
     {
+      $id = $this->sanitize($id);
       $con = $this->getConnection();
-      $query = "SELECT A.UserName AS UserName,".
-                " B.Comment AS Comment, B.Rating AS Rating,".
-                " B.ID AS ID FROM webprog25.User AS A , ".
-                "webprog25.Comment AS B WHERE A.ID = B.UserID".
-                " AND B.ItemID = ".$id;
+      $query = ("SELECT A.UserName AS UserName, B.Comment AS Comment, B.Rating AS Rating,B.ID AS ID FROM webprog25.User AS A , webprog25.Comment AS B WHERE A.ID = B.UserID AND B.ItemID = ".$id.";");
       if ($result = $con->query($query))
       {
         while($object = mysqli_fetch_object($result))
@@ -118,14 +118,15 @@ class CommentGateway
      */
     public function insertRow($object)
     {
-        $ItemID = $object->ItemID;
-        $UserID = $object->UserID;
-        $Comment = $object->Comment;
-        $Rating = $object->Rating;
+        $ItemID = $this->sanitize($object->ItemID);
+        $UserID = $this->sanitize($object->UserID);
+        $Comment = $this->sanitize($object->Comment);
+        $Rating = $this->sanitize($object->Rating);
 
         $con = $this->getConnection();
         $query = "INSERT INTO Comment (ItemID, UserID, Comment, Rating) VALUES (".$ItemID."," .$UserID.", '".$Comment."', '".$Rating."');";
-        if($result = $con->query($query))
+
+        if ($result = $con->query($query))
         {
             $success = true;
         }
@@ -136,30 +137,8 @@ class CommentGateway
         return $success;
     }
 
-    /**
-     * Updates a single row
-     *
-     * @param $object
-     * @return bool
-     */
-    public function updateRow($object)
+    public function sanitize($input)
     {
-        $con = $this->getConnection();
-        $ID = $object->ID;
-        $ItemID = $object->ItemID;
-        $UserID = $object->UserID;
-        $Comment = $object->Comment;
-        $Rating = $object->Rating;
-
-        $query = "UPDATE Comment SET ItemID = '$ItemID', UserID = '$UserID', Comment = '$Comment', Rating = '$Rating' WHERE ID = '$ID';";
-        if($result = $con->query($query))
-        {
-            $success = true;
-        }
-        else
-        {
-            $success = false;
-        }
-        return $success;
+      return preg_replace('/[;{%()}]/', '', $input);
     }
 }

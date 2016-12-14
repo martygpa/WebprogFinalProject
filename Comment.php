@@ -52,7 +52,8 @@ function addComment()
   var rating= document.getElementById('rating').value;
   var comment = document.getElementById('comment').value;
   $.post( "./CRUD/POSTComment.php", { ItemID: ItemID, UserID: UserID, Rating: rating, Comment: comment } );
+  window.close();
 }
-
+addRatingStars(2.5);
 </script>
 </html>
