@@ -72,6 +72,10 @@ li a:hover:not(.active) {background-color: #111;}
     <li> <a href="/shopping/wishList.html">Wish List</a></li>
     <li> <a href="/shopping/orderHistory.html">Order History</a></li>
     <li> <a href="/shopping/checkOut.html">Check Out</a></li>
+    <?php  if(($_SESSION['isLoggedIn'] == true))
+    {
+      echo "<li> <a href='../account_management/logout.php'>Logout</a></li>";
+    } ?>
   </ul>
   <div id="sidebar">
     <div id="UserInfo"></div>

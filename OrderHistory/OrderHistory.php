@@ -50,6 +50,10 @@ table {display: block;color: black;text-align: center;}
     <li> <a  href="../WishList/WishList.php">Wish List</a></li>
     <li> <a class="active" href="../OrderHistory/OrderHistory.php">Order History</a></li>
     <li> <a href="../Checkout/Checkout.php">Check Out</a></li>
+    <?php  if(($_SESSION['isLoggedIn'] == true))
+    {
+      echo "<li> <a href='../account_management/logout.php'>Logout</a></li>";
+    } ?>
 </ul>
   <div id="sidebar">
     Search: <input type="text" onkeyup="showResult(this.value)"></input>
