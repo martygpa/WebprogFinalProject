@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+
+
+?>
 <!DOCTYPE html>
 <!--Programmer: Alec Waddelow
     Class: CSC434
@@ -73,11 +79,15 @@
   <li> <a href="../Home.php">Home</a></li>
   <li> <a href="../account_management/Login.html">Login</a></li>
   <li> <a href="../account_management/myAccount.php">My Account</a> </li>
-  <li> <a class="active" href="../account_management/registerAccount.html">Create New Account</a></li>
+  <li> <a class="active" href="../account_management/registerAccount.php">Create New Account</a></li>
   <li> <a href="../ShoppingCart/ShoppingCart.php">Shopping Cart</a></li>
   <li> <a href="../WishList/WishList.php">Wish List</a></li>
   <li> <a href="../OrderHistory/OrderHistory.php">Order History</a></li>
   <li> <a href="../Checkout/Checkout.php">Check Out</a></li>
+  <?php  if(($_SESSION['isLoggedIn'] == true))
+  {
+    echo "<li> <a href='../account_management/logout.php'>Logout</a></li>";
+  } ?>
 </ul>
 
 

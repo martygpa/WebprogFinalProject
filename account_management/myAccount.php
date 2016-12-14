@@ -1,7 +1,10 @@
 <?php
 session_start();
-
-
+/*
+* Author: Alec Waddelow
+* Date: 12/14/2016
+*
+*/
 ?>
 
 <html>
@@ -23,8 +26,12 @@ session_start();
     <li> <a href="../WishList/WishList.php">Wish List</a></li>
     <li> <a href="../OrderHistory/OrderHistory.php">Order History</a></li>
     <li> <a href="../Checkout/Checkout.php">Check Out</a></li>
-    <?php if(!empty($_SESSION['isLoggedIn']))
+    <?php  if(($_SESSION['isLoggedIn'] == true))
     {
       echo "<li> <a href='../account_management/logout.php'>Logout</a></li>";
     } ?>
 </ul>
+
+</body>
+
+</html>
