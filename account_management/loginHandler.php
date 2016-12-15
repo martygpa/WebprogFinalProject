@@ -18,7 +18,6 @@ if(isset($_POST['loginSubmit']) && isset($_POST['userName']) && isset($_POST['pa
     $token = saltAndHash($password);
 
     $returnSuccess = $userGateway->queryForLogin($userName, $token);
-   
     if($returnSuccess>0)
     {
         $_SESSION['ID'] = $returnSuccess;

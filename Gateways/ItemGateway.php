@@ -119,7 +119,7 @@ class ItemGateway
         $ImageLocation = $this->sanitize($object->ImageLocation);
 
         //$query = "INSERT INTO Item (Name, Description, UPC, Price, Manufacturer, Quantity, ImageLocation) VALUES ('$Name', '$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity', '$ImageLocation');";
-        $stmt = $conn->prepare("INSERT INTO Item (Name, Description, UPC, Price, Manufacturer, Quantity, ImageLocation)
+        $stmt = $con->prepare("INSERT INTO Item (Name, Description, UPC, Price, Manufacturer, Quantity, ImageLocation)
                                 VALUES (? , ? , ? , ? , ? , ? ,? );");
 
         $stmt->bind_param('sssdsis', $Name, $Description, $UPC, $Price, $Manufacturer,$Quantity,$ImageLocation);

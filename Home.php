@@ -49,6 +49,7 @@ table {display: block;color: black;text-align: center;}
     <li> <a href="./OrderHistory/OrderHistory.php">Order History</a></li>
     <li> <a href="./Checkout/Checkout.php">Check Out</a></li>
     <?php
+    require_once("./Gateways/UserGateway.php");
     if(($_SESSION['isLoggedIn'] == true))
     {
       echo "<li> <a href='./account_management/logout.php'>Logout</a></li>";
@@ -56,7 +57,14 @@ table {display: block;color: black;text-align: center;}
     else
     {
         echo "<li> <a href='./account_management/Login.html'>Login</a></li>";
-    }?>
+    }
+    $userGateway = new UserGateway();
+    $user = $userGateway->rowDataQueryByIDIan($_SESSION['ID']);
+    if ($user->isAdmin)
+    {
+        echo "<li> <a href='./admin/admin.php'>Admin</a></li>";
+    }
+    ?>
 </ul>
   <div id="sidebar">
     <div id="UserInfo"></div>
@@ -172,7 +180,7 @@ function addItemToWishlist(ItemID)
 {
   if(UserID > 0)
   {
-    $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, WishListID: WishListID } );
+    $.post("./CRUD/POSTWishListToItem.php", { ItemID: ItemID, WishListID: WishListID } );
     alert("Item has been added to the wishlist");
   }
   else

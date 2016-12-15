@@ -111,7 +111,7 @@ class WishListToItemGateway
         $WishListID = $object->WishListID;
 
         $con = $this->getConnection();
-        $query = "INSERT INTO WishListToItem (ItemID, WishListID) VALUES ('$ItemId', '$WishListID');";
+        $query = "INSERT INTO WishListToItem (ItemID, WishListID) VALUES ('".$ItemId."', '".$WishListID."');";
         if($result = $con->query($query))
         {
             $success = true;
