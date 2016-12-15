@@ -22,7 +22,7 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
 
     if($password != $passwordConfirm)
     {
-      header("Location: http://webprog.cs.ship.edu/webprog25/account_management/registerAccount.html");
+      header("Location: http://webprog.cs.ship.edu/webprog25/account_management/registerAccount.php");
       exit;
     }
 
@@ -35,18 +35,18 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
     {
       $_SESSION['ID'] = $returnSuccess;
       ini_set('session.gc_maxlifetime', 60 * 30);
-      header("Location: http://webprog.cs.ship.edu/webprog25/Home.html");
+      header("Location: http://webprog.cs.ship.edu/webprog25/Home.php");
       exit;
     }
     else
     {
-      header("Location: http://webprog.cs.ship.edu/webprog25/account_management/registerAccount.html");
+      header("Location: http://webprog.cs.ship.edu/webprog25/account_management/registerAccount.php");
       exit;
     }
   }
   else
   {
-    header("Location: http://webprog.cs.ship.edu/webprog25/account_management/registerAccount.html");
+    header("Location: http://webprog.cs.ship.edu/webprog25/account_management/registerAccount.php");
     exit;
   }
 
