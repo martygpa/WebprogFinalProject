@@ -39,12 +39,12 @@ class UserGateway
         $query = "SELECT * FROM User WHERE ID = $ID;";
 		if($result = $conn->query($query))
 		{
-		$returnObject = $result->fetch_assoc();
-		return $returnObject;
+			$returnObject = $result->fetch_assoc();
+			return $returnObject;
 		}
 		else
 		{
-		return false;
+			return false;
 		}
     }
 

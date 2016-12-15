@@ -4,8 +4,8 @@
 * Author: Ronald Sease
 */
  require_once("../Gateways/CartToItemGateway.php");
-  $cartID = $_POST['CartID'];
-  $itemID = $_POST['ItemID'];
+  $ID = $_POST['ID'];
+  echo $ID;
    $cartToItem = new CartToItemGateway();
-  $cartToItem->deleteRow($cartID, $itemID);
+  $cartToItem->deleteRow($ID);
  ?>

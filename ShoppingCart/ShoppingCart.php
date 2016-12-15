@@ -20,15 +20,17 @@
   {
     $cartID = $gateway->rowDataQueryByUserID($userID);
     $relatedGateway = new CartToItemGateway();
-    $itemIDs = $relatedGateway->rowDataQueryByID($cartID);
+    echo $cartID;
+    $itemIDs = $relatedGateway->getWholeRowBasedOnCartID($cartID);
+
     $items = array();
     $itemGateway = new ItemGateway();
     for($i = 0; $i < count($itemIDs); $i++)
     {
-       $result = $itemGateway->getByRowIDIntoArray($itemIDs[$i]);
+       $result = $itemGateway->getByRowIDIntoArray($itemIDs[$i]['ItemID']);
+	$result->CartToItemID = $itemIDs[$i]['ID'];
       array_push($items, $result);
     }
-    echo "<br><br><br>";
 
   }
 ?>
@@ -91,10 +93,11 @@ table {display: block;color: black;text-align: center;}
   $(document).ready(function(){
     var self =this;
   var itemsInCart = <?php echo json_encode( $items)?>;
+  console.log(itemsInCart);
   $.each(itemsInCart,function(index, object){
     //Create containing div
     var div=document.createElement("div");
-    div.setAttribute("id",object.id);
+    div.setAttribute("id",object.CartToItemID);
     div.setAttribute("class","item");
     //create image in div
     var img=document.createElement("img");
@@ -106,7 +109,7 @@ table {display: block;color: black;text-align: center;}
     //append stuff
     div.append(img);
     div.append(p);
-    div.append(createRemoveButton(object.id));
+    div.append(createRemoveButton(object.CartToItemID));
     div.append(createWishlistImage(object.id));
     $("#items").append(div);
   });
@@ -131,12 +134,11 @@ function createWishlistImage(id)
 
 function removeItemFromCart(id)
 {
-  var cartID = <?php echo $cartID?>;
   $.ajax({
           type: "POST",
           url:'./POSTDeleteCartItem.php',
-          data: ({CartID: cartID, ItemID: id}),
-          success:function(response){ alert("Removed from cart"); }
+          data: ({ID: id}),
+          success:function(response){ alert(response); }
       });
   var divToHide = '#' + id;
   $(divToHide).hide();

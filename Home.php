@@ -144,8 +144,7 @@ function addItemToCart(ItemID)
 {
   if(UserID > 0)
   {
-    $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, CartID: Number.parseInt(CartID) } ).done(function(data){
-alert(data);});
+    $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, CartID: Number.parseInt(CartID) } );
     alert("Item has been added to the cart");
   }
   else

@@ -53,6 +53,31 @@ class ItemGateway
           return false;
       }
     }
+
+	/**
+	* Author: Alec Waddelow
+	*
+	*
+	*/
+	public function queryRow($id)
+	{
+		//$id = $this->sanitize($id);
+		$con = $this->getConnection();
+		
+		$query = "SELECT * FROM webprog25.Item WHERE ID = " . $id . ";";
+
+		if($result = $con->query($query))
+		{
+			$row = $result->fetch_assoc();
+			return $row;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+
     /**
      * Returns entire table in one object
      *

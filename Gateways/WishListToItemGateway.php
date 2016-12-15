@@ -53,6 +53,32 @@ class WishListToItemGateway
     }
 
     /**
+     * Queries WishListToItem table by id
+     *
+     * @param $id
+     * @return bool $object containing result set data, else returns false
+     */
+    public function getWholeRowBasedOnWishListID($id)
+    {
+          $con = $this->getConnection();
+          $query = "SELECT * FROM WishListToItem WHERE WishListID = '$id';";
+          $entries = array();
+          if ($result = $con->query($query))
+          {
+              while($row = $result->fetch_assoc())
+              {
+                array_push($entries, $row);
+              }
+              return $entries;
+          }
+          else
+          {
+              return false;
+          }
+
+    }
+
+    /**
      * Returns entire table in one object
      *
      * @return bool $object of entire table result set
@@ -128,10 +154,10 @@ class WishListToItemGateway
      * @param $object
      * @return bool
      */
-    public function deleteRow($WishListID, $ItemID)
+    public function deleteRow($ID)
     {
         $con = $this->getConnection();
-        $query = "DELETE FROM WishListToItem WHERE ItemID = '$ItemID' AND WishListID = '$WishListID';";
+        $query = "DELETE FROM WishListToItem WHERE ID = '$ID';";
         if($result = $con->query($query))
         {
             $success = true;

@@ -7,7 +7,7 @@
  */
 
 require_once('../Gateways/ItemGateway.php');
-require_once("../Gateways/UserGateway.php");
+require_once('../Gateways/UserGateway.php');
 
 //Resume Session
 session_start();
@@ -17,8 +17,9 @@ if (isset($_SESSION['ID']))
 {
     //check if user is admin
     $userGateway = new UserGateway();
-    $user = $userGateway->rowDataQueryByID($_SESSION['ID'])[0];
-    if ($user->IsAdmin)
+    $user = $userGateway->rowDataQueryByID($_SESSION['ID']);
+
+    if ($user['isAdmin'] == 1)
     {
         //Check if information was updated
         if (isset($_POST['update']))
@@ -28,11 +29,13 @@ if (isset($_SESSION['ID']))
         //Shows current item information in editable forms
         displayItemForm();
 
-    } else
+    } 
+	else
     {
         echo "Insufficient Privilege";
     }
-} else
+}
+else
 {
     echo '<p>Not Logged In</p><a href="http://webprog.cs.ship.edu/webprog25/account_management/Login.html">Login?</a>';
 }
@@ -42,24 +45,25 @@ function displayItemForm()
 {
     $itemGateway = new ItemGateway();
     $id = $_POST['itemID'];
-    $item = $itemGateway->rowDataQueryByID($id)[0];
+    $item = $itemGateway->queryRow($id);
 
     if ($item != null)
     {
         echo '<form action="editItem.php" method="post">';
-        echo 'Item ID:' . $item->ID . '<br>';
-        echo '<input name="itemID" type="hidden" value="' . $item->ID . '">';
-        echo 'Name: <input name="Name" type="text" value="' . $item->Name . '"><br> ';
-        echo 'Description: <input name="Description" type="text" value="' . $item->Description . '"><br> ';
-        echo 'UPC: <input name="UPC" type="text" value="' . $item->UPC . '"><br>  ';
-        echo 'Price: <input name="Price" type="text" value="' . $item->Price . '"><br>  ';
-        echo 'Manufacturer: <input name="Manufacturer" type="text" value="' . $item->Manufacturer . '"><br> ';
-        echo 'Quantity: <input name="Quantity" type="text" value="' . $item->Quantity . '"><br>  ';
-        echo 'Image Location: <input name="ImageLocation" type="text" value="' . $item->ImageLocation . '"><br>  ';
+        echo 'Item ID:' . $item['ID'] . '<br>';
+        echo '<input name="itemID" type="hidden" value="' . $item['ID'] . '">';
+        echo 'Name: <input name="Name" type="text" value="' . $item['Name'] . '"><br> ';
+        echo 'Description: <input name="Description" type="text" value="' . $item['Description'] . '"><br> ';
+        echo 'UPC: <input name="UPC" type="text" value="' . $item['UPC'] . '"><br>  ';
+        echo 'Price: <input name="Price" type="text" value="' . $item['Price'] . '"><br>  ';
+        echo 'Manufacturer: <input name="Manufacturer" type="text" value="' . $item['Manufacturer'] . '"><br> ';
+        echo 'Quantity: <input name="Quantity" type="text" value="' . $item['Quantity'] . '"><br>  ';
+        echo 'Image Location: <input name="ImageLocation" type="text" value="' . $item['ImageLocation'] . '"><br>  ';
         echo '<input name="update" type="hidden" value="true">';
         echo '<input type="submit" value="Submit">';
         echo '</form>';
-    } else
+    } 
+else
     {
         echo "Error retrieving item!";
     }

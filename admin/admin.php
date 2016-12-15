@@ -16,8 +16,8 @@
     {
         //check if user is admin
         $userGateway = new UserGateway();
-        $user = $userGateway->rowDataQueryByID($_SESSION['ID'])[0];
-        if ($user->IsAdmin)
+        $user = $userGateway->rowDataQueryByID($_SESSION['ID']);
+        if ($user['isAdmin'] == true)
         {
             display();
         } else
@@ -34,7 +34,7 @@
         echo
         '
         <p>Welcome Admin!</p>
-        <a href="showItems.php">Edit Items</a><br>
+        <a href="editItem.php">Edit Items</a><br>
         <a href="showUsers.php">Edit Users</a>
         '
         ;

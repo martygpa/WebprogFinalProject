@@ -29,7 +29,6 @@
        $result = $itemGateway->getByRowIDIntoArray($itemIDs[$i]);
       array_push($items, $result);
     }
-    echo "<br><br><br>";
 
   }
 ?>
@@ -289,6 +288,7 @@ function submitOrder()
     $(divToHide).hide();
   }
   $('#cost').val("0.0");
+  $('#mainview').empty();
 }
 </script>
 </html>

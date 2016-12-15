@@ -53,6 +53,32 @@ class CartToItemGateway
 
     }
 
+     /**
+     * Queries CartToItem table by id
+     *
+     * @param $id
+     * @return bool $object containing result set data, else returns false
+     */
+    public function getWholeRowBasedOnCartID($id)
+    {
+          $con = $this->getConnection();
+          $query = "SELECT * FROM CartToItem WHERE CartID = '$id';";
+          $entries = array();
+          if ($result = $con->query($query))
+          {
+              while($row = $result->fetch_assoc())
+              {
+                array_push($entries, $row);
+              }
+              return $entries;
+          }
+          else
+          {
+              return false;
+          }
+
+    }
+
     /**
      * Returns entire table in one object
      *
@@ -83,11 +109,11 @@ class CartToItemGateway
     {
         $ItemID = $object->ItemID;
         $CartID = $object->CartID;
-	echo "Item ID ".$ItemID;
-	echo "Cart ID ".$CartID;
+		echo "Item ID ".$ItemID;
+		echo "Cart ID ".$CartID;
         $con = $this->getConnection();
         $query = "INSERT INTO CartToItem (CartID, ItemID) VALUES ('$CartID', '$ItemID');";
-	echo $query;
+		echo $query;
         if($result = $con->query($query))
         {
             $success = true;
@@ -130,10 +156,10 @@ class CartToItemGateway
      * @param $object
      * @return bool
      */
-    public function deleteRow($CartID, $ItemID)
+    public function deleteRow($ID)
     {
         $con = $this->getConnection();
-        $query = "DELETE FROM CartToItem WHERE ItemID = '$ItemID' AND CartID = '$CartID';";
+        $query = "DELETE FROM CartToItem WHERE ID = '$ID';";
         if($result = $con->query($query))
         {
             $success = true;

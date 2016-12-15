@@ -20,15 +20,16 @@
   {
     $wishListID = $gateway->rowDataQueryByUserID($userID);
     $relatedGateway = new WishListToItemGateway();
-    $itemIDs = $relatedGateway->rowDataQueryByID($wishListID);
+    $itemIDs = $relatedGateway->getWholeRowBasedOnWishListID($wishListID);
+
     $items = array();
     $itemGateway = new ItemGateway();
     for($i = 0; $i < count($itemIDs); $i++)
     {
-       $result = $itemGateway->getByRowIDIntoArray($itemIDs[$i]);
+       $result = $itemGateway->getByRowIDIntoArray($itemIDs[$i]['ItemID']);
+	$result->WishListToItemID = $itemIDs[$i]['ID'];
       array_push($items, $result);
     }
-    echo "<br><br><br>";
 
   }
 ?>
@@ -96,7 +97,7 @@ table {display: block;color: black;text-align: center;}
   $.each(itemsInWishList,function(index, object){
     //Create containing div
     var div=document.createElement("div");
-    div.setAttribute("id",object.id);
+    div.setAttribute("id",object.WishListToItemID);
     div.setAttribute("class","item");
     //create image in div
     var img=document.createElement("img");
@@ -108,8 +109,8 @@ table {display: block;color: black;text-align: center;}
     //append stuff
     div.append(img);
     div.append(p);
-    div.append(createRemoveButton(object.id));
-    div.append(createWishListImage(object.id));
+    div.append(createRemoveButton(object.WishListToItemID));
+    div.append(createCartImage(object.id));
     $("#items").append(div);
   });
  });
@@ -122,7 +123,7 @@ function createRemoveButton(id)
   return img;
 }
 
-function createWishListImage(id)
+function createCartImage(id)
 {
   var img=document.createElement("img");
   img.setAttribute("src","../images/cart.png");
@@ -133,11 +134,10 @@ function createWishListImage(id)
 
 function removeItemFromWishList(id)
 {
-  var wishListID = <?php echo $wishListID?>;
   $.ajax({
           type: "POST",
           url:'./POSTDeleteWishListItem.php',
-          data: ({WishListID: wishListID, ItemID: id}),
+          data: ({ID: id}),
           success:function(response){
             alert("Removed from wishlist");
            }
