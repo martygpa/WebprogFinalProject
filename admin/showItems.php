@@ -40,6 +40,7 @@ if (isset($_SESSION['ID']))
 
 function displayItems()
 {
+    echo '<a href="http://webprog.cs.ship.edu/webprog25/admin/admin.php">Admin Home</a><br>';
     $itemGateway = new ItemGateway();
     $items = $itemGateway->tableDataQuery();
     if (!$items) die("Query Error");
