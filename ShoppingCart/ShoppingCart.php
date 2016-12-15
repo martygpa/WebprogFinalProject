@@ -142,7 +142,7 @@ function removeItemFromCart(id)
           type: "POST",
           url:'./POSTDeleteCartItem.php',
           data: ({ID: id}),
-          success:function(response){ alert(response); }
+          success:function(response){ alert("Removed from cart"); }
       });
   var divToHide = '#' + id;
   $(divToHide).hide();
