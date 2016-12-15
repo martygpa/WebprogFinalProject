@@ -9,8 +9,8 @@
 require_once('../Gateways/CartToItemGateway.php');
 $gateway = new CartToItemGateway();
 $ItemID = $_POST["ItemID"];
-$WishListID = $_POST["CartID"];
+$CartID = $_POST["CartID"];
 $object->ItemID = $ItemID;
-$object->WishListID = $WishListID;
+$object->CartID = $CartID;
 $gateway->insertRow($object);
 ?>

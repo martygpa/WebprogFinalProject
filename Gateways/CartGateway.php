@@ -41,8 +41,8 @@ class CartGateway
 
             if ($result = $con->query($query))
             {
-                $object = $result->fetch_object();
-                return $object;
+                $array = $result->fetch_assoc();
+                return $array;
             }
             else
             {

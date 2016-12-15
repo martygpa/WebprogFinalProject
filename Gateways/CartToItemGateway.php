@@ -83,10 +83,11 @@ class CartToItemGateway
     {
         $ItemID = $object->ItemID;
         $CartID = $object->CartID;
-
+	echo "Item ID ".$ItemID;
+	echo "Cart ID ".$CartID;
         $con = $this->getConnection();
         $query = "INSERT INTO CartToItem (CartID, ItemID) VALUES ('$CartID', '$ItemID');";
-
+	echo $query;
         if($result = $con->query($query))
         {
             $success = true;

@@ -7,24 +7,18 @@
 session_start();
 
 require_once('../Gateways/UserGateway.php');
-require_once('../Gateways/CartGateway.php');
-require_once('../Gateways/WishListGateway.php');
 
 $userGateway = new UserGateway();
-$cartGateway = new CartGateway();
-$wishListGateway = new WishListGateway();
-
 
 if(isset($_POST['loginSubmit']) && isset($_POST['userName']) && isset($_POST['password']))
 {
-
+	echo("made it in");
     $userName = sanitizeData($_POST['userName']);
     $password = sanitizeData($_POST['password']);
     $token = saltAndHash($password);
 
     $returnSuccess = $userGateway->queryForLogin($userName, $token);
    
-
     if($returnSuccess>0)
     {
         $_SESSION['ID'] = $returnSuccess;

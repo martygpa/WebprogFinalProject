@@ -1,14 +1,20 @@
 
 <?php
  /*
- * OrderHistory Class to handle the OrderHIstory page
+ * OrderHistory Class to handle the OrderHistory page
  * Author: Ronald Sease
  */
   require_once("../Gateways/WishListGateway.php");
   require_once("../Gateways/WishListToItemGateway.php");
   require_once("../Gateways/ItemGateway.php");
   require_once("../Gateways/OrderHistoryGateway.php");
-  $userID = 1;
+  session_start();
+  if($_SESSION['isLoggedIn'] == false)
+  {
+	header("Location: http://webprog.cs.ship.edu/webprog25/account_management/Login.html");
+	exit;
+  }	
+  $userID = $_SESSION['ID'];
    $gateway = new OrderHistoryGateway();
    $orderHistoryEntries = $gateway->rowDataQueryByUserID($userID);
 ?>

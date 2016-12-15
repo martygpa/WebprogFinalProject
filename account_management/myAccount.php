@@ -5,15 +5,16 @@ session_start();
 * Date: 12/14/2016
 *
 */
-
 require_once('../Gateways/UserGateway.php');
 require_once('../Models/UserObject.php');
 
 $gateway = new UserGateway();
 $connection = $gateway->getConnection();
-if(isset($_SESSION['ID']))
-{
 
+if(!isset($_SESSION['ID']))
+{
+	header("Location: http://webprog.cs.ship.edu/webprog25/account_management/Login.html");
+	exit;
 }
 ?>
 
@@ -46,11 +47,61 @@ if(isset($_SESSION['ID']))
 
 <div class="accountOverview" align="center">
   <h1>Account Overview </h1>
-  <p> First Name: <?php echo $gateway->rowDataQueryByID($_SESSION['ID'])['FirstName'] ?> </p>
-  <p> Last Name: <?php echo $gateway->rowDataQueryByID($_SESSION['ID'])['LastName'] ?> </p>
-  <p> User Name: <?php echo $gateway->rowDataQueryByID($_SESSION['ID'])['UserName'] ?> </p>
+  <p>First name: <input type="text" id="FirstName" value="<?php echo $gateway->rowDataQueryByID($_SESSION['ID'])['FirstName'] ?>">
+      <button type="button" onclick = "changeFirstName()" id="firstNameButton" class="btn btn-success">Submit</button><br>
+  <p>Last name: <input type="text" id="LastName" value="<?php echo $gateway->rowDataQueryByID($_SESSION['ID'])['LastName'] ?>">
+      <button type="button" onclick = "changeLastName()" id="lastNameButton" class="btn btn-success">Submit</button><br>
+  <p>User name: <input type="text"  id="UserName" value="<?php echo $gateway->rowDataQueryByID($_SESSION['ID'])['UserName'] ?>">
+     <button type="button" onclick = "changeUserName()" id="userNameButton" class="btn btn-success">Submit</button><br><br>
+  <p> Change Password <a href="../account_management/changePassword.php">Here</a></p>
 </div>
-
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type ="text/javascript">
+function changeFirstName()
+{
+	var UserID = <?php echo $_SESSION['ID']?>;
+	var newName = $('#FirstName').val();
+	$.ajax({
+            type: "POST",
+    	    url: "./POSTUpdateFirstName.php",
+            data: ({NewName: newName, ID: UserID}),
+            success: function(response){
+      		alert("First Name Changed");
+    	     }
+        });
+}
+
+function changeLastName()
+{
+	var UserID = <?php echo $_SESSION['ID']?>;
+	var newName = $('#LastName').val();
+	$.ajax({
+            type: "POST",
+    	    url: "./POSTUpdateLastName.php",
+            data: ({NewName: newName, ID: UserID}),
+            success: function(response){
+      		alert("Last Name Changed");
+    	     }
+        });
+}
+
+function changeUserName()
+{
+	var UserID = <?php echo $_SESSION['ID']?>;
+	var newName = $('#UserName').val();
+	$.ajax({
+            type: "POST",
+    	    url: "./POSTUpdateUserName.php",
+            data: ({NewName: newName, ID: UserID}),
+            success: function(response){
+      		alert("User Name Changed");
+    	     }
+        });
+}
+
+</script>
 
 </html>

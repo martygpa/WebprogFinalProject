@@ -13,18 +13,18 @@
         $id = $_SESSION['ID'];
         $user = $gateway->rowDataQueryByID($id);
 
-        if (isset($_POST["submit"]))
+        if(isset($_POST["submit"]))
         {
             unset($_POST["submit"]);
             //Compare current PW to DB
             $old = $_POST["old"];
             $old = saltAndHash($old);
-            if (!strcmp($old, $user[0]->Password)) {
+            if (!strcmp($old, $user['Password'])) {
                 //Update PW
                 $new = $_POST["new"];
                 $new = saltAndHash($new);
-                $user[0]->Password = $new;
-                $gateway->updateRow($user[0]);
+                $user['password'] = $new;
+                $gateway->updatePassword($new, $id);
                 successMsg();
             } else
             {

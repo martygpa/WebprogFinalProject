@@ -16,7 +16,7 @@
     $item = $itemGateway->rowDataQueryByID($itemIDs[$i]);
     for($j = 0; $j < count($item); $j++)
     {
-      echo "<tr><td>".$item[$j]->Description."</td><td>".$item[$j]->Price."</td></tr>";
+      echo "<tr><td>".$item[$j]->Name."</td><td>".$item[$j]->Price."</td></tr>";
     }
   }
 

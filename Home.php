@@ -144,7 +144,8 @@ function addItemToCart(ItemID)
 {
   if(UserID > 0)
   {
-    $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, CartID: CartID } );
+    $.post("./CRUD/POSTCartToItem.php", { ItemID: ItemID, CartID: Number.parseInt(CartID) } ).done(function(data){
+alert(data);});
     alert("Item has been added to the cart");
   }
   else
@@ -191,7 +192,7 @@ function getCartID()
     }
     else
     {
-        CartID = data[0].ID;
+        CartID = data;
     }
   });
 }

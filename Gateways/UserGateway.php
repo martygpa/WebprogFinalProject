@@ -32,17 +32,20 @@ class UserGateway
      * @param $id
      * @return  $object containing result set data, else returns false
      */
-    public function rowDataQueryByID($id)
+    public function rowDataQueryByID($ID)
     {
-      $con = $this->getConnection();
+		$conn = $this->getConnection();
 
-      $statement = mysqli_prepare($con, "SELECT * FROM webprog25.User WHERE ID = ?");
-      mysqli_stmt_bind_param($statement, 'i', $id);
-      mysqli_stmt_execute($statement);
-
-      $result = $statement->get_result();
-      $row = $result->fetch_assoc();
-      return $row;
+        $query = "SELECT * FROM User WHERE ID = $ID;";
+		if($result = $conn->query($query))
+		{
+		$returnObject = $result->fetch_assoc();
+		return $returnObject;
+		}
+		else
+		{
+		return false;
+		}
     }
 
     /**
@@ -72,7 +75,7 @@ class UserGateway
     /**
      * Insert a single row
      *
-     * @param $object containing all three fields to be set in a single row in CartToItem table
+     * @param $object containing all three fields to be set in a single row in User table
      */
     public function insertRow($UserObject)
     {
@@ -103,22 +106,32 @@ class UserGateway
     /**
      * Update a single row
      *
-     * @param $object containing all three fields to be set in a single row in CartToItem table
+     * @param $object containing all three fields to be set in a single row in User table
      */
     public function updateRow($object)
     {
-        $ID = $object->ID;
-        $FirstName = $object->FirstName;
-        $LastName = $object->LastName;
-        $UserName = $object->UserName;
-        $Password = $object->Password;
-        $IsAdmin = $object->IsAdmin;
+        $ID = $object['ID'];
+        $FirstName = $object['FirstName'];
+        $LastName = $object['LastName'];
+        $UserName = $object['UserName'];
+        $Password = $object['Password'];
+        $IsAdmin = $object['IsAdmin'];
 
         $con = $this->getConnection();
         $statement = mysqli_prepare($con, "UPDATE User SET FirstName =?, LastName =?, UserName =?, Password =?, isAdmin=? WHERE ID=?");
         mysqli_stmt_bind_param($statement, 'ssssii', $FirstName, $LastName, $UserName, $Password, $IsAdmin, $ID);
         return mysqli_stmt_execute($statement);
     }
+
+
+    public function updatePassword($password, $id)
+    {
+	$con = $this->getConnection();
+	$statement = mysqli_prepare($con, "UPDATE User Set Password=? WHERE ID = ?");
+	mysqli_stmt_bind_param($statement, 'si', $password, $id);
+	return mysqli_stmt_execute($statement);
+    } 
+
 
     /**
      * Queries Table to see if user exists already
@@ -128,40 +141,58 @@ class UserGateway
      */
     public function queryForLogin($userName, $password)
     {
-        $conn = $this->getConnection();
+         $conn = $this->getConnection();
          $query = "SELECT * FROM User WHERE UserName ='$userName' AND Password ='$password';";
-             if($result = $conn->query($query))
-             {
-               $returnObject = $result->fetch_assoc();
-               if($returnObject['ID'] != null)
-               {
-                 return $returnObject['ID'];
-               }
-               else {
-                 return false;
-               }
-             }
-        // $statement = mysqli_prepare($conn, "SELECT * FROM User WHERE UserName =? AND Password =?");
-        // mysqli_stmt_bind_param($statement, 'ss', $userName, $password);
-        // mysqli_stmt_execute($statement);
-
-        // if($result = $statement->get_result())
-        // {
-        //     $returnObject = $result->fetch_assoc();
-        //     if($returnObject['ID'] != null)
-        //     {
-        //         return $returnObject['ID'];
-        //     }
-        //     else
-        //     {
-        //         return false;
-        //     }
-        // }
-        // else
-        // {
-        //     return false;
-        // }
+         if($result = $conn->query($query))
+         {
+           $returnObject = $result->fetch_assoc();
+           if($returnObject['ID'] > 0)
+           {
+              return $returnObject['ID'];
+           }
+           else 
+       	   {
+         	  return false;
+           }
+         }
     }
+
+    /*
+     * Changes the first name of a user in the table
+     * Author: Alec Waddelow & Ronald Sease
+     */
+     public function updateFirstName($name, $id)
+     {
+	$con = $this->getConnection();
+	$statement = mysqli_prepare($con, "UPDATE User SET FirstName = ? WHERE ID = ?");
+	mysqli_stmt_bind_param($statement, 'si', $name, $id);
+	return mysqli_stmt_execute($statement); 
+     }
+
+     /*
+     * Changes the last name of a user in the table
+     * Author: Alec Waddelow & Ronald Sease
+     */
+     public function updateLastName($name, $id)
+     {
+	$con = $this->getConnection();
+	$statement = mysqli_prepare($con, "UPDATE User SET LastName = ? WHERE ID = ?");
+	mysqli_stmt_bind_param($statement, 'si', $name, $id);
+	return mysqli_stmt_execute($statement); 
+     }
+
+    /*
+     * Changes the last name of a user in the table
+     * Author: Alec Waddelow & Ronald Sease
+     */
+     public function updateUserName($name, $id)
+     {
+	$con = $this->getConnection();
+	$statement = mysqli_prepare($con, "UPDATE User SET UserName = ? WHERE ID = ?");
+	mysqli_stmt_bind_param($statement, 'si', $name, $id);
+	return mysqli_stmt_execute($statement); 
+     }
+
 
     /*
      * Delete a user from the table
@@ -174,4 +205,6 @@ class UserGateway
         mysqli_stmt_bind_param($statement, 'i', $id);
         return mysqli_stmt_execute($statement);
     }
+
+    
 }

@@ -9,8 +9,13 @@
   require_once("../Gateways/ItemGateway.php");
 
 
-  $userID = 1;
-  //echo $_SESSION['ID']
+  session_start();
+  if($_SESSION['isLoggedIn'] == false)
+  {
+	header("Location: http://webprog.cs.ship.edu/webprog25/account_management/Login.html");
+	exit;
+  }	
+  $userID = $_SESSION['ID'];
   $gateway = new CartGateway();
   if(!is_null($gateway))
   {
@@ -283,6 +288,7 @@ function submitOrder()
     var divToHide = '#' + itemsInCart[i].id;
     $(divToHide).hide();
   }
+  $('#cost').val("0.0");
 }
 </script>
 </html>
