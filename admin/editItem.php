@@ -74,7 +74,7 @@ function updateItem()
 {
     $itemGateway = new ItemGateway();
     $id = $_POST['itemID'];
-    $item = $itemGateway->rowDataQueryByID($id);
+    $item = $itemGateway->rowDataQueryByID($id)[0];
     $item->Name = $_POST['Name'];
     $item->Description = $_POST['Description'];
     $item->UPC = $_POST['UPC'];
