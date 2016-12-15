@@ -45,7 +45,7 @@ table {display: block;color: black;text-align: center;}
     <li> <a href="../Home.php">Home</a></li>
     <li> <a href="../account_management/Login.html">Login</a></li>
     <li> <a href="../account_management/myAccount.php">My Account</a> </li>
-    <li> <a href="../account_management/registerAccount.html">Create New Account</a></li>
+    <li> <a href="../account_management/registerAccount.php">Create New Account</a></li>
     <li> <a href="../ShoppingCart/ShoppingCart.php">Shopping Cart</a></li>
     <li> <a  href="../WishList/WishList.php">Wish List</a></li>
     <li> <a class="active" href="../OrderHistory/OrderHistory.php">Order History</a></li>
