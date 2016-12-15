@@ -34,8 +34,8 @@
         echo
         '
         <p>Welcome Admin!</p>
-        <a href="http://webprog.cs.ship.edu/webprog25">Home</a><br>
-        <a href="editItem.php">Edit Items</a><br>
+	<a href="http://webprog.cs.ship.edu/webprog25">Home</a><br>
+        <a href="showItems.php">Edit Items</a><br>
         <a href="showUsers.php">Edit Users</a>
         '
         ;

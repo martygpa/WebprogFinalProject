@@ -17,8 +17,8 @@ if (isset($_SESSION['ID']))
 {
     //check if user is admin
     $userGateway = new UserGateway();
-    $user = $userGateway->rowDataQueryByIDIan($_SESSION['ID'])[0];
-    if ($user->isAdmin)
+    $user = $userGateway->rowDataQueryByID($_SESSION['ID']);
+    if ($user['isAdmin'] == true)
     {
         //Deletes Item
         deleteItem();

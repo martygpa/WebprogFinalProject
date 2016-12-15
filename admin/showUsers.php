@@ -15,8 +15,8 @@ if (isset($_SESSION['ID']))
 {
     //check if user is admin
     $userGateway = new UserGateway();
-    $user = $userGateway->rowDataQueryByIDIan($_SESSION['ID']);
-    if ($user->isAdmin)
+    $user = $userGateway->rowDataQueryByID($_SESSION['ID']);
+    if ($user['isAdmin'] == true)
     {
         displayUsers();
     } else

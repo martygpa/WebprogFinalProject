@@ -39,7 +39,7 @@ if (isset($_SESSION['ID']))
 //Shows current user information in editable forms
 function displayUserForm()
 {
-    $id = $_SESSION['ID'];
+    $id = $_POST['userID'];
     $editUserGateway = new UserGateway();
     $editUser = $editUserGateway->rowDataQueryByID($id);
 
@@ -75,6 +75,8 @@ function updateUser()
     $updateUser['UserName'] = $_POST['UserName'];
     if ($_POST['IsAdmin'])
         $updateUser['IsAdmin'] = 1;
+    else
+        $updateUser['IsAdmin'] = 0;
     unset($_POST['update']);
 
     if (!$updateUserGateway->updateRow($updateUser))
