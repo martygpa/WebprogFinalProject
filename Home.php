@@ -178,9 +178,11 @@ function addItemToCart(ItemID)
 
 function addItemToWishlist(ItemID)
 {
+  
   if(UserID > 0)
   {
-    $.post("./CRUD/POSTWishListToItem.php", { ItemID: ItemID, WishListID: WishListID } );
+
+    $.post("./ShoppingCart/POSTAddItemToWishList.php", {UserID: UserID, ItemID: ItemID} );
     alert("Item has been added to the wishlist");
   }
   else
