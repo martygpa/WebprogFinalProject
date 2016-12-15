@@ -48,6 +48,21 @@ class UserGateway
 		}
     }
 
+    public function rowDataQueryByIDIan($ID)
+    {
+      $conn = $this->getConnection();
+      $query = "SELECT * FROM webprog25.User WHERE ID = ".$ID.";";
+      if($result = $conn->query($query))
+      {
+        $object = mysqli_fetch_object($result);
+        return $object;
+      }
+    else
+    {
+      return false;
+    }
+    }
+
     /**
      * Returns entire table in one object
      *
@@ -130,7 +145,7 @@ class UserGateway
 	$statement = mysqli_prepare($con, "UPDATE User Set Password=? WHERE ID = ?");
 	mysqli_stmt_bind_param($statement, 'si', $password, $id);
 	return mysqli_stmt_execute($statement);
-    } 
+    }
 
 
     /**
@@ -150,7 +165,7 @@ class UserGateway
            {
               return $returnObject['ID'];
            }
-           else 
+           else
        	   {
          	  return false;
            }
@@ -166,7 +181,7 @@ class UserGateway
 	$con = $this->getConnection();
 	$statement = mysqli_prepare($con, "UPDATE User SET FirstName = ? WHERE ID = ?");
 	mysqli_stmt_bind_param($statement, 'si', $name, $id);
-	return mysqli_stmt_execute($statement); 
+	return mysqli_stmt_execute($statement);
      }
 
      /*
@@ -178,7 +193,7 @@ class UserGateway
 	$con = $this->getConnection();
 	$statement = mysqli_prepare($con, "UPDATE User SET LastName = ? WHERE ID = ?");
 	mysqli_stmt_bind_param($statement, 'si', $name, $id);
-	return mysqli_stmt_execute($statement); 
+	return mysqli_stmt_execute($statement);
      }
 
     /*
@@ -190,7 +205,7 @@ class UserGateway
 	$con = $this->getConnection();
 	$statement = mysqli_prepare($con, "UPDATE User SET UserName = ? WHERE ID = ?");
 	mysqli_stmt_bind_param($statement, 'si', $name, $id);
-	return mysqli_stmt_execute($statement); 
+	return mysqli_stmt_execute($statement);
      }
 
 
@@ -206,5 +221,5 @@ class UserGateway
         return mysqli_stmt_execute($statement);
     }
 
-    
+
 }

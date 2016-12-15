@@ -17,9 +17,9 @@ if (isset($_SESSION['ID']))
 {
     //check if user is admin
     $userGateway = new UserGateway();
-    $user = $userGateway->rowDataQueryByID($_SESSION['ID']);
+    $user = $userGateway->rowDataQueryByIDIan($_SESSION['ID']);
 
-    if ($user['isAdmin'] == 1)
+    if ($user->isAdmin)
     {
         //Check if information was updated
         if (isset($_POST['update']))
@@ -29,7 +29,7 @@ if (isset($_SESSION['ID']))
         //Shows current item information in editable forms
         displayItemForm();
 
-    } 
+    }
 	else
     {
         echo "Insufficient Privilege";
@@ -62,7 +62,7 @@ function displayItemForm()
         echo '<input name="update" type="hidden" value="true">';
         echo '<input type="submit" value="Submit">';
         echo '</form>';
-    } 
+    }
 else
     {
         echo "Error retrieving item!";
@@ -74,7 +74,7 @@ function updateItem()
 {
     $itemGateway = new ItemGateway();
     $id = $_POST['itemID'];
-    $item = $itemGateway->rowDataQueryByID($id)[0];
+    $item = $itemGateway->rowDataQueryByID($id);
     $item->Name = $_POST['Name'];
     $item->Description = $_POST['Description'];
     $item->UPC = $_POST['UPC'];
@@ -83,13 +83,14 @@ function updateItem()
     $item->Quantity = $_POST['Quantity'];
     $item->ImageLocation = $_POST['ImageLocation'];
     unset($_POST['update']);
-
     if (!$itemGateway->updateRow($item))
     {
         echo "<p>Error updating item!</p>";
-    } else
+    }
+    else
     {
         header("Location: http://webprog.cs.ship.edu/webprog25/admin/showItems.php");
+            echo "here";
     }
 }
 ?>

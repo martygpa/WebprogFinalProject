@@ -63,7 +63,7 @@ class ItemGateway
 	{
 		//$id = $this->sanitize($id);
 		$con = $this->getConnection();
-		
+
 		$query = "SELECT * FROM webprog25.Item WHERE ID = " . $id . ";";
 
 		if($result = $con->query($query))
@@ -121,13 +121,8 @@ class ItemGateway
         //$query = "INSERT INTO Item (Name, Description, UPC, Price, Manufacturer, Quantity, ImageLocation) VALUES ('$Name', '$Description', '$UPC', '$Price', '$Manufacturer', '$Quantity', '$ImageLocation');";
         $stmt = $conn->prepare("INSERT INTO Item (Name, Description, UPC, Price, Manufacturer, Quantity, ImageLocation)
                                 VALUES (? , ? , ? , ? , ? , ? ,? );");
-        $stmt->bindParam('s', $Name);
-        $stmt->bindParam('s', $Description);
-        $stmt->bindParam('s', $UPC);
-        $stmt->bindParam('d', $Price);
-        $stmt->bindParam('s', $Manufacturer);
-        $stmt->bindParam('i', $Quantity);
-        $stmt->bindParam('s', $ImageLocation);
+
+        $stmt->bind_param('sssdsis', $Name, $Description, $UPC, $Price, $Manufacturer,$Quantity,$ImageLocation);
         if($result = $stmt->execute())
         {
             $success = true;
@@ -156,25 +151,8 @@ class ItemGateway
         $Manufacturer = $object->Manufacturer;
         $Quantity = $object->Quantity;
         $ImageLocation = $object->ImageLocation;
-
-        $stmt = $conn->prepare("UPDATE Item SET
-                                Name = ?,
-                                Description = ?,
-                                UPC = ?,
-                                 Price = ?,
-                                Manufacturer = ?,
-                                Quantity = ?,
-                                ImageLocation = ?
-                                WHERE ID= ? ;");
-        $stmt->bindParam('s', $Name);
-        $stmt->bindParam('s', $Description);
-        $stmt->bindParam('s', $UPC);
-        $stmt->bindParam('d', $Price);
-        $stmt->bindParam('s', $Manufacturer);
-        $stmt->bindParam('i', $Quantity);
-        $stmt->bindParam('s', $ImageLocation);
-        $stmt->bindParam('i', $ID);
-
+        $stmt = $con->prepare("UPDATE Item SET Name = ?, Description = ?, UPC = ?, Price = ?, Manufacturer = ?, Quantity = ?, ImageLocation = ? WHERE ID= ? ;");
+        $stmt->bind_param('sssdsisi', $Name, $Description, $UPC, $Price, $Manufacturer,$Quantity,$ImageLocation,$ID);
         if($result = $stmt->execute())
         {
             $success = true;
