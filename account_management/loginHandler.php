@@ -12,8 +12,8 @@ $conn->getConnection();
 
 if(isset($_POST['loginSubmit']) && isset($_POST['userName']) && isset($_POST['password']))
 {
-    $userName = htmlspecialchars($_POST['userName']);
-    $password = htmlspecialchars($_POST['password']);
+    $userName = sanitizeData($_POST['userName']);
+    $password = sanitizeData($_POST['password']);
     $token = saltAndHash($password);
 
     $returnSuccess = $conn->queryForLogin($userName, $token);
@@ -48,5 +48,13 @@ function saltAndHash($password)
 
   $newPassword = hash('sha384', "$salt1$password$salt2");
   return $newPassword;
+}
+
+function sanitizeData($data)
+{
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
 }
 ?>

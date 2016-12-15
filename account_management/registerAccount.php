@@ -74,7 +74,6 @@ session_start();
     }
   </script>
 
-
 <ul>
   <li> <a href="../Home.php">Home</a></li>
   <li> <a href="../account_management/Login.html">Login</a></li>

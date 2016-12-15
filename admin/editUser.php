@@ -16,8 +16,8 @@ if (isset($_SESSION['ID']))
 {
     //check if user is admin
     $userGateway = new UserGateway();
-    $user = $userGateway->rowDataQueryByID($_SESSION['ID'])[0];
-    if ($user->IsAdmin)
+    $user = $userGateway->rowDataQueryByID($_SESSION['ID']);
+    if ($user['isAdmin'] == 1)
     {
         //Check if information was updated
         if (isset($_POST['update']))
@@ -39,19 +39,19 @@ if (isset($_SESSION['ID']))
 //Shows current user information in editable forms
 function displayUserForm()
 {
-    $id = $_POST['userID'];
+    $id = $_SESSION['ID'];
     $editUserGateway = new UserGateway();
-    $editUser = $editUserGateway->rowDataQueryByID($id)[0];
+    $editUser = $editUserGateway->rowDataQueryByID($id);
 
     if ($editUser != null)
     {
         echo '<form action="editUser.php" method="post">';
-        echo 'User ID:' . $editUser->ID . '<br>';
-        echo '<input name="userID" type="hidden" value="' . $editUser->ID . '">';
-        echo 'First Name: <input name="FirstName" type="text" value="' . $editUser->FirstName . '"><br> ';
-        echo 'Last Name: <input name="LastName" type="text" value="' . $editUser->LastName . '"><br> ';
-        echo 'Username: <input name="UserName" type="text" value="' . $editUser->UserName . '"><br>  ';
-        if ($editUser->IsAdmin)
+        echo 'User ID:' . $editUser['ID'] . '<br>';
+        echo '<input name="userID" type="hidden" value="' . $editUser['ID'] . '">';
+        echo 'First Name: <input name="FirstName" type="text" value="' . $editUser['FirstName'] . '"><br> ';
+        echo 'Last Name: <input name="LastName" type="text" value="' . $editUser['LastName'] . '"><br> ';
+        echo 'Username: <input name="UserName" type="text" value="' . $editUser['UserName'] . '"><br>  ';
+        if ($editUser['isAdmin'] == 1)
             echo 'Admin: <input name="IsAdmin" type="checkbox" value="1" checked="checked"><br>  ';
         else
             echo 'Admin: <input name="IsAdmin" type="checkbox" value="1"><br>  ';
@@ -69,12 +69,12 @@ function updateUser()
 {
     $updateUserGateway = new UserGateway();
     $id = $_POST['userID'];
-    $updateUser = $updateUserGateway->rowDataQueryByID($id)[0];
-    $updateUser->FirstName = $_POST['FirstName'];
-    $updateUser->LastName = $_POST['LastName'];
-    $updateUser->UserName = $_POST['UserName'];
+    $updateUser = $updateUserGateway->rowDataQueryByID($id);
+    $updateUser['FirstName'] = $_POST['FirstName'];
+    $updateUser['LastName'] = $_POST['LastName'];
+    $updateUser['UserName'] = $_POST['UserName'];
     if ($_POST['IsAdmin'])
-        $updateUser->IsAdmin = 1;
+        $updateUser['IsAdmin'] = 1;
     unset($_POST['update']);
 
     if (!$updateUserGateway->updateRow($updateUser))

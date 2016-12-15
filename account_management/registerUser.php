@@ -14,11 +14,11 @@ $connection = $gateway->getConnection();
 
 if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['userName']) && isset($_POST['password']) && isset($_POST['passwordConfirm']))
 {
-    $firstName = mysqli_real_escape_string($connection, $_POST['firstName']);
-    $lastName =  mysqli_real_escape_string($connection, $_POST['lastName']);
-    $userName = mysqli_real_escape_string($connection, $_POST['userName']);
-    $password = mysqli_real_escape_string($connection, $_POST['password']);
-    $passwordConfirm = mysqli_real_escape_string($connection, $_POST['passwordConfirm']);
+    $firstName = sanitizeData($_POST['firstName']);
+    $lastName =  sanitizeData($_POST['lastName']);
+    $userName = sanitizeData($_POST['userName']);
+    $password = sanitizeData($_POST['password']);
+    $passwordConfirm = sanitizeData($_POST['passwordConfirm']);
 
     if($password != $passwordConfirm)
     {
@@ -26,9 +26,7 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
       exit;
     }
 
-
     $securePassword = saltAndHash($password);
-
     $newUser = new UserObject($firstName, $lastName, $userName, $securePassword, 0);
     $gateway->insertRow($newUser);
     $returnSuccess = $gateway->queryForLogin($userName, $securePassword);
@@ -62,5 +60,13 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
 
     $newPassword = hash('sha384', "$salt1$password$salt2");
     return $newPassword;
+  }
+
+  function sanitizeData($data)
+  {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
   }
 ?>

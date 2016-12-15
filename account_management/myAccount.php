@@ -5,6 +5,16 @@ session_start();
 * Date: 12/14/2016
 *
 */
+
+require_once('../Gateways/UserGateway.php');
+require_once('../Models/UserObject.php');
+
+$gateway = new UserGateway();
+$connection = $gateway->getConnection();
+if(isset($_SESSION['ID']))
+{
+    $ID = $_SESSION['ID'];
+}
 ?>
 
 <html>
@@ -29,8 +39,17 @@ session_start();
     <?php  if(($_SESSION['isLoggedIn'] == true))
     {
       echo "<li> <a href='../account_management/logout.php'>Logout</a></li>";
-    } ?>
+    }
+    ?>
 </ul>
+
+
+<div class="accountOverview" align="center">
+  <h1>Account Overview </h1>
+  <p> First Name: <?php echo $gateway->rowDataQueryByID($_SESSION['ID'])['FirstName'] ?> </p>
+  <p> Last Name: <?php echo $gateway->rowDataQueryByID($_SESSION['ID'])['LastName'] ?> </p>
+  <p> User Name: <?php echo $gateway->rowDataQueryByID($_SESSION['ID'])['UserName'] ?> </p>
+</div>
 
 </body>
 
