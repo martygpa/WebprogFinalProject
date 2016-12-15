@@ -13,7 +13,7 @@
   {
 	header("Location: http://webprog.cs.ship.edu/webprog25/account_management/Login.html");
 	exit;
-  }	
+  }
   $userID = $_SESSION['ID'];
    $gateway = new OrderHistoryGateway();
    $orderHistoryEntries = $gateway->rowDataQueryByUserID($userID);
@@ -22,7 +22,7 @@
 <style>
 body{width:99%;height:98%;}
 #sidebar{height: 95%;width: 15%;background-color: #d9d9d9;float: left;}
-#mainview{width: 85%; height: 95%; background-color: #e6e6e6;float: left;overflow-y:auto;}
+#mainview{width: 85%; height: 95%; background-color: white;float: left;overflow-y:auto;}
 ul {
             list-style-type: none;
             margin: 0;

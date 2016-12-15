@@ -14,6 +14,12 @@ session_start();
 <title>Register Account </title>
 <head>
     <style>
+        body {
+              font-family: Arial, Helvetica, sans-serif;
+              width:100%;
+              height:98%;
+              margin: 0;
+            }
         ul {
             list-style-type: none;
             margin: 0;

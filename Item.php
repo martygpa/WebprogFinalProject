@@ -3,13 +3,14 @@ session_start();
 ?>
 <html>
 <style>
+body{font-family: Arial, Helvetica, sans-serif;width:100%;height:98%;margin: 0;}
 ul {list-style-type: none; margin: 0;padding: 0;overflow: hidden;background-color: #333;}
 li {float: left;}
 li a {display: block;color: white;text-align: center;padding: 14px 16px;text-decoration: none;}
 li a:hover:not(.active) {background-color: #111;}
 .active {background-color: #4CAF50;}
 #sidebar{height: 95%;width: 15%;background-color: #d9d9d9;float: left;}
-#mainview{width: 85%; height: 95%; background-color: #e6e6e6;float: left;}
+#mainview{width: 85%; height: 95%; background-color: white;float: left;}
 #itemview
 {
   width: 75%;
@@ -306,7 +307,7 @@ function getUser()
     $.getJSON("./CRUD/GETUser.php?ID="+UserID,true, function(data)
     {
       var info = document.getElementById("UserInfo");
-      info.innerHTML = "Welcome back "+ data[0].FirstName;
+      info.innerHTML = "Welcome back "+ data.FirstName;
     });
   }
   else

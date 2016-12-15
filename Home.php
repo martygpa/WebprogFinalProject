@@ -3,9 +3,20 @@ session_start();
 ?>
 <html>
 <style>
-body{width:99%;height:98%;}
-#sidebar{height: 95%;width: 15%;background-color: #d9d9d9;float: left;}
-#mainview{width: 85%; height: 95%; background-color: #e6e6e6;float: left;overflow-y:auto;}
+body{font-family: Arial, Helvetica, sans-serif;width:100%;height:98%;margin: 0;}
+#sidebar{
+  height: 95%;
+  width: 15%;
+  background-color: #d9d9d9;
+  float: left;
+}
+#mainview{
+  width: 85%;
+  height: 95%;
+  background-color: white;
+  float: left;
+  overflow-y:auto;
+}
 ul {
             list-style-type: none;
             margin: 0;
@@ -19,7 +30,7 @@ li a:hover:not(.active) {background-color: #111;}
 .active {background-color: #4CAF50;}
 table {display: block;color: black;text-align: center;}
 #items {font-family: arial, sans-serif; border-collapse: collapse;width: 97%;padding: 1%;}
-.item{float: left; text-align: center; width:25%; height:30%;border-style: solid;margin: 1.5%;border-radius: 5px;}
+.item{float: left; text-align: center; width:25%; height:35%;border-style: solid;margin: 1.5%;border-radius: 5px;}
 .item p{float: left;text-align: center; margin-left: 2%;}
 .itemimg{width:100%; height: 80%;border-bottom: 1px solid black;}
 .itemimg:hover{cursor: pointer;}
@@ -203,7 +214,7 @@ function getUser()
     $.getJSON("./CRUD/GETUser.php?ID="+UserID,true, function(data)
     {
       var info = document.getElementById("UserInfo");
-      info.innerHTML = "Welcome back "+ data[0].FirstName;
+      info.innerHTML = "Welcome back "+ data.FirstName;
     });
   }
   else
