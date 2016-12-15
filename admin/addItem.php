@@ -18,8 +18,8 @@ if (isset($_SESSION['ID']))
 {
     //check if user is admin
     $userGateway = new UserGateway();
-    $user = $userGateway->rowDataQueryByID($_SESSION['ID'])[0];
-    if ($user->IsAdmin)
+    $user = $userGateway->rowDataQueryByIDIan($_SESSION['ID']);
+    if ($user->isAdmin)
     {
         //Check if item info had already been filled out
         if (isset($_POST['add']))
@@ -75,7 +75,7 @@ function addItem()
     /* Upload image and add its location to the item object
      * Image upload code based off http://www.w3schools.com/php/php_file_upload.asp
      */
-    $target_dir = "/home/webprog25/public_html/images/items/";
+    $target_dir = "../images/items/";
     $target_file = $target_dir . basename($_FILES["Image"]["name"]);
     echo "Uploading ".$_FILES["Image"]["name"]."<br>";
     $uploadOk = 1;
@@ -119,7 +119,7 @@ function addItem()
     }
 
     //Resume my code
-    $item->ImageLocation = "./images/items/".$_FILES["Image"]["name"];
+    $item->ImageLocation = "../images/items/".$_FILES["Image"]["name"];
 
     if (!$itemGateway->insertRow($item))
     {

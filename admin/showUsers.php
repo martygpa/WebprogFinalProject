@@ -46,7 +46,7 @@ function displayUsers()
         echo '<td>'.$users[$i]->FirstName.'</td>';
         echo '<td>'.$users[$i]->LastName.'</td>';
         echo '<td>'.$users[$i]->UserName.'</td>';
-        echo '<td>'.$users[$i]->IsAdmin.'</td>';
+        echo '<td>'.$users[$i]->isAdmin.'</td>';
         echo '<td><form action="deleteUser.php" method="post"><input type="hidden" name="userID" value="'.$users[$i]->ID.'"><input type="submit" value="Delete"></form></td>';
         echo '<td><form action="editUser.php" method="post"><input type="hidden" name="userID" value="' .$users[$i]->ID.'"><input type="submit" value="Edit"></form></td>';
         $i++;

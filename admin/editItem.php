@@ -90,7 +90,6 @@ function updateItem()
     else
     {
         header("Location: http://webprog.cs.ship.edu/webprog25/admin/showItems.php");
-            echo "here";
     }
 }
 ?>
