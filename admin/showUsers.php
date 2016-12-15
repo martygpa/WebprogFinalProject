@@ -31,6 +31,7 @@ if (isset($_SESSION['ID']))
 
 function displayUsers()
 {
+    echo '<a href="http://webprog.cs.ship.edu/webprog25/admin/admin.php">Admin Home</a><br>';
     $userGateway = new UserGateway();
     $users = $userGateway->tableDataQuery();
     if (!$users) die("Query Error");
