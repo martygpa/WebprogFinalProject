@@ -7,16 +7,24 @@
 session_start();
 
 require_once('../Gateways/UserGateway.php');
-$conn = new UserGateway();
-$conn->getConnection();
+require_once('../Gateways/CartGateway.php');
+require_once('../Gateways/WishListGateway.php');
+
+$userGateway = new UserGateway();
+$cartGateway = new CartGateway();
+$wishListGateway = new WishListGateway();
+
 
 if(isset($_POST['loginSubmit']) && isset($_POST['userName']) && isset($_POST['password']))
 {
+
     $userName = sanitizeData($_POST['userName']);
     $password = sanitizeData($_POST['password']);
     $token = saltAndHash($password);
 
-    $returnSuccess = $conn->queryForLogin($userName, $token);
+    $returnSuccess = $userGateway->queryForLogin($userName, $token);
+   
+
     if($returnSuccess>0)
     {
         $_SESSION['ID'] = $returnSuccess;
@@ -34,6 +42,7 @@ if(isset($_POST['loginSubmit']) && isset($_POST['userName']) && isset($_POST['pa
 }
 else
 {
+  $_SESSION['isLoggedIn'] = false;
   header("Location: http://webprog.cs.ship.edu/webprog25/account_management/Login.html");
   exit;
 }

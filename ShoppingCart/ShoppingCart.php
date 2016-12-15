@@ -8,9 +8,13 @@
   require_once("../Gateways/CartToItemGateway.php");
   require_once("../Gateways/ItemGateway.php");
 
-
-  $userID = 1;
-  //echo $_SESSION['ID']
+  session_start();
+  if($_SESSION['isLoggedIn'] == false)
+  {
+	header("Location: http://webprog.cs.ship.edu/webprog25/account_management/Login.html");
+	exit;
+  }	
+  $userID = $_SESSION['ID'];
   $gateway = new CartGateway();
   if(!is_null($gateway))
   {
@@ -85,7 +89,6 @@ table {display: block;color: black;text-align: center;}
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type ="text/javascript">
   $(document).ready(function(){
-
     var self =this;
   var itemsInCart = <?php echo json_encode( $items)?>;
   $.each(itemsInCart,function(index, object){

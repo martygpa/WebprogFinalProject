@@ -129,26 +129,38 @@ class UserGateway
     public function queryForLogin($userName, $password)
     {
         $conn = $this->getConnection();
-        $statement = mysqli_prepare($conn, "SELECT * FROM User WHERE UserName =? AND Password =?");
-        mysqli_stmt_bind_param($statement, 'ss', $userName, $password);
-        mysqli_stmt_execute($statement);
+         $query = "SELECT * FROM User WHERE UserName ='$userName' AND Password ='$password';";
+             if($result = $conn->query($query))
+             {
+               $returnObject = $result->fetch_assoc();
+               if($returnObject['ID'] != null)
+               {
+                 return $returnObject['ID'];
+               }
+               else {
+                 return false;
+               }
+             }
+        // $statement = mysqli_prepare($conn, "SELECT * FROM User WHERE UserName =? AND Password =?");
+        // mysqli_stmt_bind_param($statement, 'ss', $userName, $password);
+        // mysqli_stmt_execute($statement);
 
-        if($result = $statement->get_result())
-        {
-            $returnObject = $result->fetch_assoc();
-            if($returnObject['ID'] != null)
-            {
-                return $returnObject['ID'];
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
+        // if($result = $statement->get_result())
+        // {
+        //     $returnObject = $result->fetch_assoc();
+        //     if($returnObject['ID'] != null)
+        //     {
+        //         return $returnObject['ID'];
+        //     }
+        //     else
+        //     {
+        //         return false;
+        //     }
+        // }
+        // else
+        // {
+        //     return false;
+        // }
     }
 
     /*

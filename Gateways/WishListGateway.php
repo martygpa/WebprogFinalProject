@@ -101,9 +101,8 @@ class WishListGateway
      * @param $object containing all three fields to be set in a single row in CartToItem table
      * @return bool true or false of success of insert
      */
-    public function insertRow($object)
+    public function insertRow($UserID)
     {
-        $UserID = $object->UserID;
         $con = $this->getConnection();
         $query = "INSERT INTO WishList (UserID) VALUES ('$UserID');";
 

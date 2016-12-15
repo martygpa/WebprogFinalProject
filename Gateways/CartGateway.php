@@ -100,15 +100,13 @@ class CartGateway
      *
      * @param $object containing all three fields to be set in a single row in CartToItem table
      */
-    public function insertRow($object)
+    public function insertRow($UserID)
     {
         $con = $this->getConnection();
         $statement = mysqli_prepare($con, "INSERT INTO Cart (UserID) VALUES (?)");
 
         mysqli_stmt_bind_param($statement, 's', $UserID);
-        $UserID = $object->UserID;
         mysqli_stmt_execute($statement);
-
     }
 
     /**

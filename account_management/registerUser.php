@@ -7,9 +7,13 @@
 session_start();
 
 require_once('../Gateways/UserGateway.php');
+require_once('../Gateways/CartGateway.php');
+require_once('../Gateways/WishListGateway.php');
 require_once('../Models/UserObject.php');
 
 $gateway = new UserGateway();
+$cartGateway = new CartGateway();
+$wishListGateway = new WishListGateway();
 $connection = $gateway->getConnection();
 
 if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST['lastName']) && isset($_POST['userName']) && isset($_POST['password']) && isset($_POST['passwordConfirm']))
@@ -33,10 +37,12 @@ if(isset($_POST['registerSubmit']) && isset($_POST['firstName']) && isset($_POST
 
     if($returnSuccess>0)
     {
-      $_SESSION['ID'] = $returnSuccess;
-      ini_set('session.gc_maxlifetime', 60 * 30);
-      header("Location: http://webprog.cs.ship.edu/webprog25/Home.php");
-      exit;
+	$_SESSION['ID'] = $returnSuccess;
+	$cartGateway->insertRow($_SESSION['ID']);
+	$wishListGateway->insertRow($_SESSION['ID']);
+      	ini_set('session.gc_maxlifetime', 60 * 30);
+     	header("Location: http://webprog.cs.ship.edu/webprog25/Home.php");
+      	exit;
     }
     else
     {

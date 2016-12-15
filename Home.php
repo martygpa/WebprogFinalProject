@@ -41,7 +41,7 @@ table {display: block;color: black;text-align: center;}
     <?php  if(($_SESSION['isLoggedIn'] == true))
     {
       echo "<li> <a href='./account_management/logout.php'>Logout</a></li>";
-    } ?>
+    }?>
 </ul>
   <div id="sidebar">
     <div id="UserInfo"></div>
